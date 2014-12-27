@@ -1,0 +1,78 @@
+body {
+    background: #f0f0f0;
+    margin: 0;
+    overflow: hidden;
+}
+
+* {
+    font: 11px Roboto;
+    box-sizing: border-box;
+}
+
+a {
+    color: #fff
+}
+
+button, select, input[type=number] {
+    background: #000;
+    border: 1px solid #ffe9dd;
+    color: #ffe9dd;
+    height: 24px;
+}
+
+input[type=range] {
+    height: 22px
+
+}
+
+#target {
+    position: absolute;
+    right: 0;
+    top: 0
+}
+
+#ui-container {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    background: #333;
+    color: #ffe9dd;
+    padding: 5px;
+    width: 250px;
+    overflow-y: scroll;
+}
+#ui-container select {
+    width: 100%;
+}
+
+.def-edit {
+    padding: 5px;
+    margin-bottom: 5px;
+    border-bottom: 1px solid #ffada5;
+}
+
+.button-row {
+    display: flex;
+    height: 24px;
+}
+.button-row > * {
+    padding: 0;
+    flex-grow: 1;
+    height: 24px;
+    margin: 0 2px;
+}
+.button-row button:first-child { margin-left: 0 }
+.button-row button:last-child { margin-right: 0 }
+
+.slider-and-input {
+    display: flex;
+    height: 22px;
+}
+
+.slider-and-input input {
+    height: 22px;
+    padding: 0;
+    margin: 0;
+    text-align: center;
+}
