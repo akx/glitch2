@@ -5,7 +5,7 @@ body {
 }
 
 * {
-    font: 11px Roboto;
+    font: 11px Roboto, sans-serif;
     box-sizing: border-box;
 }
 
@@ -39,8 +39,9 @@ input[type=range] {
     background: #333;
     color: #ffe9dd;
     padding: 5px;
-    width: 250px;
+    width: 280px;
     overflow-y: scroll;
+    overflow-x: hidden;
 }
 #ui-container select {
     width: 100%;
@@ -52,15 +53,21 @@ input[type=range] {
     border-bottom: 1px solid #ffada5;
 }
 
+.def-edit:hover {
+    background: rgba(0,0,0,0.5);
+}
+
 .button-row {
     display: flex;
     height: 24px;
+    margin-bottom: 2px;
 }
 .button-row > * {
-    padding: 0;
+    padding: 2px;
     flex-grow: 1;
     height: 24px;
     margin: 0 2px;
+    white-space: nowrap;
 }
 .button-row button:first-child { margin-left: 0 }
 .button-row button:last-child { margin-right: 0 }
@@ -75,4 +82,8 @@ input[type=range] {
     padding: 0;
     margin: 0;
     text-align: center;
+}
+
+#select-image {
+    max-width: 140px;
 }

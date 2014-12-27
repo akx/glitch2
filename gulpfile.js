@@ -54,4 +54,5 @@ gulp.task('watchlib', ['lib'], function () {
 gulp.task('watchapp', ['app'], function () {
 	gulp.watch('src/**/*.js', ['app']);
 	gulp.watch('src/glitcher/template.html', ['app']);
+	gulp.watch('src/glitcher/glitcher.css', ['app']);
 });

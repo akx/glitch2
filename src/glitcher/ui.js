@@ -6,7 +6,7 @@ function controller() {
 }
 
 function moduleSelector(ctrl) {
-	var options = [m("option", {"value": ""}, "-- add --")];
+	var options = [m("option", {"value": ""}, "<< Add module... >>")];
 	for(var key in Glitch.modules) {
 		var module = Glitch.modules[key];
 		options.push(m("option", {"value": key}, "" + (module.friendlyName || key)));
@@ -142,12 +142,13 @@ function view(ctrl) {
 		}}, "Import/Export")
 	));
 	root.children.push(m("div.button-row", {key: "load-image"},
-		m("div", "Load:"),
-		m("input", {type: "file", accept: "image/*", onchange: function(event) {
-			loadImageFromFileField(event, function(img) {
-				ctrl.engine.sourceImage = img;
-			});
-		}})
+		m("label", ["Load Image: ",
+			m("input", {type: "file", id: "select-image", accept: "image/*", onchange: function(event) {
+				loadImageFromFileField(event, function(img) {
+					ctrl.engine.sourceImage = img;
+				});
+			}})
+		])
 	));
 	root.children.push(m("div.button-row", {key: "result-buttons"},
 		m("button", {onclick: function(){
