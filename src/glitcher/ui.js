@@ -156,6 +156,7 @@ function view(ctrl) {
             link.href = ctrl.engine.toDataURL();
             link.download = "glitch-" + (+new Date()) + ".png";
 			link.target = "_blank";
+			document.body.appendChild(link);
 			link.click();
 		}}, "Save current image")
 	));
