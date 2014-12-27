@@ -8,6 +8,7 @@ module.exports = {
 	scanlines: require("./scanlines"),
 	sliceglitch: require("./sliceglitch"),
 	slicerep: require("./slicerep"),
+	streak: require("./streak"),
 	to_ycbcr: require("./to_ycbcr"),
 	tv_displacement: require("./tv_displacement"),
 	tvscan: require("./tvscan"),
