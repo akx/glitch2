@@ -7,6 +7,7 @@ var Engine = function(targetCanvas) {
 	this.sourceImage = null;
 	this.targetCanvas = targetCanvas;
 	this.glitchContext = new Glitch.Context(targetCanvas);
+	this.renderTime = 0;
 };
 
 

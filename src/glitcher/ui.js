@@ -1,5 +1,5 @@
 var m = require("mithril");
-var Glitch = require("../libglitch");
+var util = require("./util");
 
 function controller() {
 	this.state = null;
@@ -7,8 +7,10 @@ function controller() {
 
 function moduleSelector(ctrl) {
 	var options = [m("option", {"value": ""}, "<< Add module... >>")];
-	for(var key in Glitch.modules) {
-		var module = Glitch.modules[key];
+	var modules = ctrl.engine.state.modules;
+	for(var key in modules) {
+		if(!modules.hasOwnProperty(key)) continue;
+		var module = modules[key];
 		options.push(m("option", {"value": key}, "" + (module.friendlyName || key)));
 	}
 	return m("div.module-selector", {key: "module-sel"}, m("select", {onchange: function(event) {
@@ -19,7 +21,7 @@ function moduleSelector(ctrl) {
 
 function getParamEditor(def, paramDef) {
 	var paramName = paramDef.name;
-	var paramNode = m("div.param.param-" + paramDef.type, {key: paramName}, []);
+	var paramNode = m("div.param.param-" + paramDef.type, {key: def.id + "-" + paramName}, []);
 
 	if (paramDef.type == "bool") {
 		paramNode.children.push(m("label",
@@ -61,25 +63,6 @@ function getParamEditor(def, paramDef) {
 	return paramNode;
 }
 
-function randomize(def) {
-	(def.module.params || []).forEach(function(paramDef) {
-		var paramName = paramDef.name;
-		var rnd = Math.random();
-		if(paramDef.randomBias) {
-			rnd = Math.pow(rnd, paramDef.randomBias);
-		}
-		if(paramDef.type == "bool") {
-			def.options[paramName] = (rnd <= 0.5);
-		}
-		else if(paramDef.type == "num" || paramDef.type == "int") {
-			var min = paramDef.min || 0;
-			var max = paramDef.max || 1;
-			var val = min + (rnd * (max - min));
-			if(paramDef.type == "int") val = 0 | val;
-			def.options[paramName] = val;
-		}
-	});
-}
 
 function moduleList(ctrl) {
 	var root = m("div.module-list", {key: "module-list"});
@@ -90,7 +73,7 @@ function moduleList(ctrl) {
 			m("button", {onclick: function(){state.deleteDef(def);}}, "X"),
 			m("button", {onclick: function(){state.moveDef(def, -1);}}, "\u2191"),
 			m("button", {onclick: function(){state.moveDef(def, +1);}}, "\u2193"),
-			m("button", {onclick: function(){randomize(def);}}, "\u21BB"),
+			m("button", {onclick: function(){util.randomizeDef(def);}}, "\u21BB"),
 			m("button", {onclick: function(){state.duplicateDef(def);}}, "+"),
 		]));
 		defNode.children.push(m("div.def-enable", [
@@ -171,6 +154,7 @@ function view(ctrl) {
 
 	root.children.push(moduleSelector(ctrl));
 	root.children.push(moduleList(ctrl));
+	root.children.push(m("div", "render time: ", ctrl.engine.renderTime));
 	root.children.push(m("div", m.trust("glitcher by <a href='https://github.com/akx'>@akx</a> / MIT license")));
 	return root;
 
