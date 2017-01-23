@@ -2,7 +2,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const fs = require('fs');
 
 module.exports = {
-  entry: './src/glitcher/index.js',
+  entry: './glitcher/index.js',
   output: {
     path: fs.realpathSync('./dist'),
     filename: 'glitcher.js',

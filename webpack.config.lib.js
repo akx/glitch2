@@ -1,5 +1,5 @@
 module.exports = {
-  entry: './src/libglitch/index.js',
+  entry: './libglitch/index.js',
   output: {
     path: './dist',
     filename: 'libglitch.js',
