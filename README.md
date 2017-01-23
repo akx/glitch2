@@ -12,18 +12,18 @@ Make sure you have Node.js and NPM properly installed, then just
 
 ```
 npm i
-node_modules/.bin/gulp app
-# (or `gulp app` if you have gulp globally installed)
+npm build:ui
 ```
 
-should get you a fresh `dist/glitcher.html`.
+should get you a fresh `dist/index.html`.
 
-If you're tweaking and experimenting, use the `watchapp` Gulp task.
+If you're tweaking and experimenting, use the `dev` Npm task.
 
 Building the standalone Libglitch2 library
 ------------------------------------------
 
-This hasn't really been tested, but using the `lib` Gulp task should
-get you `build/libglitch.js` which exposes `Glitch` as a global JS object.
+```
+npm build:lib
+```
 
-Like with the Glitcher app itself, there's a watch task, `watchlib`.
+should get you `dist/libglitch`, which exposes `Glitch` as a global JS object.
