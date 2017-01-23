@@ -2,6 +2,7 @@
 const UI = require('./ui');
 const Engine = require('./engine');
 const lennaData = require('./lenna');
+const css = require('./glitcher.css');  // eslint-disable-line no-unused-vars
 
 let engine = null;
 
