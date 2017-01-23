@@ -1,4 +1,4 @@
-extend = require("./lib/extend");
+const extend = require('./lib/extend');
 
 /**
  * Numeric (decimal) parameter.
@@ -7,7 +7,7 @@ extend = require("./lib/extend");
  * @returns {*} Parameter definition object.
  */
 function Num(name, options) {
-	return extend({}, {type: "num", min: 0, max: 1, step: null, name: name}, options);
+  return extend({}, {type: 'num', min: 0, max: 1, step: null, name}, options);
 }
 
 /**
@@ -17,7 +17,7 @@ function Num(name, options) {
  * @returns {*} Parameter definition object.
  */
 function Int(name, options) {
-	return extend({}, {type: "int", min: 0, max: 100, step: 1, name: name}, options);
+  return extend({}, {type: 'int', min: 0, max: 100, step: 1, name}, options);
 }
 
 /**
@@ -27,11 +27,11 @@ function Int(name, options) {
  * @returns {*} Parameter definition object.
  */
 function Bool(name, options) {
-	return extend({}, {type: "bool", name: name}, options);
+  return extend({}, {type: 'bool', name}, options);
 }
 
 extend(module.exports, {
-	num: Num, // num num num
-	int: Int,
-	bool: Bool
+  num: Num, // num num num
+  int: Int,
+  bool: Bool,
 });

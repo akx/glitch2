@@ -1,23 +1,19 @@
-var lerperCache = {
-	_a: function (a, b) {
-		return a;
-	},
-	_b: function (a, b) {
-		return b;
-	}
-};
+const lerperCache = {};
+const constantA = a => a;
+const constantB = (a, b) => b;
 
 function lerper(alpha) {
-	var key, cached, beta;
-	if (alpha <= 0) {
-		return lerperCache._a;
-	}
-	if (alpha >= 1) {
-		return lerperCache._b;
-	}
-	key = 0 | alpha * 100;
-	if (cached = lerperCache[key]) return cached;
-	beta = 1 - alpha;
-	return lerperCache[key] = new Function("a", "b", "return b * " + alpha + " + a * " + beta);
+  let cached;
+  if (alpha <= 0) {
+    return constantA;
+  }
+  if (alpha >= 1) {
+    return constantB;
+  }
+  const key = 0 | alpha * 100;
+  if (cached = lerperCache[key]) return cached;
+  const beta = 1 - alpha;
+  return (lerperCache[key] = new Function('a', 'b', `return b * ${alpha} + a * ${beta}`));
 }
+
 module.exports = lerper;

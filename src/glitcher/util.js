@@ -1,22 +1,20 @@
-
 function randomizeDef(def) {
-	(def.module.params || []).forEach(function(paramDef) {
-		var paramName = paramDef.name;
-		var rnd = Math.random();
-		if(paramDef.randomBias) {
-			rnd = Math.pow(rnd, paramDef.randomBias);
-		}
-		if(paramDef.type == "bool") {
-			def.options[paramName] = (rnd <= 0.5);
-		}
-		else if(paramDef.type == "num" || paramDef.type == "int") {
-			var min = paramDef.min || 0;
-			var max = paramDef.max || 1;
-			var val = min + (rnd * (max - min));
-			if(paramDef.type == "int") val = 0 | val;
-			def.options[paramName] = val;
-		}
-	});
+  (def.module.params || []).forEach((paramDef) => {
+    const paramName = paramDef.name;
+    let rnd = Math.random();
+    if (paramDef.randomBias) {
+      rnd = Math.pow(rnd, paramDef.randomBias);  // eslint-disable-line no-restricted-properties
+    }
+    if (paramDef.type === 'bool') {
+      def.options[paramName] = (rnd <= 0.5);
+    } else if (paramDef.type === 'num' || paramDef.type === 'int') {
+      const min = paramDef.min || 0;
+      const max = paramDef.max || 1;
+      let val = min + (rnd * (max - min));
+      if (paramDef.type === 'int') val = Math.round(val, 0);
+      def.options[paramName] = val;
+    }
+  });
 }
 
 module.exports.randomizeDef = randomizeDef;

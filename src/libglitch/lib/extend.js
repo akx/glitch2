@@ -1,14 +1,13 @@
-function extend() {
-	var args = [].slice.call(arguments);
-	var target = args.shift(), source;
-	while (source = args.shift()) {
-		for (var key in source) {
-			if (source.hasOwnProperty(key)) {
-				target[key] = source[key];
-			}
-		}
-	}
-	return target;
+function extend(target, ...args) {
+  let source;
+  while (source = args.shift()) {
+    for (const key in source) {  // eslint-disable-line no-restricted-syntax
+      if (source.hasOwnProperty(key)) {  // eslint-disable-line no-prototype-builtins
+        target[key] = source[key];
+      }
+    }
+  }
+  return target;
 }
 
 module.exports = extend;
