@@ -3,6 +3,8 @@ module.exports = {
   afterimage: require('./afterimage'),
   bitbang: require('./bitbang'),
   bloom: require('./bloom'),
+  buffer_load: require('./buffer_load'),
+  buffer_save: require('./buffer_save'),
   from_ycbcr: require('./from_ycbcr'),
   leak: require('./leak'),
   noise: require('./noise'),
