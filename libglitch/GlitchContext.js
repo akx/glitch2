@@ -4,6 +4,7 @@ function GlitchContext(canvas) {
   this._context = canvas.getContext('2d');
   this._imageData = null;
   this.clock = +new Date();
+  this.persist = {};
 }
 
 /**
