@@ -4,6 +4,7 @@ module.exports = {
     "import"
   ],
   "rules": {
+    "arrow-parens": "off",
     "max-len": ["error", 120],
     "no-plusplus": "off",
     "no-mixed-operators": "off",
