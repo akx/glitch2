@@ -379,7 +379,7 @@ function view(ctrl) {
     (ctrl.ui.image ? loadImageDiv(ctrl) : null),
     (ctrl.ui.recorder ? recorder(ctrl) : null),
     (ctrl.ui.fx ? m('div.fx-ui', {key: 'fx-ui'}, [moduleSelector(ctrl), moduleList(ctrl)]) : null),
-    (ctrl.ui.misc ? m('div', [` ~ ${ctrl.engine.renderTime} ms`]) : null),
+    (ctrl.ui.misc ? m('div', [`Render time: ${ctrl.engine.renderTime} ms`]) : null),
   ]);
 }
 
