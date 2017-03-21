@@ -1,0 +1,55 @@
+@brand-color: #FA8334;
+
+body {
+  background: #000 url(pw_maze_black.png);
+
+}
+
+* {
+  font-size: 8pt;
+  font-family: "Open Sans", "Segoe UI", sans-serif;
+  box-sizing: border-box;
+}
+
+body, input, select, textarea, button, a {
+  color: @brand-color;
+}
+
+input, select, textarea, button {
+  background: none;
+  border: none;
+}
+
+button, select {
+  border: 1px solid @brand-color;
+}
+
+
+#target {
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+#ui-container {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  padding: 3px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.button-row {
+  display: flex;
+  margin-bottom: 2px;
+  > * {
+    flex: 1;
+    white-space: nowrap;
+  }
+}
+
+
+@import "sliders";
+@import "modui";

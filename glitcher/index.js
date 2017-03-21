@@ -3,7 +3,7 @@ const UI = require('./ui');
 const Engine = require('./engine');
 const lennaData = require('./lenna');
 require('font-awesome/css/font-awesome.css');  // eslint-disable-line no-unused-vars
-require('./glitcher.less');  // eslint-disable-line no-unused-vars
+require('./look/glitcher.less');  // eslint-disable-line no-unused-vars
 
 let engine = null;
 

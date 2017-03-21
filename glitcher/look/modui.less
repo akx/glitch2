@@ -1,0 +1,52 @@
+
+.slider-and-input {
+  display: flex;
+  input.slider {
+    flex: 4 auto;
+  }
+  input.num {
+    flex: 1 auto;
+    border: none;
+    text-align: right;
+  }
+}
+
+.module-name {
+  flex: 0;
+  font-weight: bold;
+}
+
+.def-edit {
+  border: 1px dotted @brand-color;
+  padding: 3px;
+  margin: 3px 0;
+  &.disabled {
+    .params, .module-name, .prob-slider {
+      opacity: 0.7;
+    }
+  }
+}
+
+.def-kit {
+  .module-name {
+    padding-right: 5px;
+  }
+  button {
+    width: 25px;
+    flex: 0;
+    background: none;
+    border: none;
+    padding: 0 5px;
+    &:hover {
+      color: white !important;
+      cursor: pointer;
+    }
+  }
+
+}
+
+.module-selector {
+  select {
+    width: 100%;
+  }
+}

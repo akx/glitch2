@@ -68,8 +68,10 @@ function getParamEditor(def, paramDef) {
   return paramNode;
 }
 
-const defEditor = (ctrl, state, def) => (
-  m('div.def-edit.box',
+const defEditor = (ctrl, state, def) => {
+  const enabled = (def.enabled && def.probability > 0);
+  const params = (def.module.params || []);
+  return m(`div.def-edit.box${!enabled ? '.disabled' : ''}`,
     {key: def.id},
     [
       m('div.def-kit.button-row',
@@ -88,55 +90,61 @@ const defEditor = (ctrl, state, def) => (
               title: `probability: ${def.probability.toFixed(2)}`,
             }),
 
-          m('button',
+          (params.length ? m('button',
             {
               onclick() {
                 def.uiVisible = !def.uiVisible;
               },
+              title: (def.uiVisible ? 'Collapse' : 'Expand'),
             },
             m((def.uiVisible ? 'i.fa.fa-chevron-up' : 'i.fa.fa-chevron-down')),
-          ),
+          ) : null),
           m('button', {
             onclick() {
               def.enabled = !def.enabled;
             },
+            title: (def.enabled ? 'Disable' : 'Enable'),
           }, m('i.fa.fa-power-off')),
           m('button', {
             onclick() {
               state.deleteDef(def);
             },
+            title: 'Delete',
           }, m('i.fa.fa-times')),
           m('button', {
             onclick() {
               state.moveDef(def, -1);
             },
+            title: 'Move Up',
           }, m('i.fa.fa-arrow-up')),
           m('button', {
             onclick() {
               state.moveDef(def, +1);
             },
+            title: 'Move down',
           }, m('i.fa.fa-arrow-down')),
           m('button', {
             onclick() {
               util.randomizeDef(def);
             },
+            title: 'Randomize',
           }, m('i.fa.fa-random')),
           m('button', {
             onclick() {
               state.duplicateDef(def);
             },
+            title: 'Duplicate',
           }, m('i.fa.fa-plus')),
         ]),
       (def.uiVisible ?
           m(
             'div.params',
-            {style: ((def.enabled && def.probability > 0) ? '' : 'opacity: 0.5')},
-            (def.module.params || []).map((pDef) => getParamEditor(def, pDef))
+            params.map((pDef) => getParamEditor(def, pDef))
           ) : null
       ),
     ],
-  )
-);
+  );
+};
 
 
 function moduleList(ctrl) {
