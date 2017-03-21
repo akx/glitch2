@@ -1,8 +1,21 @@
-@brand-color: #FA8334;
+@brand-color: #dfeff1;
+@fx-brand-color: #FA8334;
+@rec-brand-color: #fa4d8c;
+
+.section-brand(@color) {
+  color: @color;
+  input, select, textarea, button, a {
+    color: @color;
+  }
+
+  button, select {
+    border: 1px solid @color;
+  }
+
+}
 
 body {
   background: #000 url(pw_maze_black.png);
-
 }
 
 * {
@@ -65,6 +78,7 @@ button, select {
 }
 
 .recorder {
+  .section-brand(@rec-brand-color);
   .frames {
     display: flex;
     max-width: 330px;

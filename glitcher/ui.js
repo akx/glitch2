@@ -210,7 +210,7 @@ const stateButtons = (ctrl) => (
 );
 
 const loadImageDiv = (ctrl) => (
-  m('div.load-image',
+  m('div.load-image', {key: 'load-image'},
     m('label', ['Load Image: ',
       m('input', {
         type: 'file',
@@ -279,7 +279,7 @@ const refreshRow = (ctrl) => {
 
 
 const recorder = (ctrl) => {
-  return m('div.recorder', [
+  return m('div.recorder', {key: 'recorder'}, [
     refreshRow(ctrl),
     m('div.button-row', [
       m('button',
@@ -368,7 +368,7 @@ function view(ctrl) {
     (ctrl.ui.stateMgmt ? stateButtons(ctrl) : null),
     (ctrl.ui.image ? loadImageDiv(ctrl) : null),
     (ctrl.ui.recorder ? recorder(ctrl) : null),
-    (ctrl.ui.fx ? [moduleSelector(ctrl), moduleList(ctrl)] : null),
+    (ctrl.ui.fx ? m('div.fx-ui', {key: 'fx-ui'}, [moduleSelector(ctrl), moduleList(ctrl)]) : null),
     (ctrl.ui.misc ? m('div', [` ~ ${ctrl.engine.renderTime} ms`]) : null),
   ]);
 }
