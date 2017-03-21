@@ -2,6 +2,7 @@
 /* eslint-disable no-restricted-syntax, no-prototype-builtins, no-continue, no-alert */
 const m = require('mithril');
 const util = require('./util');
+const generateGIF = require('./generate-gif');
 
 function controller() {
   this.state = null;
@@ -227,16 +228,20 @@ const loadImageDiv = (ctrl) => (
   )
 );
 
+function forceDownload(url, filename) {
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = filename;
+  link.target = '_blank';
+  document.body.appendChild(link);
+  link.click();
+}
+
 const saveCurrentButton = (ctrl) => (
   m('button',
     {
       onclick() {
-        const link = document.createElement('a');
-        link.href = ctrl.engine.toDataURL();
-        link.download = `glitch-${+new Date()}.png`;
-        link.target = '_blank';
-        document.body.appendChild(link);
-        link.click();
+        forceDownload(ctrl.engine.toDataURL(), `glitch-${+new Date()}.png`);
       },
       title: 'Save Current Image',
     },
@@ -297,9 +302,13 @@ const recorder = (ctrl) => {
 
       m('button',
         {
-          onclick(event) {
-            alert('TODO'); // TODO
+          onclick() {
+            generateGIF(ctrl.recordFrames, (err, blob) => {
+              const url = URL.createObjectURL(blob);
+              forceDownload(url, `glitchgif-${+new Date()}.gif`);
+            });
           },
+          disabled: ctrl.recordFrames.length === 0,
         },
         m('i.fa.fa-save'),
         ' Save GIF',
@@ -312,6 +321,7 @@ const recorder = (ctrl) => {
             }
             event.preventDefault();
           },
+          disabled: ctrl.recordFrames.length === 0,
         },
         m('i.fa.fa-trash'),
         ' Clear',
