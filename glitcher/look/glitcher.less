@@ -24,7 +24,6 @@ button, select {
   border: 1px solid @brand-color;
 }
 
-
 #target {
   position: absolute;
   right: 0;
@@ -50,6 +49,55 @@ button, select {
   }
 }
 
+.title {
+  a {
+    margin-right: 4px;
+    &.by {
+      font-weight: bold;
+      text-decoration: none;
+    }
+  }
+  margin-bottom: 3px;
+}
+
+.load-image {
+  margin-bottom: 4px;
+}
+
+.recorder {
+  .frames {
+    display: flex;
+    max-width: 330px;
+    &.slim {
+      overflow-x: auto;
+      flex-wrap: nowrap;
+    }
+    &.phat {
+      flex-wrap: wrap;
+    }
+  }
+  .frame {
+    position: relative;
+    margin-right: 1px;
+    img {
+      width: 50px;
+    }
+    .tools {
+      position: absolute;
+      top: 0;
+      display: none;
+      button {
+        background: #000;
+        padding: 3px;
+        margin: 1px;
+        line-height: 1;
+      }
+    }
+    &:hover .tools {
+      display: block;
+    }
+  }
+}
 
 @import "sliders";
 @import "modui";

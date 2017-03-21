@@ -5,6 +5,15 @@ const util = require('./util');
 
 function controller() {
   this.state = null;
+  this.engine = null;
+  this.ui = {
+    stateMgmt: false,
+    recorder: true,
+    image: true,
+    fx: true,
+    misc: false,
+  };
+  this.recordFrames = [];
 }
 
 function moduleSelector(ctrl) {
@@ -71,7 +80,19 @@ function getParamEditor(def, paramDef) {
 const defEditor = (ctrl, state, def) => {
   const enabled = (def.enabled && def.probability > 0);
   const params = (def.module.params || []);
-  return m(`div.def-edit.box${!enabled ? '.disabled' : ''}`,
+  const collapseBtn = (
+    params.length ?
+      m('button',
+        {
+          onclick() {
+            def.uiVisible = !def.uiVisible;
+          },
+          title: (def.uiVisible ? 'Collapse' : 'Expand'),
+        },
+        m((def.uiVisible ? 'i.fa.fa-chevron-up' : 'i.fa.fa-chevron-down')),
+      ) : null
+  );
+  return m(`div.def-edit${!enabled ? '.disabled' : ''}`,
     {key: def.id},
     [
       m('div.def-kit.button-row',
@@ -89,16 +110,7 @@ const defEditor = (ctrl, state, def) => {
               type: 'range',
               title: `probability: ${def.probability.toFixed(2)}`,
             }),
-
-          (params.length ? m('button',
-            {
-              onclick() {
-                def.uiVisible = !def.uiVisible;
-              },
-              title: (def.uiVisible ? 'Collapse' : 'Expand'),
-            },
-            m((def.uiVisible ? 'i.fa.fa-chevron-up' : 'i.fa.fa-chevron-down')),
-          ) : null),
+          collapseBtn,
           m('button', {
             onclick() {
               def.enabled = !def.enabled;
@@ -170,7 +182,7 @@ function loadImageFromFileField(event, complete) {
 }
 
 const stateButtons = (ctrl) => (
-  m('div.state-box.box', [
+  m('div.state-box', [
     m('div.button-row', {key: 'state-global-buttons'},
       m('button', {
         onclick() {
@@ -198,7 +210,7 @@ const stateButtons = (ctrl) => (
 );
 
 const loadImageDiv = (ctrl) => (
-  m('div', {key: 'load-image'},
+  m('div.load-image',
     m('label', ['Load Image: ',
       m('input', {
         type: 'file',
@@ -229,55 +241,136 @@ const saveCurrentButton = (ctrl) => (
       title: 'Save Current Image',
     },
     m('i.fa.fa-save'),
+    ' Save Current Image'
   )
 );
 
-const recorder = (ctrl) => (
-  m('div',
+const refreshRow = (ctrl) => {
+  const manualRefreshButton = m('button', {
+      onclick() {
+        ctrl.engine.rate = 0;
+        ctrl.engine.renderFrame();
+      },
+      title: 'manual refresh',
+    },
+    m('i.fa.fa-refresh'),
+    ' Refresh',
+  );
+  const refreshRateSetting = m('span', [
+    m('label', ' Refresh rate: '),
+    m('input', {
+      type: 'number',
+      step: 1,
+      min: 0,
+      max: 1000,
+      value: ctrl.engine.rate,
+      oninput() {
+        ctrl.engine.rate = 0 | this.value;
+      },
+    }),
+  ]);
+  return m('div.button-row',
     [
       saveCurrentButton(ctrl),
-      m('div', 'Refresh rate:'),
-      m('input', {
-        type: 'number',
-        step: 1,
-        min: 0,
-        max: 1000,
-        value: ctrl.engine.rate,
-        oninput() {
-          ctrl.engine.rate = 0 | this.value;
-        },
-      }),
-      m('button', {
-        onclick() {
-          ctrl.engine.rate = 0;
-          ctrl.engine.renderFrame();
-        },
-        title: 'manual refresh',
-      }, m('i.fa.fa-refresh')),
+      m('div', [refreshRateSetting, manualRefreshButton]),
     ],
+  );
+};
+
+
+const recorder = (ctrl) => {
+  return m('div.recorder', [
+    refreshRow(ctrl),
+    m('div.button-row', [
+      m('button',
+        {
+          onclick(event) {
+            ctrl.recordFrames.push({
+              data: ctrl.engine.toDataURL(),
+            });
+            event.preventDefault();
+          },
+        },
+        m('i.fa.fa-camera'),
+        ' Add Frame',
+      ),
+
+      m('button',
+        {
+          onclick(event) {
+            alert('TODO'); // TODO
+          },
+        },
+        m('i.fa.fa-save'),
+        ' Save GIF',
+      ),
+      m('button',
+        {
+          onclick(event) {
+            if (confirm('Clear animation?')) {
+              ctrl.recordFrames = [];
+            }
+            event.preventDefault();
+          },
+        },
+        m('i.fa.fa-trash'),
+        ' Clear',
+      ),
+    ]),
+    m(`div.frames.${ctrl.ui.fx ? 'slim' : 'phat'}`, ctrl.recordFrames.map(
+      (f, index) => m('div.frame', [
+        m('img', {src: f.data}),
+        m('div.tools', [
+          m(
+            'button', {
+              onclick() {
+                ctrl.recordFrames.splice(index, 1);
+              },
+            },
+            [m('i.fa.fa-times')],
+          ),
+        ]),
+      ])
+    )),
+  ]);
+};
+
+const showHide = (ctrl, id, name) => (
+  m('a',
+    {
+      href: '#',
+      onclick: (event) => {
+        ctrl.ui[id] = !ctrl.ui[id];
+        event.preventDefault();
+      },
+    },
+    `${ctrl.ui[id] ? '-' : '+'} ${name}`
   )
 );
 
-const footerDiv = (ctrl) => (
-  m('div',
+const titleDiv = (ctrl) => (
+  m('div.title',
     [
-      `Render time: ${ctrl.engine.renderTime} ms`,
-      m('br'),
-      m.trust("glitcher by <a href='https://github.com/akx'>@akx</a> / MIT license"),
+      m('a.by', {href: 'https://github.com/akx/glitch2', target: '_blank'}, 'glitcher by @akx'),
+      showHide(ctrl, 'stateMgmt', 'state'),
+      showHide(ctrl, 'recorder', 'recorder'),
+      showHide(ctrl, 'image', 'image'),
+      showHide(ctrl, 'fx', 'fx'),
+      showHide(ctrl, 'misc', 'misc'),
     ],
   )
 );
 
 function view(ctrl) {
-  if (ctrl.engine == null) return null;
-  const root = m('div');
-  root.children.push(stateButtons(ctrl));
-  root.children.push(loadImageDiv(ctrl));
-  root.children.push(recorder(ctrl));
-  root.children.push(moduleSelector(ctrl));
-  root.children.push(moduleList(ctrl));
-  root.children.push(footerDiv(ctrl));
-  return root;
+  if (ctrl.engine === null) return null;
+  return m('div', [
+    titleDiv(ctrl),
+    (ctrl.ui.stateMgmt ? stateButtons(ctrl) : null),
+    (ctrl.ui.image ? loadImageDiv(ctrl) : null),
+    (ctrl.ui.recorder ? recorder(ctrl) : null),
+    (ctrl.ui.fx ? [moduleSelector(ctrl), moduleList(ctrl)] : null),
+    (ctrl.ui.misc ? m('div', [` ~ ${ctrl.engine.renderTime} ms`]) : null),
+  ]);
 }
 
 function init(engine) {
