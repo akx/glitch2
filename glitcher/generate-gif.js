@@ -2,7 +2,7 @@
 const GIF = require('gif.js');
 const GIFWorker = require('file-loader!gif.js/dist/gif.worker.js');
 
-module.exports = function generateGIF(frames, cb) {
+module.exports = function generateGIF(frames) {
   const gif = new GIF({
     workerScript: GIFWorker,
     workers: 2,
@@ -13,6 +13,6 @@ module.exports = function generateGIF(frames, cb) {
     img.src = frame.data;
     gif.addFrame(img, {delay: 50});
   });
-  gif.on('finished', (blob) => cb(null, blob));
   gif.render();
+  return gif;
 };

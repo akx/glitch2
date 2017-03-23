@@ -15,6 +15,7 @@ function controller() {
     misc: false,
   };
   this.recordFrames = [];
+  this.gifRenderProgress = null;
 }
 
 function moduleSelector(ctrl) {
@@ -251,7 +252,9 @@ const saveCurrentButton = (ctrl) => (
 );
 
 const refreshRow = (ctrl) => {
-  const manualRefreshButton = m('button', {
+  const manualRefreshButton = m(
+    'button',
+    {
       onclick() {
         ctrl.engine.rate = 0;
         ctrl.engine.renderFrame();
@@ -283,8 +286,10 @@ const refreshRow = (ctrl) => {
 };
 
 
-const recorder = (ctrl) => {
-  return m('div.recorder', {key: 'recorder'}, [
+const recorder = (ctrl) => m(
+  'div.recorder',
+  {key: 'recorder'},
+  [
     refreshRow(ctrl),
     m('div.button-row', [
       m('button',
@@ -303,15 +308,23 @@ const recorder = (ctrl) => {
       m('button',
         {
           onclick() {
-            generateGIF(ctrl.recordFrames, (err, blob) => {
+            const gif = generateGIF(ctrl.recordFrames);
+            gif.on('progress', (prog) => {
+              ctrl.gifRenderProgress = prog;
+              m.redraw();
+            });
+            gif.on('finished', (blob) => {
+              ctrl.gifRenderProgress = null;
+              m.redraw();
               const url = URL.createObjectURL(blob);
               forceDownload(url, `glitchgif-${+new Date()}.gif`);
             });
+            ctrl.gifRenderProgress = 0;
           },
-          disabled: ctrl.recordFrames.length === 0,
+          disabled: (ctrl.recordFrames.length === 0 || ctrl.gifRenderProgress !== null),
         },
         m('i.fa.fa-save'),
-        ' Save GIF',
+        (ctrl.gifRenderProgress !== null ? `Rendering ${(ctrl.gifRenderProgress * 100).toFixed(1)}%` : ' Save GIF'),
       ),
       m('button',
         {
@@ -342,8 +355,8 @@ const recorder = (ctrl) => {
         ]),
       ])
     )),
-  ]);
-};
+  ]
+);
 
 const showHide = (ctrl, id, name) => (
   m('a',
