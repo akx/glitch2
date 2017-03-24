@@ -56,6 +56,21 @@ GlitchContext.prototype.getContext = function getContext() {
 };
 
 /**
+ * Copy the image data into a new `canvas` element. Can be expensive.
+ * @returns {HTMLCanvasElement}
+ */
+GlitchContext.prototype.copyCanvas = function copyCanvas() {
+  /* eslint-env browser */
+  const tempCanvas = document.createElement('canvas');
+  tempCanvas.width = this._canvas.width;
+  tempCanvas.height = this._canvas.height;
+  const tempContext = tempCanvas.getContext('2d');
+  this._commitImageData();
+  tempContext.drawImage(this._canvas, 0, 0);
+  return tempCanvas;
+};
+
+/**
  * This should be called to ensure all changes to the canvas have been committed.
  */
 GlitchContext.prototype.finalize = function finalize() {
