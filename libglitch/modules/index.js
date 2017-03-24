@@ -5,6 +5,7 @@ module.exports = {
   bloom: require('./bloom'),
   buffer_load: require('./buffer_load'),
   buffer_save: require('./buffer_save'),
+  elastic: require('./elastic'),
   from_ycbcr: require('./from_ycbcr'),
   leak: require('./leak'),
   noise: require('./noise'),
