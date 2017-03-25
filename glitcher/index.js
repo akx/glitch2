@@ -1,7 +1,7 @@
 /* eslint-env browser */
 const UI = require('./ui');
 const Engine = require('./engine');
-const lennaData = require('./lenna');
+const lennaData = require('!url-loader!./lenna.jpg');  // eslint-disable-line
 require('font-awesome/css/font-awesome.css');  // eslint-disable-line no-unused-vars
 require('./look/glitcher.less');  // eslint-disable-line no-unused-vars
 
