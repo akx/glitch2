@@ -39,7 +39,7 @@ module.exports = {
     ],
   },
   plugins: [
-    new HtmlWebpackPlugin(),
+    new HtmlWebpackPlugin({title: 'glitch2'}),
     new webpack.DefinePlugin({GA_ID: process.env.GA_ID ? JSON.stringify(process.env.GA_ID) : null}),
   ],
 };
