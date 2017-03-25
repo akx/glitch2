@@ -6,14 +6,14 @@ function afterimage(glitchContext, options) {
   options = defaults(options, afterimage.paramDefaults);
 
   const data = glitchContext.getImageData();
-  if (glitchContext.afterimageData) {
-    dataBlend(glitchContext.afterimageData, data, options.strengthOut, options.counterStrengthOut, 'screen');
+  if (glitchContext.persist.afterimageData) {
+    dataBlend(glitchContext.persist.afterimageData, data, options.strengthOut, options.counterStrengthOut, 'screen');
   }
-  if (glitchContext.afterimageData && options.strengthIn < 1) {
-    dataBlend(data, glitchContext.afterimageData, options.strengthIn, 1.0 - options.strengthIn, 'normal');
+  if (glitchContext.persist.afterimageData && options.strengthIn < 1) {
+    dataBlend(data, glitchContext.persist.afterimageData, options.strengthIn, 1.0 - options.strengthIn, 'normal');
   } else {
     glitchContext.setImageData(data);
-    glitchContext.afterimageData = glitchContext.copyImageData();
+    glitchContext.persist.afterimageData = glitchContext.copyImageData();
   }
   glitchContext.setImageData(data);
 }

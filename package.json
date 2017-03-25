@@ -18,16 +18,22 @@
     "babel-loader": "^6.2.10",
     "babel-preset-latest": "^6.22.0",
     "css-loader": "^0.26.1",
+    "file-loader": "^0.10.1",
+    "font-awesome": "^4.7.0",
+    "gif.js": "^0.2.0",
     "html-webpack-plugin": "^2.26.0",
+    "less": "^2.7.2",
+    "less-loader": "^3.0.0",
     "lodash": "^4.0.0",
     "mithril": "^0.2.5",
     "style-loader": "^0.13.1",
-    "webpack": "beta"
+    "url-loader": "^0.5.8",
+    "webpack": "^2.2.1"
   },
   "devDependencies": {
-    "eslint": "^3.14.0",
-    "eslint-config-airbnb-base": "^11.0.1",
+    "eslint": "^3.18.0",
+    "eslint-config-airbnb-base": "^11.1.1",
     "eslint-plugin-import": "^2.2.0",
-    "webpack-dev-server": "beta"
+    "webpack-dev-server": "^2.4.2"
   }
 }

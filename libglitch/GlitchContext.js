@@ -4,6 +4,7 @@ function GlitchContext(canvas) {
   this._context = canvas.getContext('2d');
   this._imageData = null;
   this.clock = +new Date();
+  this.persist = {};
 }
 
 /**
@@ -52,6 +53,21 @@ GlitchContext.prototype._commitImageData = function _commitImageData() {
 GlitchContext.prototype.getContext = function getContext() {
   this._commitImageData();
   return this._context;
+};
+
+/**
+ * Copy the image data into a new `canvas` element. Can be expensive.
+ * @returns {HTMLCanvasElement}
+ */
+GlitchContext.prototype.copyCanvas = function copyCanvas() {
+  /* eslint-env browser */
+  const tempCanvas = document.createElement('canvas');
+  tempCanvas.width = this._canvas.width;
+  tempCanvas.height = this._canvas.height;
+  const tempContext = tempCanvas.getContext('2d');
+  this._commitImageData();
+  tempContext.drawImage(this._canvas, 0, 0);
+  return tempCanvas;
 };
 
 /**

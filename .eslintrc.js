@@ -4,13 +4,15 @@ module.exports = {
     "import"
   ],
   "rules": {
+    "arrow-parens": "off",
     "max-len": ["error", 120],
-    "no-plusplus": "off",
-    "no-mixed-operators": "off",
     "no-bitwise": "off",
-    "no-param-reassign": "off",
     "no-cond-assign": "off",
+    "no-mixed-operators": "off",
+    "no-multi-assign": "off",
     "no-new-func": "off",
+    "no-param-reassign": "off",
+    "no-plusplus": "off",
     "no-underscore-dangle": "off",
     "object-curly-spacing": ["error", "never"],
     "comma-dangle": ["error", {

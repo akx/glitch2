@@ -19,6 +19,7 @@ State.prototype.addModule = function addModule(moduleName, options) {
     moduleName,
     options,
     enabled: true,
+    uiVisible: true,
     probability: 1,
   };
   this.defs.push(def);

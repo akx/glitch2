@@ -8,8 +8,8 @@ function tvDisplacement(glitchContext, options) {
   let data = glitchContext.getImageData();
   let dismap;
   const dismapCacheKey = `tvdis_${data.width}_${data.height}`;
-  if (!(dismap = glitchContext[dismapCacheKey])) {
-    dismap = glitchContext[dismapCacheKey] = makeTVDisplacement(data.width, data.height);
+  if (!(dismap = glitchContext.persist[dismapCacheKey])) {
+    dismap = glitchContext.persist[dismapCacheKey] = makeTVDisplacement(data.width, data.height);
   }
   data = displacementMapper(data, dismap, options.strengthX, options.strengthY);
   glitchContext.setImageData(data);
