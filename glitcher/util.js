@@ -1,3 +1,4 @@
+/* eslint-env browser */
 function randomizeDef(def) {
   (def.module.params || []).forEach((paramDef) => {
     const paramName = paramDef.name;
