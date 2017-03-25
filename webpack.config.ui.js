@@ -1,5 +1,6 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const fs = require('fs');
+const webpack = require('webpack');
 
 module.exports = {
   entry: './glitcher/index.js',
@@ -39,5 +40,6 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin(),
+    new webpack.DefinePlugin({GA_ID: process.env.GA_ID ? JSON.stringify(process.env.GA_ID) : null}),
   ],
 };

@@ -4,6 +4,7 @@ const Engine = require('./engine');
 const lennaData = require('!url-loader!./lenna.jpg');  // eslint-disable-line
 require('font-awesome/css/font-awesome.css');  // eslint-disable-line no-unused-vars
 require('./look/glitcher.less');  // eslint-disable-line no-unused-vars
+const injectGA = require('./inject-ga');
 
 let engine = null;
 
@@ -22,6 +23,9 @@ function init() {
   engine.sourceImage = sourceImage;
   UI.init(engine);
   engine.renderLoop();
+  if (typeof GA_ID !== 'undefined') {
+    injectGA(GA_ID);
+  }
 }
 
 if (typeof window !== 'undefined') {
