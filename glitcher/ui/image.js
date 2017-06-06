@@ -15,7 +15,9 @@ function loadImageFromFileField(event, complete) {
 }
 
 const loadImageDiv = (ctrl) => (
-  m('div.load-image', {key: 'load-image'},
+  m(
+    'div.image',
+    {key: 'load-image'},
     m('label', ['Load Image: ',
       m('input', {
         type: 'file',
