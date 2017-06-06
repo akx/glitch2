@@ -29,6 +29,7 @@ const loadImageDiv = (ctrl) => (
         },
       }),
     ]),
+    m('div', {style: 'opacity: .5'}, 'You can also paste image data from the clipboard.'),
   )
 );
 
