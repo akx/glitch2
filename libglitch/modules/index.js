@@ -1,4 +1,6 @@
 /* eslint-disable global-require */
+const fastfilter = require('./fastfilter');
+
 module.exports = {
   afterimage: require('./afterimage'),
   bitbang: require('./bitbang'),
@@ -17,4 +19,9 @@ module.exports = {
   to_ycbcr: require('./to_ycbcr'),
   tv_displacement: require('./tv_displacement'),
   tvscan: require('./tvscan'),
+  ffblur: fastfilter.blur,
+  ffbrightness: fastfilter.brightness,
+  ffcontrast: fastfilter.contrast,
+  ffhue: fastfilter.hue,
+  ffsaturate: fastfilter.saturate,
 };
