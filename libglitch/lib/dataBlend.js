@@ -152,4 +152,19 @@ function dataBlend(srcD, dstD, sA, dA, blendMode) {
     }
   }
 }
+dataBlend.modes = [
+  'normal',
+  'screen',
+  'multiply',
+  'difference',
+  'src-in',
+  'add',
+  'overlay',
+  'hardlight',
+  'dodge',
+  'burn',
+  'darker',
+  'lighter',
+  'exclusion',
+];
 module.exports = dataBlend;

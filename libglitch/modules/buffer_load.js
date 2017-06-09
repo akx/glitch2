@@ -11,7 +11,7 @@ function bufferLoad(glitchContext, options) {
     glitchContext.setImageData(buf);
   } else {
     const destData = glitchContext.getImageData();
-    dataBlend(buf, destData, options.blend, 1.0 - options.blend, 'normal');
+    dataBlend(buf, destData, options.blend, 1.0 - options.blend, options.mode);
     glitchContext.setImageData(destData);
   }
 }
@@ -19,11 +19,13 @@ function bufferLoad(glitchContext, options) {
 bufferLoad.paramDefaults = {
   id: 0,
   blend: 1,
+  mode: 'normal',
 };
 
 bufferLoad.params = [
   p.int('id', {description: 'buffer ID'}),
   p.num('blend', {description: 'blend%'}),
+  p.choice('mode', dataBlend.modes, {description: 'blend mode'}),
 ];
 
 module.exports = bufferLoad;
