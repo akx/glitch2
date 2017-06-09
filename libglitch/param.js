@@ -30,8 +30,22 @@ function Bool(name, options) {
   return extend({}, {type: 'bool', name}, options);
 }
 
+
+/**
+ * Choice parameter.
+ * @param name The name of the parameter.
+ * @param choices Choices list
+ * @param options Options for the parameter.
+ * @returns {*} Parameter definition object.
+ */
+function Choice(name, choices, options) {
+  return extend({}, {type: 'choice', name, choices}, options);
+}
+
+
 extend(module.exports, {
   num: Num, // num num num
   int: Int,
   bool: Bool,
+  choice: Choice,
 });

@@ -19,9 +19,17 @@ function moduleSelector(ctrl) {
   }, options));
 }
 
+function rotateChoiceParam({choices}, value, direction) {
+  const currentValueIndex = choices.indexOf(value);
+  if (currentValueIndex === -1) return value;
+  const newValueIndex = (currentValueIndex + direction + choices.length) % choices.length;
+  return choices[newValueIndex];
+}
+
 function getParamEditor(def, paramDef) {
   const paramName = paramDef.name;
   const paramNode = m(`div.param.param-${paramDef.type}`, {key: `${def.id}-${paramName}`}, []);
+  const value = def.options[paramName];
 
   if (paramDef.type === 'bool') {
     paramNode.children.push(m('label',
@@ -29,12 +37,13 @@ function getParamEditor(def, paramDef) {
         onclick() {
           def.options[paramName] = !def.options[paramName];
         },
-        checked: !!def.options[paramName],
+        checked: !!value,
         type: 'checkbox',
       }),
       paramName,
     ));
   }
+
   if (paramDef.type === 'int' || paramDef.type === 'num') {
     paramNode.children.push(m('div.param-name', paramName));
 
@@ -44,7 +53,7 @@ function getParamEditor(def, paramDef) {
           oninput(event) {
             def.options[paramName] = event.target.valueAsNumber;
           },
-          value: def.options[paramName],
+          value,
           min: paramDef.min,
           max: paramDef.max,
           step: (paramDef.step !== null ? paramDef.step : 0.0001),
@@ -54,11 +63,42 @@ function getParamEditor(def, paramDef) {
           oninput(event) {
             def.options[paramName] = event.target.valueAsNumber;
           },
-          value: def.options[paramName],
+          value,
           step: (paramDef.step !== null ? paramDef.step : 0.0001),
           type: 'number',
         }),
       ),
+    );
+  }
+
+  if (paramDef.type === 'choice') {
+    paramNode.children.push(m('div.param-name', paramName));
+    paramNode.children.push(
+      m('div', [
+        m(
+          'select',
+          {
+            value,
+            oninput(event) {
+              def.options[paramName] = event.target.value;
+            },
+          },
+          paramDef.choices.map((choice) => m('option', {value: choice}, choice))
+        ),
+        m('a', {
+          href: '#',
+          onclick() {
+            def.options[paramName] = rotateChoiceParam(paramDef, value, -1);
+          },
+        }, m('i.fa.fa-arrow-left')),
+        '\u2022',
+        m('a', {
+          href: '#',
+          onclick() {
+            def.options[paramName] = rotateChoiceParam(paramDef, value, +1);
+          },
+        }, m('i.fa.fa-arrow-right')),
+      ])
     );
   }
   return paramNode;
