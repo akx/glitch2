@@ -88,14 +88,14 @@ function getParamEditor(def, paramDef) {
         onclick() {
           def.options[paramName] = rotateChoiceParam(paramDef, value, -1);
         },
-      }, m('i.fa.fa-arrow-left')),
+      }, m('i.icon-flash')),
       '\u2022',
       m('a', {
         href: '#',
         onclick() {
           def.options[paramName] = rotateChoiceParam(paramDef, value, +1);
         },
-      }, m('i.fa.fa-arrow-right')),
+      }, m('i.icon-arrow-right-thick')),
     ]));
   }
   return paramNode;
@@ -114,7 +114,7 @@ const defEditor = (ctrl, state, def) => {
           },
           title: (def.uiVisible ? 'Collapse' : 'Expand'),
         },
-        m((def.uiVisible ? 'i.fa.fa-chevron-up' : 'i.fa.fa-chevron-down')),
+        m('i.icon-th-small'),
       ) : null
   );
   return m(
@@ -145,37 +145,37 @@ const defEditor = (ctrl, state, def) => {
               def.enabled = !def.enabled;
             },
             title: (def.enabled ? 'Disable' : 'Enable'),
-          }, m('i.fa.fa-power-off')),
+          }, m('i.icon-power')),
           m('button', {
             onclick() {
               state.deleteDef(def);
             },
             title: 'Delete',
-          }, m('i.fa.fa-times')),
+          }, m('i.icon-times')),
           m('button', {
             onclick() {
               state.moveDef(def, -1);
             },
             title: 'Move Up',
-          }, m('i.fa.fa-arrow-up')),
+          }, m('i.icon-arrow-up-thick')),
           m('button', {
             onclick() {
               state.moveDef(def, +1);
             },
             title: 'Move down',
-          }, m('i.fa.fa-arrow-down')),
+          }, m('i.icon-arrow-down-thick')),
           m('button', {
             onclick() {
               util.randomizeDef(def);
             },
             title: 'Randomize',
-          }, m('i.fa.fa-random')),
+          }, m('i.icon-arrow-shuffle')),
           m('button', {
             onclick() {
               state.duplicateDef(def);
             },
             title: 'Duplicate',
-          }, m('i.fa.fa-plus')),
+          }, m('i.icon-plus')),
         ]
       ),
       (def.uiVisible ?

@@ -18,7 +18,6 @@
     "babel-preset-env": "^1.6.1",
     "css-loader": "0.28.11",
     "file-loader": "^1.1.11",
-    "font-awesome": "^4.7.0",
     "gif.js": "^0.2.0",
     "html-webpack-plugin": "3",
     "less": "^3.0.1",

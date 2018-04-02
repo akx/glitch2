@@ -57,7 +57,7 @@ const loadImageDiv = ctrl => (
       }),
     ]),
     m('div', { style: 'opacity: .5' }, 'You can also paste image data from the clipboard.'),
-    m('button', { onclick: () => resizePrompt(ctrl) }, [m('i.fa.fa-arrows-alt'), ' Resize']),
+    m('button', { onclick: () => resizePrompt(ctrl) }, [m('i.icon-arrow-maximise'), ' Resize']),
   )
 );
 

@@ -20,7 +20,7 @@ const saveCurrentButton = ctrl => (
       },
       title: 'Save Current Image',
     },
-    m('i.fa.fa-save'),
+    m('i.icon-flash'),
     ' Save Current Image'
   )
 );
@@ -36,7 +36,7 @@ const refreshRow = (ctrl) => {
       },
       title: 'manual refresh',
     },
-    m('i.fa.fa-refresh'),
+    m('i.icon-refresh'),
     ' Refresh',
   );
   const refreshRateSetting = m('span', [
@@ -78,7 +78,7 @@ const recorder = ctrl => m(
             event.preventDefault();
           },
         },
-        m('i.fa.fa-camera'),
+        m('i.icon-camera'),
         ' Add Frame',
       ),
 
@@ -101,7 +101,7 @@ const recorder = ctrl => m(
           },
           disabled: (ctrl.recordFrames.length === 0 || ctrl.gifRenderProgress !== null),
         },
-        m('i.fa.fa-save'),
+        m('i.icon-flash'),
         (ctrl.gifRenderProgress !== null ? `Rendering ${(ctrl.gifRenderProgress * 100).toFixed(1)}%` : ' Save GIF'),
       ),
       m(
@@ -116,7 +116,7 @@ const recorder = ctrl => m(
           },
           disabled: ctrl.recordFrames.length === 0,
         },
-        m('i.fa.fa-trash'),
+        m('i.icon-trash'),
         ' Clear',
       ),
     ]),
@@ -129,7 +129,7 @@ const recorder = ctrl => m(
               ctrl.recordFrames.splice(index, 1);
             },
           },
-          [m('i.fa.fa-times')],
+          [m('i.icon-times')],
         ),
       ]),
     ]))),
