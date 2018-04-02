@@ -11,7 +11,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.jsx?$/,
+        test: /\.js$/,
         exclude: /node_modules/,
         loader: 'babel-loader',
       },
@@ -33,9 +33,15 @@ module.exports = {
       {
         test: /\.(woff|ttf|eot|otf|svg|woff2|png)$/,
         use: [
-          'url-loader',
+          {
+            loader: 'url-loader',
+            options: {
+              limit: 16000,
+              name: 'assets/[name].[sha1:hash:base36:10].[ext]',
+            },
+          },
         ],
-      }
+      },
     ],
   },
   plugins: [
