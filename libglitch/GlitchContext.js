@@ -77,5 +77,12 @@ GlitchContext.prototype.finalize = function finalize() {
   this._commitImageData();
 };
 
+/**
+ * Get the size of the glitch canvas.
+ */
+GlitchContext.prototype.getSize = function getSize() {
+  const { width, height } = this._canvas;
+  return { width, height };
+};
 
 module.exports = GlitchContext;

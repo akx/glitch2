@@ -24,4 +24,5 @@ module.exports = {
   ffcontrast: fastfilter.contrast,
   ffhue: fastfilter.hue,
   ffsaturate: fastfilter.saturate,
+  xform: require('./xform'),
 };
