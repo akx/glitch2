@@ -8,7 +8,17 @@ const saveCurrentButton = (ctrl) => (
   m('button',
     {
       onclick() {
-        forceDownload(ctrl.engine.toDataURL(), `glitch-${+new Date()}.png`);
+        ctrl.engine.toURL('image/png')
+          .then(
+            (url) => {
+              forceDownload(url, `glitch-${new Date().toISOString()}.png`)
+                .then(() => {
+                  if (/^blob:/.test(url)) {
+                    URL.revokeObjectURL(url);
+                  }
+                });
+            }
+          );
       },
       title: 'Save Current Image',
     },

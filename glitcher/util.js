@@ -32,12 +32,21 @@ module.exports.randomizeDef = randomizeDef;
 
 
 function forceDownload(url, filename) {
-  const link = document.createElement('a');
-  link.href = url;
-  link.download = filename;
-  link.target = '_blank';
-  document.body.appendChild(link);
-  link.click();
+  return new Promise((resolve) => {
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    setTimeout(() => {
+      try {
+        link.parentNode.removeChild(link);
+      } catch (e) {
+        // *shrug*
+      }
+      resolve();
+    }, 15000);
+  });
 }
 
 module.exports.forceDownload = forceDownload;

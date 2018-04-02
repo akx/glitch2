@@ -53,4 +53,20 @@ Engine.prototype.toDataURL = function toDataURL() {
   return this.targetCanvas.toDataURL();
 };
 
+Engine.prototype.toURL = function toURL(type = 'image/png', encoderOptions, forceDataUrl = false) {
+  const blobUrlSupported = (
+    (typeof this.targetCanvas.toBlob === 'function') &&
+    (typeof URL.createObjectURL === 'function')
+  );
+  return new Promise((resolve) => {
+    if (blobUrlSupported && !forceDataUrl) {
+      this.targetCanvas.toBlob((blob) => {
+        resolve(URL.createObjectURL(blob));
+      }, type, encoderOptions);
+    } else {
+      resolve(this.targetCanvas.toDataURL(type, encoderOptions));
+    }
+  });
+};
+
 module.exports = Engine;
