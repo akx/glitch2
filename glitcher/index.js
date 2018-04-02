@@ -1,13 +1,12 @@
 const UI = require('./ui');
 const Engine = require('./engine');
-const lennaData = require('!url-loader!./lenna.jpg');  // eslint-disable-line
-require('font-awesome/css/font-awesome.css');
 require('./look/glitcher.less');
 const injectGA = require('./inject-ga');
 
 function loadLenna(engine) {
   const sourceImage = new Image();
-  sourceImage.src = lennaData;
+  // eslint-disable-next-line global-require
+  sourceImage.src = require('./lenna.jpg');
   engine.sourceImage = sourceImage;
 }
 
