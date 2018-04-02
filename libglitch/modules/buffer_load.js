@@ -23,9 +23,9 @@ bufferLoad.paramDefaults = {
 };
 
 bufferLoad.params = [
-  p.int('id', {description: 'buffer ID'}),
-  p.num('blend', {description: 'blend%'}),
-  p.choice('mode', dataBlend.modes, {description: 'blend mode'}),
+  p.int('id', { description: 'buffer ID' }),
+  p.num('blend', { description: 'blend%' }),
+  p.choice('mode', dataBlend.modes, { description: 'blend mode' }),
 ];
 
 module.exports = bufferLoad;

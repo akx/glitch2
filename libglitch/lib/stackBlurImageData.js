@@ -1,4 +1,4 @@
-/* eslint-disable camelcase,no-tabs */
+/* eslint-disable camelcase,no-tabs,no-restricted-globals */
 /*
 
  StackBlur - a fast almost Gaussian Blur For Canvas

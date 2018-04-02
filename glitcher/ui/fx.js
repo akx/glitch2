@@ -1,17 +1,16 @@
-/* eslint-env browser */
 /* eslint-disable no-restricted-syntax, no-prototype-builtins, no-continue, no-alert */
 const m = require('mithril');
 const util = require('../util');
 
 function moduleSelector(ctrl) {
-  const options = [m('option', {value: ''}, '<< Add module... >>')];
-  const modules = ctrl.engine.state.modules;
+  const options = [m('option', { value: '' }, '<< Add module... >>')];
+  const { modules } = ctrl.engine.state;
   for (const key in modules) {
     if (!modules.hasOwnProperty(key)) continue;
     const module = modules[key];
-    options.push(m('option', {value: key}, `${module.friendlyName || key}`));
+    options.push(m('option', { value: key }, `${module.friendlyName || key}`));
   }
-  return m('div.module-selector', {key: 'module-sel'}, m('select', {
+  return m('div.module-selector', { key: 'module-sel' }, m('select', {
     onchange(event) {
       ctrl.engine.state.addModule(event.target.value);
       event.target.value = '';
@@ -19,7 +18,7 @@ function moduleSelector(ctrl) {
   }, options));
 }
 
-function rotateChoiceParam({choices}, value, direction) {
+function rotateChoiceParam({ choices }, value, direction) {
   const currentValueIndex = choices.indexOf(value);
   if (currentValueIndex === -1) return value;
   const newValueIndex = (currentValueIndex + direction + choices.length) % choices.length;
@@ -28,11 +27,12 @@ function rotateChoiceParam({choices}, value, direction) {
 
 function getParamEditor(def, paramDef) {
   const paramName = paramDef.name;
-  const paramNode = m(`div.param.param-${paramDef.type}`, {key: `${def.id}-${paramName}`}, []);
+  const paramNode = m(`div.param.param-${paramDef.type}`, { key: `${def.id}-${paramName}` }, []);
   const value = def.options[paramName];
 
   if (paramDef.type === 'bool') {
-    paramNode.children.push(m('label',
+    paramNode.children.push(m(
+      'label',
       m('input', {
         onclick() {
           def.options[paramName] = !def.options[paramName];
@@ -47,59 +47,56 @@ function getParamEditor(def, paramDef) {
   if (paramDef.type === 'int' || paramDef.type === 'num') {
     paramNode.children.push(m('div.param-name', paramName));
 
-    paramNode.children.push(
-      m('div.slider-and-input',
-        m('input.slider', {
-          oninput(event) {
-            def.options[paramName] = event.target.valueAsNumber;
-          },
-          value,
-          min: paramDef.min,
-          max: paramDef.max,
-          step: (paramDef.step !== null ? paramDef.step : 0.0001),
-          type: 'range',
-        }),
-        m('input.num', {
-          oninput(event) {
-            def.options[paramName] = event.target.valueAsNumber;
-          },
-          value,
-          step: (paramDef.step !== null ? paramDef.step : 0.0001),
-          type: 'number',
-        }),
-      ),
-    );
+    paramNode.children.push(m(
+      'div.slider-and-input',
+      m('input.slider', {
+        oninput(event) {
+          def.options[paramName] = event.target.valueAsNumber;
+        },
+        value,
+        min: paramDef.min,
+        max: paramDef.max,
+        step: (paramDef.step !== null ? paramDef.step : 0.0001),
+        type: 'range',
+      }),
+      m('input.num', {
+        oninput(event) {
+          def.options[paramName] = event.target.valueAsNumber;
+        },
+        value,
+        step: (paramDef.step !== null ? paramDef.step : 0.0001),
+        type: 'number',
+      }),
+    ));
   }
 
   if (paramDef.type === 'choice') {
     paramNode.children.push(m('div.param-name', paramName));
-    paramNode.children.push(
-      m('div', [
-        m(
-          'select',
-          {
-            value,
-            oninput(event) {
-              def.options[paramName] = event.target.value;
-            },
+    paramNode.children.push(m('div', [
+      m(
+        'select',
+        {
+          value,
+          oninput(event) {
+            def.options[paramName] = event.target.value;
           },
-          paramDef.choices.map((choice) => m('option', {value: choice}, choice))
-        ),
-        m('a', {
-          href: '#',
-          onclick() {
-            def.options[paramName] = rotateChoiceParam(paramDef, value, -1);
-          },
-        }, m('i.fa.fa-arrow-left')),
-        '\u2022',
-        m('a', {
-          href: '#',
-          onclick() {
-            def.options[paramName] = rotateChoiceParam(paramDef, value, +1);
-          },
-        }, m('i.fa.fa-arrow-right')),
-      ])
-    );
+        },
+        paramDef.choices.map(choice => m('option', { value: choice }, choice))
+      ),
+      m('a', {
+        href: '#',
+        onclick() {
+          def.options[paramName] = rotateChoiceParam(paramDef, value, -1);
+        },
+      }, m('i.fa.fa-arrow-left')),
+      '\u2022',
+      m('a', {
+        href: '#',
+        onclick() {
+          def.options[paramName] = rotateChoiceParam(paramDef, value, +1);
+        },
+      }, m('i.fa.fa-arrow-right')),
+    ]));
   }
   return paramNode;
 }
@@ -109,7 +106,8 @@ const defEditor = (ctrl, state, def) => {
   const params = (def.module.params || []);
   const collapseBtn = (
     params.length ?
-      m('button',
+      m(
+        'button',
         {
           onclick() {
             def.uiVisible = !def.uiVisible;
@@ -119,13 +117,16 @@ const defEditor = (ctrl, state, def) => {
         m((def.uiVisible ? 'i.fa.fa-chevron-up' : 'i.fa.fa-chevron-down')),
       ) : null
   );
-  return m(`div.def-edit${!enabled ? '.disabled' : ''}`,
-    {key: def.id},
+  return m(
+    `div.def-edit${!enabled ? '.disabled' : ''}`,
+    { key: def.id },
     [
-      m('div.def-kit.button-row',
+      m(
+        'div.def-kit.button-row',
         [
           m('div.module-name', [def.moduleName]),
-          m('input.prob-slider',
+          m(
+            'input.prob-slider',
             {
               oninput(event) {
                 def.probability = event.target.valueAsNumber;
@@ -136,7 +137,8 @@ const defEditor = (ctrl, state, def) => {
               step: 0.01,
               type: 'range',
               title: `probability: ${def.probability.toFixed(2)}`,
-            }),
+            }
+          ),
           collapseBtn,
           m('button', {
             onclick() {
@@ -174,12 +176,13 @@ const defEditor = (ctrl, state, def) => {
             },
             title: 'Duplicate',
           }, m('i.fa.fa-plus')),
-        ]),
+        ]
+      ),
       (def.uiVisible ?
-          m(
-            'div.params',
-            params.map((pDef) => getParamEditor(def, pDef))
-          ) : null
+        m(
+          'div.params',
+          params.map(pDef => getParamEditor(def, pDef))
+        ) : null
       ),
     ],
   );
@@ -187,20 +190,21 @@ const defEditor = (ctrl, state, def) => {
 
 
 function moduleList(ctrl) {
-  const state = ctrl.engine.state;
+  const { state } = ctrl.engine;
   return m(
     'div.module-list',
-    {key: 'module-list'},
-    state.defs.map((def) => defEditor(ctrl, state, def))
+    { key: 'module-list' },
+    state.defs.map(def => defEditor(ctrl, state, def))
   );
 }
 
 module.exports = function fxUI(ctrl) {
   return m(
     'div.fx-ui',
-    {key: 'fx-ui'},
+    { key: 'fx-ui' },
     [
       moduleSelector(ctrl),
       moduleList(ctrl),
-    ]);
+    ]
+  );
 };

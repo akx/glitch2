@@ -1,15 +1,12 @@
 const defaults = require('../lib/defaults');
-const randint = require('../lib/rand').randint;
-const rand = require('../lib/rand').rand;
-const clamp = require('../lib/num').clamp;
+const { randint, rand } = require('../lib/rand');
+const { clamp } = require('../lib/num');
 const p = require('../param');
 
 function streak(glitchContext, options) {
   options = defaults(options, streak.paramDefaults);
   const imageData = glitchContext.getImageData();
-  const buf = imageData.data;
-  const height = imageData.height;
-  const width = imageData.width;
+  const { height, width, data: buf } = imageData;
   let xoff = 0;
   let yoff = 0;
   for (let y = 0; y < height; y++) {
@@ -50,9 +47,9 @@ streak.paramDefaults = {
 };
 
 streak.params = [
-  p.int('xOffsetChance', {min: 0, max: 65535}),
-  p.int('yOffsetChance', {min: 0, max: 65535}),
-  p.int('offsetHalveChance', {min: 0, max: 65535}),
+  p.int('xOffsetChance', { min: 0, max: 65535 }),
+  p.int('yOffsetChance', { min: 0, max: 65535 }),
+  p.int('offsetHalveChance', { min: 0, max: 65535 }),
   p.bool('offsetResetEveryLine'),
 ];
 

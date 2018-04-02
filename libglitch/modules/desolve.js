@@ -1,11 +1,11 @@
 const defaults = require('../lib/defaults');
-const {rand, randint} = require('../lib/rand');
+const { rand, randint } = require('../lib/rand');
 const p = require('../param');
 
 function desolve(glitchContext, options) {
   options = defaults(options, desolve.paramDefaults);
   const imageData = glitchContext.getImageData();
-  const {data, height, width} = imageData;
+  const { data, height, width } = imageData;
   const xRes = randint(options.xMin % width, options.xMax % width);
   const yRes = randint(options.yMin % height, options.yMax % height);
   const op = (a, b, xor) => (xor ? a ^ b : b);
@@ -43,10 +43,10 @@ desolve.paramDefaults = {
 };
 
 desolve.params = [
-  p.int('xMax', {min: 1, max: 800}),
-  p.int('xMin', {min: 1, max: 800}),
-  p.int('yMax', {min: 1, max: 800}),
-  p.int('yMin', {min: 1, max: 800}),
+  p.int('xMax', { min: 1, max: 800 }),
+  p.int('xMin', { min: 1, max: 800 }),
+  p.int('yMax', { min: 1, max: 800 }),
+  p.int('yMin', { min: 1, max: 800 }),
   p.num('rXorChance'),
   p.num('gXorChance'),
   p.num('bXorChance'),

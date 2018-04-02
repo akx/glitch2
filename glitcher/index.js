@@ -1,9 +1,8 @@
-/* eslint-env browser */
 const UI = require('./ui');
 const Engine = require('./engine');
 const lennaData = require('!url-loader!./lenna.jpg');  // eslint-disable-line
-require('font-awesome/css/font-awesome.css');  // eslint-disable-line no-unused-vars
-require('./look/glitcher.less');  // eslint-disable-line no-unused-vars
+require('font-awesome/css/font-awesome.css');
+require('./look/glitcher.less');
 const injectGA = require('./inject-ga');
 
 function loadLenna(engine) {
@@ -22,6 +21,7 @@ function addPasteHandler(engine) {
         break;
       }
     }
+    // eslint-disable-next-line no-restricted-globals, no-alert
     if (imageItem && confirm('Paste image into Glitch2?')) {
       const blob = imageItem.getAsFile();
       const url = URL.createObjectURL(blob);
@@ -46,6 +46,7 @@ function init() {
   UI.init(engine);
   engine.renderLoop();
   if (typeof GA_ID !== 'undefined') {
+    // eslint-disable-next-line no-undef
     injectGA(GA_ID);
   }
 }

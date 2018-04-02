@@ -17,12 +17,12 @@ function fastfilterCore(glitchContext, options, filterFn) {
 fastfilterCore.paramDefaults = {
   blend: 1,
   iterations: 1,
-  operation: 'source-over',  // TODO: implement
+  operation: 'source-over', // TODO: implement
 };
 
 const baseParams = [
-  p.num('blend', {description: 'blend'}),
-  p.int('iterations', {min: 1, max: 15}),
+  p.num('blend', { description: 'blend' }),
+  p.int('iterations', { min: 1, max: 15 }),
   p.choice('operation', blendModes),
 ];
 
@@ -36,31 +36,31 @@ const build = (filterFn, params = [], paramDefaults = {}) => Object.assign(
 );
 
 module.exports.blur = build(
-  ({strength}) => `blur(${strength}px)`,
-  [p.num('strength', {max: 100})],
-  {strength: 0}
+  ({ strength }) => `blur(${strength}px)`,
+  [p.num('strength', { max: 100 })],
+  { strength: 0 }
 );
 
 module.exports.brightness = build(
-  ({adjust}) => `brightness(${adjust}%)`,
-  [p.num('adjust', {min: 0, max: 1000})],
-  {adjust: 100}
+  ({ adjust }) => `brightness(${adjust}%)`,
+  [p.num('adjust', { min: 0, max: 1000 })],
+  { adjust: 100 }
 );
 
 module.exports.contrast = build(
-  ({adjust}) => `contrast(${adjust}%)`,
-  [p.num('adjust', {min: 0, max: 1000})],
-  {adjust: 100}
+  ({ adjust }) => `contrast(${adjust}%)`,
+  [p.num('adjust', { min: 0, max: 1000 })],
+  { adjust: 100 }
 );
 
 module.exports.saturate = build(
-  ({adjust}) => `saturate(${adjust}%)`,
-  [p.num('adjust', {min: 0, max: 1000})],
-  {adjust: 100}
+  ({ adjust }) => `saturate(${adjust}%)`,
+  [p.num('adjust', { min: 0, max: 1000 })],
+  { adjust: 100 }
 );
 
 module.exports.hue = build(
-  ({degrees}) => `hue-rotate(${degrees}deg)`,
-  [p.num('degrees', {min: -180, max: 180})],
-  {degrees: 0}
+  ({ degrees }) => `hue-rotate(${degrees}deg)`,
+  [p.num('degrees', { min: -180, max: 180 })],
+  { degrees: 0 }
 );

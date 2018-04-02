@@ -1,4 +1,3 @@
-/* eslint-env browser */
 function State(modules) {
   this.modules = modules;
   this.defs = [];
@@ -41,9 +40,10 @@ State.prototype.clear = function clear() {
 };
 
 State.prototype.moveDef = function moveDef(def, direction) {
-  const defs = this.defs;
+  const { defs } = this;
   const idx = defs.indexOf(def);
   if (idx === -1) return;
+  // eslint-disable-next-line prefer-destructuring
   def = defs.splice(idx, 1)[0];
   let newIdx = idx + direction;
   if (newIdx < 0) newIdx = 0;

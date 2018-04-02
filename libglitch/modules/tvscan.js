@@ -1,10 +1,10 @@
 /* eslint-disable no-restricted-properties */
 const defaults = require('../lib/defaults');
-const mod = require('../lib/num').mod;
+const { mod } = require('../lib/num');
 const p = require('../param');
 
 function runTvScan(imageData, clock, speed, strength, heightPerc) {
-  const {data, width, height} = imageData;
+  const { data, width, height } = imageData;
   let y;
   let b;
   let off;
@@ -27,6 +27,7 @@ function runTvScan(imageData, clock, speed, strength, heightPerc) {
     }
   }
 }
+
 function tvScan(glitchContext, options) {
   options = defaults(options, tvScan.paramDefaults);
   if (options.strength <= 0) return;
@@ -44,9 +45,9 @@ tvScan.paramDefaults = {
 
 
 tvScan.params = [
-  p.num('speed', {description: 'Scan speed'}),
-  p.num('strength', {description: 'Scan brightness'}),
-  p.num('heightPerc', {description: 'Scan height (percentage)'}),
+  p.num('speed', { description: 'Scan speed' }),
+  p.num('strength', { description: 'Scan brightness' }),
+  p.num('heightPerc', { description: 'Scan height (percentage)' }),
 ];
 
 

@@ -1,3 +1,4 @@
+
 const Glitch = require('../libglitch');
 const State = require('./State');
 
@@ -12,16 +13,15 @@ const Engine = function Engine(targetCanvas) {
 
 
 Engine.prototype.renderFrame = function renderFrame() {
-  const sourceImage = this.sourceImage;
-  const targetCanvas = this.targetCanvas;
-  const glitchContext = this.glitchContext;
+  const {
+    sourceImage, targetCanvas, glitchContext, state,
+  } = this;
   if (!sourceImage.complete) return;
   const t0 = +new Date();
   targetCanvas.width = 0 | sourceImage.width;
   targetCanvas.height = 0 | sourceImage.height;
   glitchContext.clock = +new Date();
   glitchContext.getContext().drawImage(sourceImage, 0, 0);
-  const state = this.state;
   if (state) {
     state.defs.forEach((def) => {
       if (!def.enabled) return;

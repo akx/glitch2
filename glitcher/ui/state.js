@@ -1,11 +1,12 @@
-/* eslint-env browser */
+
 /* eslint-disable no-alert */
 const m = require('mithril');
 
 
-const stateButtons = (ctrl) => (
+const stateButtons = ctrl => (
   m('div.state-box', [
-    m('div.button-row', {key: 'state-global-buttons'},
+    m(
+      'div.button-row', { key: 'state-global-buttons' },
       m('button', {
         onclick() {
           ctrl.engine.state.loadFromLocalStorage();

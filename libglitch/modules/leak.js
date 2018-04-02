@@ -1,19 +1,17 @@
 const lerper = require('../lib/lerper');
 const defaults = require('../lib/defaults');
-const randint = require('../lib/rand').randint;
+const { randint } = require('../lib/rand');
 const p = require('../param');
 
 function _leak(imageData, lerp, magic1, magic2, yToMagic1, yToMagic2) {
-  const width = imageData.width;
-  const height = imageData.height;
-  const data = imageData.data;
+  const { width, height, data } = imageData;
   const dwidth = width * 4;
   const len = data.length;
   for (let y = 0; y < height; ++y) {
     const fy = y / height;
-    const yoffset = y * dwidth + 0 | (magic1 + yToMagic1 * fy);
+    const yoffset = y * dwidth + (0 | (magic1 + yToMagic1 * fy));
     for (let offset = yoffset, to$ = yoffset + dwidth; offset < to$; offset += 4) {
-      const src = offset + 4 + 0 | (magic2 + yToMagic2 * fy);
+      const src = offset + 4 + (0 | (magic2 + yToMagic2 * fy));
       if (src >= 0 && src < len && offset >= 0 && offset < len) {
         data[offset] = 0 | lerp(data[offset], data[src]);
       }
@@ -45,13 +43,13 @@ leak.paramDefaults = {
 };
 
 leak.params = [
-  p.num('intensity', {description: 'Effect intensity'}),
-  p.int('magic1', {description: 'Magic 1', min: -40, max: +40}),
-  p.int('magic2', {description: 'Magic 2', min: -40, max: +40}),
-  p.num('yToMagic1', {description: 'Y coordinate to Magic 1', min: -100, max: +100}),
-  p.num('yToMagic2', {description: 'Y coordinate to Magic 2', min: -100, max: +100}),
-  p.int('nMin', {description: 'Min repetitions'}),
-  p.int('nMax', {description: 'Max repetitions'}),
+  p.num('intensity', { description: 'Effect intensity' }),
+  p.int('magic1', { description: 'Magic 1', min: -40, max: +40 }),
+  p.int('magic2', { description: 'Magic 2', min: -40, max: +40 }),
+  p.num('yToMagic1', { description: 'Y coordinate to Magic 1', min: -100, max: +100 }),
+  p.num('yToMagic2', { description: 'Y coordinate to Magic 2', min: -100, max: +100 }),
+  p.int('nMin', { description: 'Min repetitions' }),
+  p.int('nMax', { description: 'Max repetitions' }),
 ];
 
 

@@ -1,10 +1,10 @@
 module.exports = {
+  "root": true,
   "extends": "airbnb-base",
   "plugins": [
     "import"
   ],
   "rules": {
-    "arrow-parens": "off",
     "max-len": ["error", 120],
     "no-bitwise": "off",
     "no-cond-assign": "off",
@@ -14,7 +14,6 @@ module.exports = {
     "no-param-reassign": "off",
     "no-plusplus": "off",
     "no-underscore-dangle": "off",
-    "object-curly-spacing": ["error", "never"],
     "comma-dangle": ["error", {
       "arrays": "always-multiline",
       "objects": "always-multiline",

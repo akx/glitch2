@@ -1,24 +1,22 @@
-/* eslint-env browser */
 /* eslint-disable no-alert */
 const m = require('mithril');
 const generateGIF = require('../generate-gif');
-const {forceDownload} = require('../util');
+const { forceDownload } = require('../util');
 
-const saveCurrentButton = (ctrl) => (
-  m('button',
+const saveCurrentButton = ctrl => (
+  m(
+    'button',
     {
       onclick() {
         ctrl.engine.toURL('image/png')
-          .then(
-            (url) => {
-              forceDownload(url, `glitch-${new Date().toISOString()}.png`)
-                .then(() => {
-                  if (/^blob:/.test(url)) {
-                    URL.revokeObjectURL(url);
-                  }
-                });
-            }
-          );
+          .then((url) => {
+            forceDownload(url, `glitch-${new Date().toISOString()}.png`)
+              .then(() => {
+                if (/^blob:/.test(url)) {
+                  URL.revokeObjectURL(url);
+                }
+              });
+          });
       },
       title: 'Save Current Image',
     },
@@ -54,7 +52,8 @@ const refreshRow = (ctrl) => {
       },
     }),
   ]);
-  return m('div.button-row',
+  return m(
+    'div.button-row',
     [
       saveCurrentButton(ctrl),
       m('div', [refreshRateSetting, manualRefreshButton]),
@@ -63,13 +62,14 @@ const refreshRow = (ctrl) => {
 };
 
 
-const recorder = (ctrl) => m(
+const recorder = ctrl => m(
   'div.recorder',
-  {key: 'recorder'},
+  { key: 'recorder' },
   [
     refreshRow(ctrl),
     m('div.button-row', [
-      m('button',
+      m(
+        'button',
         {
           onclick(event) {
             ctrl.recordFrames.push({
@@ -82,7 +82,8 @@ const recorder = (ctrl) => m(
         ' Add Frame',
       ),
 
-      m('button',
+      m(
+        'button',
         {
           onclick() {
             const gif = generateGIF(ctrl.recordFrames);
@@ -103,9 +104,11 @@ const recorder = (ctrl) => m(
         m('i.fa.fa-save'),
         (ctrl.gifRenderProgress !== null ? `Rendering ${(ctrl.gifRenderProgress * 100).toFixed(1)}%` : ' Save GIF'),
       ),
-      m('button',
+      m(
+        'button',
         {
           onclick(event) {
+            // eslint-disable-next-line no-restricted-globals
             if (confirm('Clear animation?')) {
               ctrl.recordFrames = [];
             }
@@ -117,21 +120,19 @@ const recorder = (ctrl) => m(
         ' Clear',
       ),
     ]),
-    m(`div.frames.${ctrl.ui.fx ? 'slim' : 'phat'}`, ctrl.recordFrames.map(
-      (f, index) => m('div.frame', [
-        m('img', {src: f.data}),
-        m('div.tools', [
-          m(
-            'button', {
-              onclick() {
-                ctrl.recordFrames.splice(index, 1);
-              },
+    m(`div.frames.${ctrl.ui.fx ? 'slim' : 'phat'}`, ctrl.recordFrames.map((f, index) => m('div.frame', [
+      m('img', { src: f.data }),
+      m('div.tools', [
+        m(
+          'button', {
+            onclick() {
+              ctrl.recordFrames.splice(index, 1);
             },
-            [m('i.fa.fa-times')],
-          ),
-        ]),
-      ])
-    )),
+          },
+          [m('i.fa.fa-times')],
+        ),
+      ]),
+    ]))),
   ]
 );
 

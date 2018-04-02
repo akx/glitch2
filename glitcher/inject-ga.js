@@ -1,4 +1,4 @@
-/* eslint-env browser */
+
 module.exports = function injectGA(propertyId) {
   if (!propertyId) return;
 

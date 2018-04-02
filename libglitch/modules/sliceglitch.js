@@ -1,8 +1,8 @@
 /* eslint-disable no-continue */
 const lerper = require('../lib/lerper');
 const defaults = require('../lib/defaults');
-const randint = require('../lib/rand').randint;
-const wrap = require('../lib/num').wrap;
+const { randint } = require('../lib/rand');
+const { wrap } = require('../lib/num');
 const p = require('../param');
 
 function sliceoffset(imageData, y0, y1, offset, channelMask, blend, drift) {
@@ -14,7 +14,7 @@ function sliceoffset(imageData, y0, y1, offset, channelMask, blend, drift) {
   let x;
   let dstOffset;
   let srcOffset;
-  const {data, width} = imageData;
+  const { data, width } = imageData;
   if (!channelMask) {
     return;
   }
@@ -96,19 +96,19 @@ sliceglitch.paramDefaults = {
 };
 
 sliceglitch.params = [
-  p.bool('chanR', {description: 'Glitch red channel?'}),
-  p.bool('chanG', {description: 'Glitch green channel?'}),
-  p.bool('chanB', {description: 'Glitch blue channel?'}),
-  p.bool('randomChan', {description: 'Randomize glitched channels among those selected?'}),
-  p.num('blend', {description: 'Blending factor'}),
-  p.num('driftProb', {description: 'Drift probability'}),
-  p.num('driftMag', {description: 'Drift magnitude (pixels per line)', min: -2, max: +2}),
-  p.num('heightMin', {description: 'Glitch slice height (%) (minimum)'}),
-  p.num('heightMax', {description: 'Glitch slice height (%) (maximum)'}),
-  p.int('nMin', {description: 'Number of slices (minimum)'}),
-  p.int('nMax', {description: 'Number of slices (maximum)'}),
-  p.num('offsetMin', {description: 'Glitch offset (minimum)', min: -100, max: +100}),
-  p.num('offsetMax', {description: 'Glitch offset (maximum)', min: -100, max: +100}),
+  p.bool('chanR', { description: 'Glitch red channel?' }),
+  p.bool('chanG', { description: 'Glitch green channel?' }),
+  p.bool('chanB', { description: 'Glitch blue channel?' }),
+  p.bool('randomChan', { description: 'Randomize glitched channels among those selected?' }),
+  p.num('blend', { description: 'Blending factor' }),
+  p.num('driftProb', { description: 'Drift probability' }),
+  p.num('driftMag', { description: 'Drift magnitude (pixels per line)', min: -2, max: +2 }),
+  p.num('heightMin', { description: 'Glitch slice height (%) (minimum)' }),
+  p.num('heightMax', { description: 'Glitch slice height (%) (maximum)' }),
+  p.int('nMin', { description: 'Number of slices (minimum)' }),
+  p.int('nMax', { description: 'Number of slices (maximum)' }),
+  p.num('offsetMin', { description: 'Glitch offset (minimum)', min: -100, max: +100 }),
+  p.num('offsetMax', { description: 'Glitch offset (maximum)', min: -100, max: +100 }),
 ];
 
 module.exports = sliceglitch;

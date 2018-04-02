@@ -21,8 +21,8 @@ tvDisplacement.paramDefaults = {
 };
 
 tvDisplacement.params = [
-  p.int('strengthX', {description: 'displacement strength (x)', min: -250, max: +250}),
-  p.int('strengthY', {description: 'displacement strength (y)', min: -250, max: +250}),
+  p.int('strengthX', { description: 'displacement strength (x)', min: -250, max: +250 }),
+  p.int('strengthY', { description: 'displacement strength (y)', min: -250, max: +250 }),
 ];
 
 module.exports = tvDisplacement;

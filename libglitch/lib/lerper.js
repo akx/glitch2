@@ -2,7 +2,7 @@ const lerperCache = {};
 const constantA = a => a;
 const constantB = (a, b) => b;
 
-function lerper(alpha) {
+function makeLerper(alpha) {
   let cached;
   if (alpha <= 0) {
     return constantA;
@@ -13,7 +13,8 @@ function lerper(alpha) {
   const key = 0 | alpha * 100;
   if (cached = lerperCache[key]) return cached;
   const beta = 1 - alpha;
-  return (lerperCache[key] = new Function('a', 'b', `return b * ${alpha} + a * ${beta}`));
+  const lerper = lerperCache[key] = new Function('a', 'b', `return b * ${alpha} + a * ${beta}`);
+  return lerper;
 }
 
-module.exports = lerper;
+module.exports = makeLerper;

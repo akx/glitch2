@@ -25,9 +25,9 @@ bloom.paramDefaults = {
 };
 
 bloom.params = [
-  p.int('radius', {description: 'blur radius'}),
-  p.num('strength', {description: 'bloom strength'}),
-  p.num('counterStrength', {description: 'bloom counter-strength, set to < 0 for auto'}),
+  p.int('radius', { description: 'blur radius' }),
+  p.num('strength', { description: 'bloom strength' }),
+  p.num('counterStrength', { description: 'bloom counter-strength, set to < 0 for auto' }),
 ];
 
 

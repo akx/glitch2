@@ -24,9 +24,9 @@ afterimage.paramDefaults = {
 };
 
 afterimage.params = [
-  p.num('strengthOut', {description: 'Afterimage write strength'}),
-  p.num('counterStrengthOut', {description: 'Afterimage write counter-strength'}),
-  p.num('strengthIn', {description: 'Afterimage read strength'}),
+  p.num('strengthOut', { description: 'Afterimage write strength' }),
+  p.num('counterStrengthOut', { description: 'Afterimage write counter-strength' }),
+  p.num('strengthIn', { description: 'Afterimage read strength' }),
 ];
 
 module.exports = afterimage;

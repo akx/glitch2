@@ -1,4 +1,4 @@
-/* eslint-env browser */
+
 const m = require('mithril');
 const stateUI = require('./ui/state');
 const fxUI = require('./ui/fx');
@@ -20,7 +20,8 @@ function controller() {
 }
 
 const showHide = (ctrl, id, name) => (
-  m('a',
+  m(
+    'a',
     {
       href: '#',
       onclick: (event) => {
@@ -32,10 +33,11 @@ const showHide = (ctrl, id, name) => (
   )
 );
 
-const titleDiv = (ctrl) => (
-  m('div.title',
+const titleDiv = ctrl => (
+  m(
+    'div.title',
     [
-      m('a.by', {href: 'https://github.com/akx/glitch2', target: '_blank'}, 'glitcher by @akx'),
+      m('a.by', { href: 'https://github.com/akx/glitch2', target: '_blank' }, 'glitcher by @akx'),
       showHide(ctrl, 'stateMgmt', 'state'),
       showHide(ctrl, 'recorder', 'recorder'),
       showHide(ctrl, 'image', 'image'),
@@ -62,7 +64,7 @@ function init(engine) {
   uiContainer.id = 'ui-container';
   document.body.appendChild(uiContainer);
   m.startComputation();
-  const ctrl = m.module(uiContainer, {controller, view});
+  const ctrl = m.module(uiContainer, { controller, view });
   ctrl.engine = engine;
   m.endComputation();
 }

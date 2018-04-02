@@ -1,11 +1,11 @@
 const defaults = require('../lib/defaults');
-const randint = require('../lib/rand').randint;
+const { randint } = require('../lib/rand');
 const p = require('../param');
 
 function runSliceRep(imageData, startY, sliceHeight, repeats) {
   let writeOffset;
   let rep;
-  const width = imageData.width;
+  const { width } = imageData;
   const offsetStart = startY * width * 4;
   const sliceLength = sliceHeight * width * 4;
   const sourceSlice = new Uint8ClampedArray(imageData.data.buffer, offsetStart, sliceLength);
@@ -42,12 +42,12 @@ slicerep.paramDefaults = {
 };
 
 slicerep.params = [
-  p.int('nMin', {description: ''}),
-  p.int('nMax', {description: ''}),
-  p.num('heightMin', {description: 'Slice height minimum (%)'}),
-  p.num('heightMax', {description: 'Slice height maximum (%)'}),
-  p.int('repeatsMin', {description: ''}),
-  p.int('repeatsMax', {description: ''}),
+  p.int('nMin', { description: '' }),
+  p.int('nMax', { description: '' }),
+  p.num('heightMin', { description: 'Slice height minimum (%)' }),
+  p.num('heightMax', { description: 'Slice height maximum (%)' }),
+  p.int('repeatsMin', { description: '' }),
+  p.int('repeatsMax', { description: '' }),
 ];
 
 module.exports = slicerep;

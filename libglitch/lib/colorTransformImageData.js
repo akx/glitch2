@@ -2,7 +2,7 @@ function colorTransformImageData(imageData, matrix) {
   let r;
   let g;
   let b;
-  const data = imageData.data;
+  const { data } = imageData;
   const rPre = matrix[0];
   const rPost = matrix[1];
   const r0 = matrix[2];
@@ -28,4 +28,5 @@ function colorTransformImageData(imageData, matrix) {
     data[offset + 2] = (b0 * r + b1 * g + b2 * b) + bPost;
   }
 }
+
 module.exports = colorTransformImageData;

@@ -12,8 +12,8 @@ bufferSave.paramDefaults = {
 };
 
 bufferSave.params = [
-  p.int('id', {description: 'buffer ID'}),
-  p.bool('reset', {description: 'reset the buffer'}),
+  p.int('id', { description: 'buffer ID' }),
+  p.bool('reset', { description: 'reset the buffer' }),
 ];
 
 module.exports = bufferSave;

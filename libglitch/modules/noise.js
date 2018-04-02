@@ -1,6 +1,6 @@
 /* eslint-disable no-continue */
 const defaults = require('../lib/defaults');
-const randint = require('../lib/rand').randint;
+const { randint } = require('../lib/rand');
 const p = require('../param');
 
 function _noiseBand(imageData, y0, y1, noisiness, minBrightness, maxBrightness, replace) {
@@ -9,8 +9,7 @@ function _noiseBand(imageData, y0, y1, noisiness, minBrightness, maxBrightness, 
   let x;
   let offset;
   let brightness;
-  const data = imageData.data;
-  const width = imageData.width;
+  const { data, width } = imageData;
   if (replace) {
     if (minBrightness <= 0) minBrightness = 0;
     if (maxBrightness >= 255) maxBrightness = 255;
@@ -79,15 +78,15 @@ noise.paramDefaults = {
 
 
 noise.params = [
-  p.num('heightMin', {description: 'Noise band min height'}),
-  p.num('heightMax', {description: 'Noise band max height'}),
-  p.int('nMin', {description: 'Minimum number of noise bands'}),
-  p.int('nMax', {description: 'Maximum number of noise bands'}),
-  p.num('brightnessMin', {description: 'Minimum brightness modulation amount', min: -255, max: +255}),
-  p.num('brightnessMax', {description: 'Maximum brightness modulation amount', min: -255, max: +255}),
-  p.num('noisiness', {description: 'Probability of noising pixel'}),
-  p.bool('replace', {description: 'Use brightness as absolute value instead of modulator'}),
-  p.bool('full', {description: "Don't band \u2013 noise the whole mess"}),
+  p.num('heightMin', { description: 'Noise band min height' }),
+  p.num('heightMax', { description: 'Noise band max height' }),
+  p.int('nMin', { description: 'Minimum number of noise bands' }),
+  p.int('nMax', { description: 'Maximum number of noise bands' }),
+  p.num('brightnessMin', { description: 'Minimum brightness modulation amount', min: -255, max: +255 }),
+  p.num('brightnessMax', { description: 'Maximum brightness modulation amount', min: -255, max: +255 }),
+  p.num('noisiness', { description: 'Probability of noising pixel' }),
+  p.bool('replace', { description: 'Use brightness as absolute value instead of modulator' }),
+  p.bool('full', { description: "Don't band \u2013 noise the whole mess" }),
 ];
 
 module.exports = noise;

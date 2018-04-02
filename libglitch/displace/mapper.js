@@ -1,11 +1,10 @@
 /* eslint-env browser */
 const makeDrawable = require('../lib/makeDrawable');
-const clamp = require('../lib/num').clamp;
+const { clamp } = require('../lib/num');
 
 function displacementMapper(imageData, displacementMap, scaleX, scaleY) {
   if (scaleX === 0 && scaleY === 0) return null;
-  const width = imageData.width;
-  const height = imageData.height;
+  const { width, height } = imageData;
   // Rescale displacement map
   const tempCanvas = document.createElement('canvas');
   tempCanvas.width = width;

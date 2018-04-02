@@ -8,8 +8,8 @@ function scanlines(glitchContext, options) {
     return;
   }
   const imageData = glitchContext.getImageData();
-  const {width, height, data} = imageData;
-  const multiplier = options.multiplier;
+  const { width, height, data } = imageData;
+  const { multiplier } = options;
   const density = Math.max(2, 0 | options.density);
   let x;
   let y;
@@ -23,14 +23,15 @@ function scanlines(glitchContext, options) {
   }
   glitchContext.setImageData(imageData);
 }
+
 scanlines.paramDefaults = {
   multiplier: 0.7,
   density: 2,
 };
 
 scanlines.params = [
-  p.num('multiplier', {description: 'Brightness multiplier'}),
-  p.int('density', {description: 'Scanline density', min: 2}),
+  p.num('multiplier', { description: 'Brightness multiplier' }),
+  p.int('density', { description: 'Scanline density', min: 2 }),
 ];
 
 module.exports = scanlines;

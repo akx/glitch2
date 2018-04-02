@@ -1,10 +1,10 @@
-/* eslint-env browser */
+
 function randomizeDef(def) {
   (def.module.params || []).forEach((paramDef) => {
     const paramName = paramDef.name;
     let rnd = Math.random();
     if (paramDef.randomBias) {
-      rnd = Math.pow(rnd, paramDef.randomBias);  // eslint-disable-line no-restricted-properties
+      rnd = Math.pow(rnd, paramDef.randomBias); // eslint-disable-line no-restricted-properties
     }
     switch (paramDef.type) {
       case 'bool':

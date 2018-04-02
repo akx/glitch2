@@ -1,8 +1,7 @@
 const lerper = require('../lib/lerper');
 const defaults = require('../lib/defaults');
-const randint = require('../lib/rand').randint;
-const rand = require('../lib/rand').rand;
-const mod = require('../lib/num').mod;
+const { randint, rand } = require('../lib/rand');
+const { mod } = require('../lib/num');
 const p = require('../param');
 
 function _bitbang(outputData, inputData, options) {
@@ -17,7 +16,7 @@ function _bitbang(outputData, inputData, options) {
   const inl = inp.length;
   const outp = outputData.data;
   const outl = outp.length;
-  const width = outputData.width;
+  const { width } = outputData;
   let last = 0;
   for (let i = 0; i < outl; ++i) {
     let ii = offIn + i * strideIn;
@@ -58,16 +57,16 @@ bitbang.paramDefaults = {
 
 
 bitbang.params = [
-  p.int('offInScale', {description: ''}),
-  p.int('offOutScale', {description: ''}),
-  p.int('strideInMin', {description: '', randomBias: 3}),
-  p.int('strideInMax', {description: '', randomBias: 3}),
-  p.int('strideOutMin', {description: '', randomBias: 3}),
-  p.int('strideOutMax', {description: '', randomBias: 3}),
-  p.num('feedbackMin', {description: ''}),
-  p.num('feedbackMax', {description: ''}),
-  p.int('minYDrift', {description: ''}),
-  p.int('maxYDrift', {description: ''}),
+  p.int('offInScale', { description: '' }),
+  p.int('offOutScale', { description: '' }),
+  p.int('strideInMin', { description: '', randomBias: 3 }),
+  p.int('strideInMax', { description: '', randomBias: 3 }),
+  p.int('strideOutMin', { description: '', randomBias: 3 }),
+  p.int('strideOutMax', { description: '', randomBias: 3 }),
+  p.num('feedbackMin', { description: '' }),
+  p.num('feedbackMax', { description: '' }),
+  p.int('minYDrift', { description: '' }),
+  p.int('maxYDrift', { description: '' }),
 ];
 
 

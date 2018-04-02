@@ -7,7 +7,9 @@ const extend = require('./lib/extend');
  * @returns {*} Parameter definition object.
  */
 function Num(name, options) {
-  return extend({}, {type: 'num', min: 0, max: 1, step: null, name}, options);
+  return extend({}, {
+    type: 'num', min: 0, max: 1, step: null, name,
+  }, options);
 }
 
 /**
@@ -17,7 +19,9 @@ function Num(name, options) {
  * @returns {*} Parameter definition object.
  */
 function Int(name, options) {
-  return extend({}, {type: 'int', min: 0, max: 100, step: 1, name}, options);
+  return extend({}, {
+    type: 'int', min: 0, max: 100, step: 1, name,
+  }, options);
 }
 
 /**
@@ -27,7 +31,7 @@ function Int(name, options) {
  * @returns {*} Parameter definition object.
  */
 function Bool(name, options) {
-  return extend({}, {type: 'bool', name}, options);
+  return extend({}, { type: 'bool', name }, options);
 }
 
 
@@ -39,7 +43,7 @@ function Bool(name, options) {
  * @returns {*} Parameter definition object.
  */
 function Choice(name, choices, options) {
-  return extend({}, {type: 'choice', name, choices}, options);
+  return extend({}, { type: 'choice', name, choices }, options);
 }
 
 
