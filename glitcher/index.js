@@ -32,11 +32,14 @@ function addPasteHandler(engine) {
 }
 
 function init() {
+  const targetCanvasWrapper = document.createElement('div');
+  targetCanvasWrapper.id = 'target-wrapper';
   const targetCanvas = document.createElement('canvas');
   targetCanvas.width = 32;
   targetCanvas.height = 32;
   targetCanvas.id = 'target';
-  document.body.appendChild(targetCanvas);
+  document.body.appendChild(targetCanvasWrapper);
+  targetCanvasWrapper.appendChild(targetCanvas);
 
   const engine = new Engine(targetCanvas);
   loadLenna(engine);

@@ -19,6 +19,7 @@
 
 body {
   background: #000 url(pw_maze_black.png);
+  margin: 0;
 }
 
 * {
@@ -44,6 +45,13 @@ button, select {
   position: absolute;
   right: 0;
   top: 0;
+}
+
+body.zoom-canvas-to-fit {
+  #target {
+    max-height: 100vh;
+    max-width: 100vw;
+  }
 }
 
 #ui-container {

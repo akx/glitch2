@@ -58,6 +58,15 @@ const loadImageDiv = ctrl => (
     ]),
     m('div', { style: 'opacity: .5' }, 'You can also paste image data from the clipboard.'),
     m('button', { onclick: () => resizePrompt(ctrl) }, [m('i.icon-arrow-maximise'), ' Resize']),
+    m('label', [
+      m('input', {
+        type: 'checkbox',
+        onchange: (e) => {
+          ctrl.ui.zoom = e.target.checked;
+        },
+      }),
+      'zoom down to fit',
+    ]),
   )
 );
 

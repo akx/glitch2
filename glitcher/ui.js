@@ -14,6 +14,7 @@ function controller() {
     image: true,
     fx: true,
     misc: false,
+    zoom: false,
   };
   this.recordFrames = [];
   this.gifRenderProgress = null;
@@ -49,6 +50,8 @@ const titleDiv = ctrl => (
 
 function view(ctrl) {
   if (ctrl.engine === null) return null;
+  // Slightly yucky side effect
+  document.body.classList.toggle('zoom-canvas-to-fit', ctrl.ui.zoom);
   return m('div', [
     titleDiv(ctrl),
     (ctrl.ui.stateMgmt ? stateUI(ctrl) : null),
