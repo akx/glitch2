@@ -90,4 +90,4 @@ State.prototype.saveIntoLocalStorage = function saveIntoLocalStorage(key) {
 };
 
 
-module.exports = State;
+export default State;

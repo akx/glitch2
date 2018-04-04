@@ -1,4 +1,4 @@
-const extend = require('./lib/extend');
+import extend from './lib/extend';
 
 /**
  * Numeric (decimal) parameter.
@@ -46,10 +46,16 @@ function Choice(name, choices, options) {
   return extend({}, { type: 'choice', name, choices }, options);
 }
 
+export {
+  Num as num,
+  Int as int,
+  Bool as bool,
+  Choice as choice,
+};
 
-extend(module.exports, {
+export default {
   num: Num, // num num num
   int: Int,
   bool: Bool,
   choice: Choice,
-});
+};

@@ -296,4 +296,4 @@ function stackBlurImageData(imageData, top_x, top_y, width, height, radius) {
   }
 }
 
-module.exports = stackBlurImageData;
+export default stackBlurImageData;

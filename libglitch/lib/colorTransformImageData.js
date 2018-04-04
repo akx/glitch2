@@ -29,4 +29,4 @@ function colorTransformImageData(imageData, matrix) {
   }
 }
 
-module.exports = colorTransformImageData;
+export default colorTransformImageData;

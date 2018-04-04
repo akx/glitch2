@@ -16,4 +16,4 @@ function makeDrawable(obj) {
   throw new Error(`Can't make a drawable out of ${obj}`);
 }
 
-module.exports = makeDrawable;
+export default makeDrawable;

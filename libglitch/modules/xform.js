@@ -1,6 +1,6 @@
-const defaults = require('../lib/defaults');
-const p = require('../param');
-const blendModes = require('../lib/nativeBlendModes');
+import defaults from '../lib/defaults';
+import p from '../param';
+import blendModes from '../lib/nativeBlendModes';
 
 function xform(glitchContext, options) {
   options = defaults(options, xform.paramDefaults);
@@ -60,4 +60,4 @@ xform.params = [
   p.bool('smooth'),
 ];
 
-module.exports = xform;
+export default xform;

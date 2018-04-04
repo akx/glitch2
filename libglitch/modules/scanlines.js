@@ -1,5 +1,5 @@
-const defaults = require('../lib/defaults');
-const p = require('../param');
+import defaults from '../lib/defaults';
+import p from '../param';
 
 function scanlines(glitchContext, options) {
   options = defaults(options, scanlines.paramDefaults);
@@ -34,4 +34,4 @@ scanlines.params = [
   p.int('density', { description: 'Scanline density', min: 2 }),
 ];
 
-module.exports = scanlines;
+export default scanlines;

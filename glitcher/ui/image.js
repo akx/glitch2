@@ -1,4 +1,4 @@
-const m = require('mithril');
+import m from 'mithril';
 
 function loadImageFromFileField(event, complete) {
   const fileReader = new FileReader();
@@ -70,4 +70,4 @@ const loadImageDiv = ctrl => (
   )
 );
 
-module.exports = loadImageDiv;
+export default loadImageDiv;

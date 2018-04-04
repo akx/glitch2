@@ -1,7 +1,8 @@
 /* eslint-disable no-restricted-properties */
-const defaults = require('../lib/defaults');
-const { mod } = require('../lib/num');
-const p = require('../param');
+import defaults from '../lib/defaults';
+
+import { mod } from '../lib/num';
+import p from '../param';
 
 function runTvScan(imageData, clock, speed, strength, heightPerc) {
   const { data, width, height } = imageData;
@@ -51,4 +52,4 @@ tvScan.params = [
 ];
 
 
-module.exports = tvScan;
+export default tvScan;

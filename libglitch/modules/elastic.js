@@ -1,6 +1,6 @@
-const defaults = require('../lib/defaults');
-const { randint, rand } = require('../lib/rand');
-const p = require('../param');
+import defaults from '../lib/defaults';
+import { randint, rand } from '../lib/rand';
+import p from '../param';
 
 function elastic(glitchContext, options) {
   options = defaults(options, elastic.paramDefaults);
@@ -60,4 +60,4 @@ elastic.params = [
   p.bool('smooth'),
 ];
 
-module.exports = elastic;
+export default elastic;

@@ -1,5 +1,5 @@
-const defaults = require('../lib/defaults');
-const p = require('../param');
+import defaults from '../lib/defaults';
+import p from '../param';
 
 function bufferSave(glitchContext, options) {
   options = defaults(options, bufferSave.paramDefaults);
@@ -16,4 +16,4 @@ bufferSave.params = [
   p.bool('reset', { description: 'reset the buffer' }),
 ];
 
-module.exports = bufferSave;
+export default bufferSave;

@@ -85,4 +85,4 @@ GlitchContext.prototype.getSize = function getSize() {
   return { width, height };
 };
 
-module.exports = GlitchContext;
+export default GlitchContext;

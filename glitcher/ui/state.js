@@ -1,6 +1,6 @@
 
 /* eslint-disable no-alert */
-const m = require('mithril');
+import m from 'mithril';
 
 
 const stateButtons = ctrl => (
@@ -32,4 +32,4 @@ const stateButtons = ctrl => (
   ])
 );
 
-module.exports = stateButtons;
+export default stateButtons;

@@ -1,8 +1,8 @@
 
-const GIF = require('gif.js');
-const GIFWorker = require('file-loader!gif.js/dist/gif.worker.js');  // eslint-disable-line
+import GIF from 'gif.js';
+import GIFWorker from 'file-loader!gif.js/dist/gif.worker.js';  // eslint-disable-line
 
-module.exports = function generateGIF(frames) {
+export default function generateGIF(frames) {
   const gif = new GIF({
     workerScript: GIFWorker,
     workers: 2,
@@ -15,4 +15,4 @@ module.exports = function generateGIF(frames) {
   });
   gif.render();
   return gif;
-};
+}

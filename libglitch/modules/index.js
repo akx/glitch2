@@ -1,28 +1,46 @@
-/* eslint-disable global-require */
-const fastfilter = require('./fastfilter');
+/* eslint-disable global-require,camelcase */
+import * as fastfilter from './fastfilter';
+import afterimage from './afterimage';
+import bitbang from './bitbang';
+import bloom from './bloom';
+import buffer_load from './buffer_load';
+import buffer_save from './buffer_save';
+import desolve from './desolve';
+import elastic from './elastic';
+import from_ycbcr from './from_ycbcr';
+import leak from './leak';
+import noise from './noise';
+import scanlines from './scanlines';
+import sliceglitch from './sliceglitch';
+import slicerep from './slicerep';
+import streak from './streak';
+import to_ycbcr from './to_ycbcr';
+import tv_displacement from './tv_displacement';
+import tvscan from './tvscan';
+import xform from './xform';
 
-module.exports = {
-  afterimage: require('./afterimage'),
-  bitbang: require('./bitbang'),
-  bloom: require('./bloom'),
-  buffer_load: require('./buffer_load'),
-  buffer_save: require('./buffer_save'),
-  desolve: require('./desolve'),
-  elastic: require('./elastic'),
-  from_ycbcr: require('./from_ycbcr'),
-  leak: require('./leak'),
-  noise: require('./noise'),
-  scanlines: require('./scanlines'),
-  sliceglitch: require('./sliceglitch'),
-  slicerep: require('./slicerep'),
-  streak: require('./streak'),
-  to_ycbcr: require('./to_ycbcr'),
-  tv_displacement: require('./tv_displacement'),
-  tvscan: require('./tvscan'),
+export default {
+  afterimage,
+  bitbang,
+  bloom,
+  buffer_load,
+  buffer_save,
+  desolve,
+  elastic,
   ffblur: fastfilter.blur,
   ffbrightness: fastfilter.brightness,
   ffcontrast: fastfilter.contrast,
   ffhue: fastfilter.hue,
   ffsaturate: fastfilter.saturate,
-  xform: require('./xform'),
+  from_ycbcr,
+  leak,
+  noise,
+  scanlines,
+  sliceglitch,
+  slicerep,
+  streak,
+  to_ycbcr,
+  tv_displacement,
+  tvscan,
+  xform,
 };

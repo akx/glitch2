@@ -1,7 +1,8 @@
 /* eslint-disable no-alert */
-const m = require('mithril');
-const generateGIF = require('../generate-gif');
-const { forceDownload } = require('../util');
+import m from 'mithril';
+
+import generateGIF from '../generate-gif';
+import { forceDownload } from '../util';
 
 const saveCurrentButton = ctrl => (
   m(
@@ -136,4 +137,4 @@ const recorder = ctrl => m(
   ]
 );
 
-module.exports = recorder;
+export default recorder;

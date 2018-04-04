@@ -1,13 +1,12 @@
-
-const Glitch = require('../libglitch');
-const State = require('./State');
+import { modules, Context } from '../libglitch';
+import State from './State';
 
 const Engine = function Engine(targetCanvas) {
   this.rate = 40;
-  this.state = new State(Glitch.modules);
+  this.state = new State(modules);
   this.sourceImage = null;
   this.targetCanvas = targetCanvas;
-  this.glitchContext = new Glitch.Context(targetCanvas);
+  this.glitchContext = new Context(targetCanvas);
   this.renderTime = 0;
 };
 
@@ -69,4 +68,4 @@ Engine.prototype.toURL = function toURL(type = 'image/png', encoderOptions, forc
   });
 };
 
-module.exports = Engine;
+export default Engine;

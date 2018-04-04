@@ -1,9 +1,9 @@
-
-const m = require('mithril');
-const stateUI = require('./ui/state');
-const fxUI = require('./ui/fx');
-const imageUI = require('./ui/image');
-const recorderUI = require('./ui/recorder');
+/* eslint-disable import/prefer-default-export */
+import m from 'mithril';
+import stateUI from './ui/state';
+import fxUI from './ui/fx';
+import imageUI from './ui/image';
+import recorderUI from './ui/recorder';
 
 function controller() {
   this.state = null;
@@ -62,7 +62,7 @@ function view(ctrl) {
   ]);
 }
 
-function init(engine) {
+export function init(engine) {
   const uiContainer = document.createElement('div');
   uiContainer.id = 'ui-container';
   document.body.appendChild(uiContainer);
@@ -71,5 +71,3 @@ function init(engine) {
   ctrl.engine = engine;
   m.endComputation();
 }
-
-module.exports.init = init;

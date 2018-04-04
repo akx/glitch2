@@ -7,4 +7,4 @@ function defaults(target, defaultValues) {
   return target;
 }
 
-module.exports = defaults;
+export default defaults;

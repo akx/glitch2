@@ -1,6 +1,6 @@
-const defaults = require('../lib/defaults');
-const dataBlend = require('../lib/dataBlend');
-const p = require('../param');
+import defaults from '../lib/defaults';
+import dataBlend from '../lib/dataBlend';
+import p from '../param';
 
 function afterimage(glitchContext, options) {
   options = defaults(options, afterimage.paramDefaults);
@@ -29,4 +29,4 @@ afterimage.params = [
   p.num('strengthIn', { description: 'Afterimage read strength' }),
 ];
 
-module.exports = afterimage;
+export default afterimage;

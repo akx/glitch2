@@ -1,7 +1,8 @@
 /* eslint-disable no-continue */
-const defaults = require('../lib/defaults');
-const { randint } = require('../lib/rand');
-const p = require('../param');
+import defaults from '../lib/defaults';
+
+import { randint } from '../lib/rand';
+import p from '../param';
 
 function _noiseBand(imageData, y0, y1, noisiness, minBrightness, maxBrightness, replace) {
   let y;
@@ -89,4 +90,4 @@ noise.params = [
   p.bool('full', { description: "Don't band \u2013 noise the whole mess" }),
 ];
 
-module.exports = noise;
+export default noise;

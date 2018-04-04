@@ -1,6 +1,7 @@
 /* eslint-env browser */
-const makeDrawable = require('../lib/makeDrawable');
-const { clamp } = require('../lib/num');
+import makeDrawable from '../lib/makeDrawable';
+
+import { clamp } from '../lib/num';
 
 function displacementMapper(imageData, displacementMap, scaleX, scaleY) {
   if (scaleX === 0 && scaleY === 0) return null;
@@ -33,4 +34,4 @@ function displacementMapper(imageData, displacementMap, scaleX, scaleY) {
   return imageData;
 }
 
-module.exports = displacementMapper;
+export default displacementMapper;

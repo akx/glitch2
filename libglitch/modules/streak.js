@@ -1,7 +1,7 @@
-const defaults = require('../lib/defaults');
-const { randint, rand } = require('../lib/rand');
-const { clamp } = require('../lib/num');
-const p = require('../param');
+import defaults from '../lib/defaults';
+import { randint, rand } from '../lib/rand';
+import { clamp } from '../lib/num';
+import p from '../param';
 
 function streak(glitchContext, options) {
   options = defaults(options, streak.paramDefaults);
@@ -53,4 +53,4 @@ streak.params = [
   p.bool('offsetResetEveryLine'),
 ];
 
-module.exports = streak;
+export default streak;

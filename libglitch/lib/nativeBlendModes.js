@@ -1,4 +1,4 @@
-module.exports = [
+export default [
   'source-over',
   'source-in',
   'source-out',

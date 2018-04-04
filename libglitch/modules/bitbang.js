@@ -1,8 +1,8 @@
-const lerper = require('../lib/lerper');
-const defaults = require('../lib/defaults');
-const { randint, rand } = require('../lib/rand');
-const { mod } = require('../lib/num');
-const p = require('../param');
+import lerper from '../lib/lerper';
+import defaults from '../lib/defaults';
+import { randint, rand } from '../lib/rand';
+import { mod } from '../lib/num';
+import p from '../param';
 
 function _bitbang(outputData, inputData, options) {
   const strideIn = randint(options.strideInMin, options.strideInMax);
@@ -70,4 +70,4 @@ bitbang.params = [
 ];
 
 
-module.exports = bitbang;
+export default bitbang;

@@ -17,4 +17,4 @@ function makeLerper(alpha) {
   return lerper;
 }
 
-module.exports = makeLerper;
+export default makeLerper;

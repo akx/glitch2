@@ -1,6 +1,6 @@
-const defaults = require('../lib/defaults');
-const { randint } = require('../lib/rand');
-const p = require('../param');
+import defaults from '../lib/defaults';
+import { randint } from '../lib/rand';
+import p from '../param';
 
 function runSliceRep(imageData, startY, sliceHeight, repeats) {
   let writeOffset;
@@ -50,4 +50,4 @@ slicerep.params = [
   p.int('repeatsMax', { description: '' }),
 ];
 
-module.exports = slicerep;
+export default slicerep;

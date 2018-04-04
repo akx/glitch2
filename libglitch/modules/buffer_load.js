@@ -1,6 +1,6 @@
-const defaults = require('../lib/defaults');
-const p = require('../param');
-const dataBlend = require('../lib/dataBlend');
+import defaults from '../lib/defaults';
+import p from '../param';
+import dataBlend from '../lib/dataBlend';
 
 function bufferLoad(glitchContext, options) {
   options = defaults(options, bufferLoad.paramDefaults);
@@ -28,4 +28,4 @@ bufferLoad.params = [
   p.choice('mode', dataBlend.modes, { description: 'blend mode' }),
 ];
 
-module.exports = bufferLoad;
+export default bufferLoad;

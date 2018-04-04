@@ -31,7 +31,4 @@ function mod(a, b) {
   return 0 | a % b;
 }
 
-module.exports.lerp = lerp;
-module.exports.wrap = wrap;
-module.exports.clamp = clamp;
-module.exports.mod = mod;
+export { lerp, wrap, clamp, mod };

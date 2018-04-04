@@ -26,4 +26,4 @@ function createTVDisplacementMap(width = 256, height = 224) {
   return canvas;
 }
 
-module.exports = createTVDisplacementMap;
+export default createTVDisplacementMap;

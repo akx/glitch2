@@ -1,5 +1,4 @@
-
-module.exports = function injectGA(propertyId) {
+export default function injectGA(propertyId) {
   if (!propertyId) return;
 
   const gaScript = document.createElement('script');
@@ -13,4 +12,4 @@ module.exports = function injectGA(propertyId) {
 `);
   gaScript.appendChild(textNode);
   document.body.appendChild(gaScript);
-};
+}

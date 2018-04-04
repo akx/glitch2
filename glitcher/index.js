@@ -1,7 +1,7 @@
-const UI = require('./ui');
-const Engine = require('./engine');
-require('./look/glitcher.less');
-const injectGA = require('./inject-ga');
+import * as UI from './ui';
+import Engine from './engine';
+import './look/glitcher.less';
+import injectGA from './inject-ga';
 
 function loadLenna(engine) {
   const sourceImage = new Image();

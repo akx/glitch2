@@ -167,4 +167,4 @@ dataBlend.modes = [
   'lighter',
   'exclusion',
 ];
-module.exports = dataBlend;
+export default dataBlend;

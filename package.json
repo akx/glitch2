@@ -30,6 +30,7 @@
     "webpack-cli": "^2.0.13"
   },
   "devDependencies": {
+    "5to6-codemod": "^1.7.1",
     "cross-env": "^5.1.4",
     "eslint": "^4.19.1",
     "eslint-config-airbnb-base": "^12.1.0",

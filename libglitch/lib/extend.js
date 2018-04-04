@@ -10,4 +10,4 @@ function extend(target, ...args) {
   return target;
 }
 
-module.exports = extend;
+export default extend;

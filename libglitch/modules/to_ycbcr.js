@@ -1,11 +1,12 @@
-const colorTransformImageData = require('../lib/colorTransformImageData');
-const ycbcr = require('../lib/ycbcr');
+import colorTransformImageData from '../lib/colorTransformImageData';
+import { toValues } from '../lib/ycbcr';
 
 function toYCbCr(glitchContext) {
   const imageData = glitchContext.getImageData();
-  colorTransformImageData(imageData, ycbcr.to);
+  colorTransformImageData(imageData, toValues);
   glitchContext.setImageData(imageData);
 }
+
 toYCbCr.params = [];
 
-module.exports = toYCbCr;
+export default toYCbCr;

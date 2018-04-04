@@ -1,7 +1,7 @@
-const makeTVDisplacement = require('../displace/tv');
-const displacementMapper = require('../displace/mapper');
-const defaults = require('../lib/defaults');
-const p = require('../param');
+import makeTVDisplacement from '../displace/tv';
+import displacementMapper from '../displace/mapper';
+import defaults from '../lib/defaults';
+import p from '../param';
 
 function tvDisplacement(glitchContext, options) {
   options = defaults(options, tvDisplacement.paramDefaults);
@@ -25,4 +25,4 @@ tvDisplacement.params = [
   p.int('strengthY', { description: 'displacement strength (y)', min: -250, max: +250 }),
 ];
 
-module.exports = tvDisplacement;
+export default tvDisplacement;

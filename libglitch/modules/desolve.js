@@ -1,6 +1,6 @@
-const defaults = require('../lib/defaults');
-const { rand, randint } = require('../lib/rand');
-const p = require('../param');
+import defaults from '../lib/defaults';
+import { rand, randint } from '../lib/rand';
+import p from '../param';
 
 function desolve(glitchContext, options) {
   options = defaults(options, desolve.paramDefaults);
@@ -52,4 +52,4 @@ desolve.params = [
   p.num('bXorChance'),
 ];
 
-module.exports = desolve;
+export default desolve;

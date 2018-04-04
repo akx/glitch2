@@ -1,6 +1,7 @@
 /* eslint-disable no-restricted-syntax, no-prototype-builtins, no-continue, no-alert */
-const m = require('mithril');
-const util = require('../util');
+import m from 'mithril';
+
+import { randomizeDef } from '../util';
 
 function moduleSelector(ctrl) {
   const options = [m('option', { value: '' }, '<< Add module... >>')];
@@ -166,7 +167,7 @@ const defEditor = (ctrl, state, def) => {
           }, m('i.icon-arrow-down-thick')),
           m('button', {
             onclick() {
-              util.randomizeDef(def);
+              randomizeDef(def);
             },
             title: 'Randomize',
           }, m('i.icon-arrow-shuffle')),
@@ -198,7 +199,7 @@ function moduleList(ctrl) {
   );
 }
 
-module.exports = function fxUI(ctrl) {
+export default function fxUI(ctrl) {
   return m(
     'div.fx-ui',
     { key: 'fx-ui' },
@@ -207,4 +208,4 @@ module.exports = function fxUI(ctrl) {
       moduleList(ctrl),
     ]
   );
-};
+}

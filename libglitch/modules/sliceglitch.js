@@ -1,9 +1,10 @@
 /* eslint-disable no-continue */
-const lerper = require('../lib/lerper');
-const defaults = require('../lib/defaults');
-const { randint } = require('../lib/rand');
-const { wrap } = require('../lib/num');
-const p = require('../param');
+import lerper from '../lib/lerper';
+
+import defaults from '../lib/defaults';
+import { randint } from '../lib/rand';
+import { wrap } from '../lib/num';
+import p from '../param';
 
 function sliceoffset(imageData, y0, y1, offset, channelMask, blend, drift) {
   let x0;
@@ -111,4 +112,4 @@ sliceglitch.params = [
   p.num('offsetMax', { description: 'Glitch offset (maximum)', min: -100, max: +100 }),
 ];
 
-module.exports = sliceglitch;
+export default sliceglitch;

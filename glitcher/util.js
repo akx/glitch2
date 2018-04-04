@@ -1,5 +1,4 @@
-
-function randomizeDef(def) {
+export function randomizeDef(def) {
   (def.module.params || []).forEach((paramDef) => {
     const paramName = paramDef.name;
     let rnd = Math.random();
@@ -28,10 +27,7 @@ function randomizeDef(def) {
   });
 }
 
-module.exports.randomizeDef = randomizeDef;
-
-
-function forceDownload(url, filename) {
+export function forceDownload(url, filename) {
   return new Promise((resolve) => {
     const link = document.createElement('a');
     link.href = url;
@@ -48,5 +44,3 @@ function forceDownload(url, filename) {
     }, 15000);
   });
 }
-
-module.exports.forceDownload = forceDownload;

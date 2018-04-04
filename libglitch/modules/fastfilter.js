@@ -1,6 +1,6 @@
-const defaults = require('../lib/defaults');
-const p = require('../param');
-const blendModes = require('../lib/nativeBlendModes');
+import defaults from '../lib/defaults';
+import p from '../param';
+import blendModes from '../lib/nativeBlendModes';
 
 function fastfilterCore(glitchContext, options, filterFn) {
   options = defaults(options, fastfilterCore.options);
@@ -35,31 +35,31 @@ const build = (filterFn, params = [], paramDefaults = {}) => Object.assign(
   }
 );
 
-module.exports.blur = build(
+export const blur = build(
   ({ strength }) => `blur(${strength}px)`,
   [p.num('strength', { max: 100 })],
   { strength: 0 }
 );
 
-module.exports.brightness = build(
+export const brightness = build(
   ({ adjust }) => `brightness(${adjust}%)`,
   [p.num('adjust', { min: 0, max: 1000 })],
   { adjust: 100 }
 );
 
-module.exports.contrast = build(
+export const contrast = build(
   ({ adjust }) => `contrast(${adjust}%)`,
   [p.num('adjust', { min: 0, max: 1000 })],
   { adjust: 100 }
 );
 
-module.exports.saturate = build(
+export const saturate = build(
   ({ adjust }) => `saturate(${adjust}%)`,
   [p.num('adjust', { min: 0, max: 1000 })],
   { adjust: 100 }
 );
 
-module.exports.hue = build(
+export const hue = build(
   ({ degrees }) => `hue-rotate(${degrees}deg)`,
   [p.num('degrees', { min: -180, max: 180 })],
   { degrees: 0 }

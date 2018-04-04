@@ -1,7 +1,7 @@
-const defaults = require('../lib/defaults');
-const dataBlend = require('../lib/dataBlend');
-const stackBlurImageData = require('../lib/stackBlurImageData');
-const p = require('../param');
+import defaults from '../lib/defaults';
+import dataBlend from '../lib/dataBlend';
+import stackBlurImageData from '../lib/stackBlurImageData';
+import p from '../param';
 
 function bloom(glitchContext, options) {
   options = defaults(options, bloom.paramDefaults);
@@ -31,4 +31,4 @@ bloom.params = [
 ];
 
 
-module.exports = bloom;
+export default bloom;

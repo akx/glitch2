@@ -1,7 +1,7 @@
-const lerper = require('../lib/lerper');
-const defaults = require('../lib/defaults');
-const { randint } = require('../lib/rand');
-const p = require('../param');
+import lerper from '../lib/lerper';
+import defaults from '../lib/defaults';
+import { randint } from '../lib/rand';
+import p from '../param';
 
 function _leak(imageData, lerp, magic1, magic2, yToMagic1, yToMagic2) {
   const { width, height, data } = imageData;
@@ -53,4 +53,4 @@ leak.params = [
 ];
 
 
-module.exports = leak;
+export default leak;
