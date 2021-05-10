@@ -7,7 +7,7 @@ class State {
   addModule(moduleName, options) {
     options = options || {};
     const moduleObj = this.modules[moduleName];
-    if (!moduleObj) throw new Error('Unknown module:', moduleName);
+    if (!moduleObj) throw new Error(`Unknown module: ${moduleName}`);
     const defaults = moduleObj.paramDefaults || {};
     (moduleObj.params || []).forEach((param) => {
       const defaultValue = defaults[param.name];

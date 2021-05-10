@@ -15,7 +15,7 @@ export function randomizeDef(def) {
           const min = paramDef.min || 0;
           const max = paramDef.max || 1;
           let val = min + rnd * (max - min);
-          if (paramDef.type === 'int') val = Math.round(val, 0);
+          if (paramDef.type === 'int') val = Math.round(val);
           def.options[paramName] = val;
         }
         break;
