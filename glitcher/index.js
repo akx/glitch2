@@ -6,7 +6,7 @@ import injectGA from './inject-ga';
 function loadLenna(engine) {
   const sourceImage = new Image();
   // eslint-disable-next-line global-require
-  sourceImage.src = require('./lenna.jpg');
+  sourceImage.src = require('./lenna.jpg').default;
   engine.sourceImage = sourceImage;
 }
 
