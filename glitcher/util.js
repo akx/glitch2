@@ -3,7 +3,7 @@ export function randomizeDef(def) {
     const paramName = paramDef.name;
     let rnd = Math.random();
     if (paramDef.randomBias) {
-      rnd = Math.pow(rnd, paramDef.randomBias); // eslint-disable-line no-restricted-properties
+      rnd **= paramDef.randomBias;
     }
     switch (paramDef.type) {
       case 'bool':

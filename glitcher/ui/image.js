@@ -20,13 +20,11 @@ const resizePrompt = (ctrl) => {
   if (
     (newSize = prompt('Enter the desired new size for the image.', currSize))
   ) {
-    // eslint-disable-line no-alert
     if (currSize === newSize) return;
     let [, width, height] = /^(\d+)\s*x\s*(\d+)$/i.exec(newSize);
     width = parseInt(width, 10);
     height = parseInt(height, 10);
     if (!(width > 0 && height > 0)) {
-      // eslint-disable-next-line no-alert
       alert('Unable to parse new size.');
       return;
     }

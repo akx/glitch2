@@ -46,12 +46,11 @@ class State {
     const { defs } = this;
     const idx = defs.indexOf(def);
     if (idx === -1) return;
-    // eslint-disable-next-line prefer-destructuring
-    def = defs.splice(idx, 1)[0];
+    const [ndef] = defs.splice(idx, 1)[0];
     let newIdx = idx + direction;
     if (newIdx < 0) newIdx = 0;
     if (newIdx >= defs.length) newIdx = defs.length;
-    defs.splice(newIdx, 0, def);
+    defs.splice(newIdx, 0, ndef);
   }
 
   serialize() {

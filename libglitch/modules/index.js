@@ -1,4 +1,4 @@
-/* eslint-disable global-require,camelcase */
+/* eslint-disable camelcase */
 import * as fastfilter from './fastfilter';
 import afterimage from './afterimage';
 import bitbang from './bitbang';

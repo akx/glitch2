@@ -1,4 +1,3 @@
-/* eslint-disable no-alert */
 import m from 'mithril';
 
 import generateGIF from '../generate-gif';
@@ -104,7 +103,6 @@ const recorder = (ctrl) =>
         'button',
         {
           onclick(event) {
-            // eslint-disable-next-line no-restricted-globals
             if (confirm('Clear animation?')) {
               ctrl.recordFrames = [];
             }

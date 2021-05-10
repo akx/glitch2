@@ -1,4 +1,3 @@
-/* eslint-disable no-continue */
 import lerper from '../lib/lerper';
 
 import defaults from '../lib/defaults';

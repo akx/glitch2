@@ -1,4 +1,3 @@
-/* eslint-disable no-alert */
 import m from 'mithril';
 
 const stateButtons = (ctrl) =>

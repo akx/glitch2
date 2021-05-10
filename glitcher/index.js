@@ -22,7 +22,6 @@ function addPasteHandler(engine) {
           break;
         }
       }
-      // eslint-disable-next-line no-restricted-globals, no-alert
       if (imageItem && confirm('Paste image into Glitch2?')) {
         const blob = imageItem.getAsFile();
         const url = URL.createObjectURL(blob);
@@ -51,9 +50,8 @@ function init() {
   engine.state.loadFromLocalStorage();
   UI.init(engine);
   engine.renderLoop();
-  if (typeof GA_ID !== 'undefined') {
-    // eslint-disable-next-line no-undef
-    injectGA(GA_ID);
+  if (typeof window.GA_ID !== 'undefined') {
+    injectGA(window.GA_ID);
   }
 }
 

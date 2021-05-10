@@ -1,4 +1,3 @@
-/* eslint-disable no-restricted-syntax, no-prototype-builtins, no-continue, no-alert */
 import m from 'mithril';
 
 import { randomizeDef } from '../util';
@@ -6,11 +5,10 @@ import { randomizeDef } from '../util';
 function moduleSelector(ctrl) {
   const options = [m('option', { value: '' }, '<< Add module... >>')];
   const { modules } = ctrl.engine.state;
-  for (const key in modules) {
-    if (!modules.hasOwnProperty(key)) continue;
+  Object.keys(modules).forEach((key) => {
     const module = modules[key];
     options.push(m('option', { value: key }, `${module.friendlyName || key}`));
-  }
+  });
   return m(
     'div.module-selector',
     { key: 'module-sel' },

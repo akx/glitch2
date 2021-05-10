@@ -1,4 +1,3 @@
-/* eslint-disable import/prefer-default-export */
 import m from 'mithril';
 import stateUI from './ui/state';
 import fxUI from './ui/fx';

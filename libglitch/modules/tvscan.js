@@ -1,4 +1,3 @@
-/* eslint-disable no-restricted-properties */
 import defaults from '../lib/defaults';
 
 import { mod } from '../lib/num';
@@ -15,7 +14,7 @@ function runTvScan(imageData, clock, speed, strength, heightPerc) {
   const y0 = y1 - mh;
   for (y = 0; y < height; ++y) {
     if (y0 < y && y < y1) {
-      b = Math.pow((y - y0) / mh, 2) * 255 * strength;
+      b = ((y - y0) / mh) ** 2 * 255 * strength;
       if (b > 0) {
         off = y * width * 4;
         for (x = 0; x < width; ++x) {

@@ -1,4 +1,3 @@
-/* eslint-disable no-continue */
 import defaults from '../lib/defaults';
 
 import { randint } from '../lib/rand';
