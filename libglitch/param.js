@@ -1,5 +1,3 @@
-import extend from './lib/extend';
-
 /**
  * Numeric (decimal) parameter.
  * @param name The name of the parameter.
@@ -7,17 +5,14 @@ import extend from './lib/extend';
  * @returns {*} Parameter definition object.
  */
 function Num(name, options) {
-  return extend(
-    {},
-    {
-      type: 'num',
-      min: 0,
-      max: 1,
-      step: null,
-      name,
-    },
-    options,
-  );
+  return {
+    type: 'num',
+    min: 0,
+    max: 1,
+    step: null,
+    name,
+    ...options,
+  };
 }
 
 /**
@@ -27,17 +22,14 @@ function Num(name, options) {
  * @returns {*} Parameter definition object.
  */
 function Int(name, options) {
-  return extend(
-    {},
-    {
-      type: 'int',
-      min: 0,
-      max: 100,
-      step: 1,
-      name,
-    },
-    options,
-  );
+  return {
+    type: 'int',
+    min: 0,
+    max: 100,
+    step: 1,
+    name,
+    ...options,
+  };
 }
 
 /**
@@ -47,7 +39,7 @@ function Int(name, options) {
  * @returns {*} Parameter definition object.
  */
 function Bool(name, options) {
-  return extend({}, { type: 'bool', name }, options);
+  return { type: 'bool', name, ...options };
 }
 
 /**
@@ -58,7 +50,7 @@ function Bool(name, options) {
  * @returns {*} Parameter definition object.
  */
 function Choice(name, choices, options) {
-  return extend({}, { type: 'choice', name, choices }, options);
+  return { type: 'choice', name, choices, ...options };
 }
 
 export { Num as num, Int as int, Bool as bool, Choice as choice };
