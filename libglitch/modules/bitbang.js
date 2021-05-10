@@ -20,7 +20,7 @@ function _bitbang(outputData, inputData, options) {
   let last = 0;
   for (let i = 0; i < outl; ++i) {
     let ii = offIn + i * strideIn;
-    ii += (0 | ii / width) * yDrift;
+    ii += (0 | (ii / width)) * yDrift;
     ii = mod(ii, inl);
     const io = mod(offOut + i * strideOut, outl);
     if (feedback > 0) {

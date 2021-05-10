@@ -7,10 +7,22 @@ function afterimage(glitchContext, options) {
 
   const data = glitchContext.getImageData();
   if (glitchContext.persist.afterimageData) {
-    dataBlend(glitchContext.persist.afterimageData, data, options.strengthOut, options.counterStrengthOut, 'screen');
+    dataBlend(
+      glitchContext.persist.afterimageData,
+      data,
+      options.strengthOut,
+      options.counterStrengthOut,
+      'screen',
+    );
   }
   if (glitchContext.persist.afterimageData && options.strengthIn < 1) {
-    dataBlend(data, glitchContext.persist.afterimageData, options.strengthIn, 1.0 - options.strengthIn, 'normal');
+    dataBlend(
+      data,
+      glitchContext.persist.afterimageData,
+      options.strengthIn,
+      1.0 - options.strengthIn,
+      'normal',
+    );
   } else {
     glitchContext.setImageData(data);
     glitchContext.persist.afterimageData = glitchContext.copyImageData();
@@ -25,7 +37,9 @@ afterimage.paramDefaults = {
 
 afterimage.params = [
   p.num('strengthOut', { description: 'Afterimage write strength' }),
-  p.num('counterStrengthOut', { description: 'Afterimage write counter-strength' }),
+  p.num('counterStrengthOut', {
+    description: 'Afterimage write counter-strength',
+  }),
   p.num('strengthIn', { description: 'Afterimage read strength' }),
 ];
 

@@ -4,7 +4,9 @@ import * as p from '../param';
 function bufferSave(glitchContext, options) {
   options = defaults(options, bufferSave.paramDefaults);
   const id = `buffer${options.id}`;
-  glitchContext.persist[id] = (options.reset ? null : glitchContext.copyImageData());
+  glitchContext.persist[id] = options.reset
+    ? null
+    : glitchContext.copyImageData();
 }
 bufferSave.paramDefaults = {
   id: 0,

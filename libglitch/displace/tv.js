@@ -12,7 +12,7 @@ function createTVDisplacementMap(width = 256, height = 224) {
       const ix = (x / width - 0.5) * 2;
       const iy = (y / height - 0.5) * 2;
       let cdis = 1.0 - (ix * ix + iy * iy);
-      cdis = Math.cos(cdis * 3.141 / 2.0);
+      cdis = Math.cos((cdis * 3.141) / 2.0);
       const an = Math.atan2(iy, ix);
       const xd = -Math.cos(an) * 125 * cdis;
       const yd = -Math.sin(an) * 125 * cdis;

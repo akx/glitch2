@@ -25,11 +25,9 @@ function clamp(num, min, max) {
 
 function mod(a, b) {
   if (a < 0) {
-    a += (1 + 0 | a / -b) * b;
+    a += ((1 + 0) | (a / -b)) * b;
   }
   return 0 | a % b;
 }
 
-export {
-  lerp, wrap, clamp, mod,
-};
+export { lerp, wrap, clamp, mod };

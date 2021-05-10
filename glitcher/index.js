@@ -11,24 +11,28 @@ function loadLenna(engine) {
 }
 
 function addPasteHandler(engine) {
-  document.addEventListener('paste', (event) => {
-    let imageItem = null;
-    for (let i = 0; i < event.clipboardData.items.length; i++) {
-      const item = event.clipboardData.items[i];
-      if (item.type.indexOf('image') > -1) {
-        imageItem = item;
-        break;
+  document.addEventListener(
+    'paste',
+    (event) => {
+      let imageItem = null;
+      for (let i = 0; i < event.clipboardData.items.length; i++) {
+        const item = event.clipboardData.items[i];
+        if (item.type.indexOf('image') > -1) {
+          imageItem = item;
+          break;
+        }
       }
-    }
-    // eslint-disable-next-line no-restricted-globals, no-alert
-    if (imageItem && confirm('Paste image into Glitch2?')) {
-      const blob = imageItem.getAsFile();
-      const url = URL.createObjectURL(blob);
-      const pasteSourceImage = new Image();
-      pasteSourceImage.src = url;
-      engine.sourceImage = pasteSourceImage;
-    }
-  }, false);
+      // eslint-disable-next-line no-restricted-globals, no-alert
+      if (imageItem && confirm('Paste image into Glitch2?')) {
+        const blob = imageItem.getAsFile();
+        const url = URL.createObjectURL(blob);
+        const pasteSourceImage = new Image();
+        pasteSourceImage.src = url;
+        engine.sourceImage = pasteSourceImage;
+      }
+    },
+    false,
+  );
 }
 
 function init() {

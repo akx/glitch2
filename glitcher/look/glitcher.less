@@ -1,20 +1,24 @@
 @brand-color: #dfeff1;
-@image-brand-color: #83FA34;
-@fx-brand-color: #FA8334;
+@image-brand-color: #83fa34;
+@fx-brand-color: #fa8334;
 @rec-brand-color: #fa4d8c;
 
-@import "icomoon";
+@import 'icomoon';
 
 .section-brand(@color) {
   color: @color;
-  input, select, textarea, button, a {
+  input,
+  select,
+  textarea,
+  button,
+  a {
     color: @color;
   }
 
-  button, select {
+  button,
+  select {
     border: 1px solid @color;
   }
-
 }
 
 body {
@@ -24,20 +28,30 @@ body {
 
 * {
   font-size: 8pt;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica,
+    Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
   box-sizing: border-box;
 }
 
-body, input, select, textarea, button, a {
+body,
+input,
+select,
+textarea,
+button,
+a {
   color: @brand-color;
 }
 
-input, select, textarea, button {
+input,
+select,
+textarea,
+button {
   background: none;
   border: none;
 }
 
-button, select {
+button,
+select {
   border: 1px solid @brand-color;
 }
 
@@ -133,5 +147,5 @@ body.zoom-canvas-to-fit {
   opacity: 0.75;
 }
 
-@import "sliders";
-@import "modui";
+@import 'sliders';
+@import 'modui';

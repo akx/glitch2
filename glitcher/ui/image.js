@@ -17,7 +17,10 @@ const resizePrompt = (ctrl) => {
   const img = ctrl.engine.sourceImage;
   const currSize = `${img.width}x${img.height}`;
   let newSize;
-  if ((newSize = prompt('Enter the desired new size for the image.', currSize))) { // eslint-disable-line no-alert
+  if (
+    (newSize = prompt('Enter the desired new size for the image.', currSize))
+  ) {
+    // eslint-disable-line no-alert
     if (currSize === newSize) return;
     let [, width, height] = /^(\d+)\s*x\s*(\d+)$/i.exec(newSize);
     width = parseInt(width, 10);
@@ -27,7 +30,10 @@ const resizePrompt = (ctrl) => {
       alert('Unable to parse new size.');
       return;
     }
-    const tempCanvas = Object.assign(document.createElement('canvas'), { width, height });
+    const tempCanvas = Object.assign(document.createElement('canvas'), {
+      width,
+      height,
+    });
     const tempContext = tempCanvas.getContext('2d');
     tempContext.drawImage(img, 0, 0, width, height);
     const url = tempCanvas.toDataURL('image/png');
@@ -39,11 +45,12 @@ const resizePrompt = (ctrl) => {
   }
 };
 
-const loadImageDiv = (ctrl) => (
+const loadImageDiv = (ctrl) =>
   m(
     'div.image',
     { key: 'load-image' },
-    m('label', ['Load Image: ',
+    m('label', [
+      'Load Image: ',
       m('input', {
         type: 'file',
         id: 'select-image',
@@ -56,8 +63,15 @@ const loadImageDiv = (ctrl) => (
         },
       }),
     ]),
-    m('div', { style: 'opacity: .5' }, 'You can also paste image data from the clipboard.'),
-    m('button', { onclick: () => resizePrompt(ctrl) }, [m('i.icon-arrow-maximise'), ' Resize']),
+    m(
+      'div',
+      { style: 'opacity: .5' },
+      'You can also paste image data from the clipboard.',
+    ),
+    m('button', { onclick: () => resizePrompt(ctrl) }, [
+      m('i.icon-arrow-maximise'),
+      ' Resize',
+    ]),
     m('label', [
       m('input', {
         type: 'checkbox',
@@ -67,7 +81,6 @@ const loadImageDiv = (ctrl) => (
       }),
       'zoom down to fit',
     ]),
-  )
-);
+  );
 
 export default loadImageDiv;

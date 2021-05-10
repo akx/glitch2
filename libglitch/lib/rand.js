@@ -3,7 +3,7 @@ export function randint(min, max) {
 }
 
 export function birandint(min, max) {
-  const sign = (Math.random() <= 0.5 ? -1 : +1);
+  const sign = Math.random() <= 0.5 ? -1 : +1;
   return randint(min, max) * sign;
 }
 

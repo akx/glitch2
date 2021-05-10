@@ -13,9 +13,7 @@ class Engine {
   }
 
   renderFrame() {
-    const {
-      sourceImage, targetCanvas, glitchContext, state,
-    } = this;
+    const { sourceImage, targetCanvas, glitchContext, state } = this;
     if (!sourceImage.complete) return;
     const t0 = +new Date();
     targetCanvas.width = 0 | sourceImage.width;
@@ -30,12 +28,12 @@ class Engine {
         const defT0 = +new Date();
         def.module(glitchContext, def.options);
         const defT1 = +new Date();
-        def.renderTime = (defT1 - defT0);
+        def.renderTime = defT1 - defT0;
       });
     }
     glitchContext.finalize();
     const t1 = +new Date();
-    this.renderTime = (t1 - t0);
+    this.renderTime = t1 - t0;
   }
 
   renderLoop() {
@@ -54,15 +52,18 @@ class Engine {
   }
 
   toURL(type = 'image/png', encoderOptions, forceDataUrl = false) {
-    const blobUrlSupported = (
-      (typeof this.targetCanvas.toBlob === 'function')
-      && (typeof URL.createObjectURL === 'function')
-    );
+    const blobUrlSupported =
+      typeof this.targetCanvas.toBlob === 'function' &&
+      typeof URL.createObjectURL === 'function';
     return new Promise((resolve) => {
       if (blobUrlSupported && !forceDataUrl) {
-        this.targetCanvas.toBlob((blob) => {
-          resolve(URL.createObjectURL(blob));
-        }, type, encoderOptions);
+        this.targetCanvas.toBlob(
+          (blob) => {
+            resolve(URL.createObjectURL(blob));
+          },
+          type,
+          encoderOptions,
+        );
       } else {
         resolve(this.targetCanvas.toDataURL(type, encoderOptions));
       }

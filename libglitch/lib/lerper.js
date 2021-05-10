@@ -10,10 +10,14 @@ function makeLerper(alpha) {
   if (alpha >= 1) {
     return constantB;
   }
-  const key = 0 | alpha * 100;
-  if (cached = lerperCache[key]) return cached;
+  const key = 0 | (alpha * 100);
+  if ((cached = lerperCache[key])) return cached;
   const beta = 1 - alpha;
-  const lerper = lerperCache[key] = new Function('a', 'b', `return b * ${alpha} + a * ${beta}`);
+  const lerper = (lerperCache[key] = new Function(
+    'a',
+    'b',
+    `return b * ${alpha} + a * ${beta}`,
+  ));
   return lerper;
 }
 

@@ -17,18 +17,11 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: [
-          'style-loader',
-          'css-loader',
-        ],
+        use: ['style-loader', 'css-loader'],
       },
       {
         test: /\.less$/,
-        use: [
-          'style-loader',
-          'css-loader',
-          'less-loader',
-        ],
+        use: ['style-loader', 'css-loader', 'less-loader'],
       },
       {
         test: /\.(woff|ttf|eot|otf|svg|woff2|png|jpg|jpeg)$/,
@@ -45,7 +38,9 @@ module.exports = {
     ],
   },
   plugins: [
-    new HtmlWebpackPlugin({title: 'glitch2'}),
-    new webpack.DefinePlugin({GA_ID: process.env.GA_ID ? JSON.stringify(process.env.GA_ID) : null}),
+    new HtmlWebpackPlugin({ title: 'glitch2' }),
+    new webpack.DefinePlugin({
+      GA_ID: process.env.GA_ID ? JSON.stringify(process.env.GA_ID) : null,
+    }),
   ],
 };

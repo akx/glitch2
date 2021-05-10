@@ -12,14 +12,14 @@ function dataBlend(srcD, dstD, sA, dA, blendMode) {
   let dBA;
   let dA2;
   let demultiply;
-  dA2 = (sA + dA - sA * dA);
+  dA2 = sA + dA - sA * dA;
   for (let px = 0; px < len; px += 4) {
-    sRA = src[px] / 255 * sA;
-    dRA = dst[px] / 255 * dA;
-    sGA = src[px + 1] / 255 * sA;
-    dGA = dst[px + 1] / 255 * dA;
-    sBA = src[px + 2] / 255 * sA;
-    dBA = dst[px + 2] / 255 * dA;
+    sRA = (src[px] / 255) * sA;
+    dRA = (dst[px] / 255) * dA;
+    sGA = (src[px + 1] / 255) * sA;
+    dGA = (dst[px + 1] / 255) * dA;
+    sBA = (src[px + 2] / 255) * sA;
+    dBA = (dst[px + 2] / 255) * dA;
 
     demultiply = 255 / dA2;
 
@@ -40,14 +40,18 @@ function dataBlend(srcD, dstD, sA, dA, blendMode) {
 
       case 'multiply':
         dst[px] = (sRA * dRA + sRA * (1 - dA) + dRA * (1 - sA)) * demultiply;
-        dst[px + 1] = (sGA * dGA + sGA * (1 - dA) + dGA * (1 - sA)) * demultiply;
-        dst[px + 2] = (sBA * dBA + sBA * (1 - dA) + dBA * (1 - sA)) * demultiply;
+        dst[px + 1] =
+          (sGA * dGA + sGA * (1 - dA) + dGA * (1 - sA)) * demultiply;
+        dst[px + 2] =
+          (sBA * dBA + sBA * (1 - dA) + dBA * (1 - sA)) * demultiply;
         break;
 
       case 'difference':
         dst[px] = (sRA + dRA - 2 * Math.min(sRA * dA, dRA * sA)) * demultiply;
-        dst[px + 1] = (sGA + dGA - 2 * Math.min(sGA * dA, dGA * sA)) * demultiply;
-        dst[px + 2] = (sBA + dBA - 2 * Math.min(sBA * dA, dBA * sA)) * demultiply;
+        dst[px + 1] =
+          (sGA + dGA - 2 * Math.min(sGA * dA, dGA * sA)) * demultiply;
+        dst[px + 2] =
+          (sBA + dBA - 2 * Math.min(sBA * dA, dBA * sA)) * demultiply;
         break;
 
       // ******* Slightly different from Photoshop, where alpha is concerned
@@ -74,9 +78,18 @@ function dataBlend(srcD, dstD, sA, dA, blendMode) {
 
       case 'overlay':
         // Correct for 100% opacity case; colors get clipped as opacity falls
-        dst[px] = (dRA <= 0.5) ? (2 * src[px] * dRA / dA) : 255 - (2 - 2 * dRA / dA) * (255 - src[px]);
-        dst[px + 1] = (dGA <= 0.5) ? (2 * src[px + 1] * dGA / dA) : 255 - (2 - 2 * dGA / dA) * (255 - src[px + 1]);
-        dst[px + 2] = (dBA <= 0.5) ? (2 * src[px + 2] * dBA / dA) : 255 - (2 - 2 * dBA / dA) * (255 - src[px + 2]);
+        dst[px] =
+          dRA <= 0.5
+            ? (2 * src[px] * dRA) / dA
+            : 255 - (2 - (2 * dRA) / dA) * (255 - src[px]);
+        dst[px + 1] =
+          dGA <= 0.5
+            ? (2 * src[px + 1] * dGA) / dA
+            : 255 - (2 - (2 * dGA) / dA) * (255 - src[px + 1]);
+        dst[px + 2] =
+          dBA <= 0.5
+            ? (2 * src[px + 2] * dBA) / dA
+            : 255 - (2 - (2 * dBA) / dA) * (255 - src[px + 2]);
 
         // http://dunnbypaul.net/blends/
         // dst[px  ] = ( (dRA<=0.5) ? (2*sRA*dRA) : 1 - (1 - 2*(dRA-0.5)) * (1-sRA) ) * demultiply;
@@ -95,9 +108,18 @@ function dataBlend(srcD, dstD, sA, dA, blendMode) {
         break;
 
       case 'hardlight':
-        dst[px] = (sRA <= 0.5) ? (2 * dst[px] * sRA / dA) : 255 - (2 - 2 * sRA / sA) * (255 - dst[px]);
-        dst[px + 1] = (sGA <= 0.5) ? (2 * dst[px + 1] * sGA / dA) : 255 - (2 - 2 * sGA / sA) * (255 - dst[px + 1]);
-        dst[px + 2] = (sBA <= 0.5) ? (2 * dst[px + 2] * sBA / dA) : 255 - (2 - 2 * sBA / sA) * (255 - dst[px + 2]);
+        dst[px] =
+          sRA <= 0.5
+            ? (2 * dst[px] * sRA) / dA
+            : 255 - (2 - (2 * sRA) / sA) * (255 - dst[px]);
+        dst[px + 1] =
+          sGA <= 0.5
+            ? (2 * dst[px + 1] * sGA) / dA
+            : 255 - (2 - (2 * sGA) / sA) * (255 - dst[px + 1]);
+        dst[px + 2] =
+          sBA <= 0.5
+            ? (2 * dst[px + 2] * sBA) / dA
+            : 255 - (2 - (2 * sBA) / sA) * (255 - dst[px + 2]);
         break;
 
       case 'colordodge':
@@ -106,10 +128,16 @@ function dataBlend(srcD, dstD, sA, dA, blendMode) {
         else dst[px] = Math.min(255, dst[px] / (255 - src[px])) * demultiply;
 
         if (src[px + 1] === 255 && dGA === 0) dst[px + 1] = 255;
-        else dst[px + 1] = Math.min(255, dst[px + 1] / (255 - src[px + 1])) * demultiply;
+        else {
+          dst[px + 1] =
+            Math.min(255, dst[px + 1] / (255 - src[px + 1])) * demultiply;
+        }
 
         if (src[px + 2] === 255 && dBA === 0) dst[px + 2] = 255;
-        else dst[px + 2] = Math.min(255, dst[px + 2] / (255 - src[px + 2])) * demultiply;
+        else {
+          dst[px + 2] =
+            Math.min(255, dst[px + 2] / (255 - src[px + 2])) * demultiply;
+        }
         break;
 
       case 'colorburn':

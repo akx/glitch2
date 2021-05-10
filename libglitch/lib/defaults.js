@@ -1,6 +1,7 @@
+/* eslint-disable no-restricted-syntax, no-prototype-builtins */
 function defaults(target, defaultValues) {
-  for (const key in defaultValues) { // eslint-disable-line no-restricted-syntax
-    if (defaultValues.hasOwnProperty(key) && !(key in target)) { // eslint-disable-line no-prototype-builtins
+  for (const key in defaultValues) {
+    if (defaultValues.hasOwnProperty(key) && !(key in target)) {
       target[key] = defaultValues[key];
     }
   }

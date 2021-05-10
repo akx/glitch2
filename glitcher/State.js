@@ -11,10 +11,12 @@ class State {
     const defaults = moduleObj.paramDefaults || {};
     (moduleObj.params || []).forEach((param) => {
       const defaultValue = defaults[param.name];
-      if (!(param.name in options) && defaultValue !== undefined) options[param.name] = defaultValue;
+      if (!(param.name in options) && defaultValue !== undefined) {
+        options[param.name] = defaultValue;
+      }
     });
     const def = {
-      id: (0 | (Math.random() * 0xFFFFFFFF)).toString(36),
+      id: (0 | (Math.random() * 0xffffffff)).toString(36),
       module: moduleObj,
       moduleName,
       options,
@@ -33,7 +35,7 @@ class State {
   }
 
   deleteDef(def) {
-    this.defs = this.defs.filter((d) => (d !== def) && (d.id !== def));
+    this.defs = this.defs.filter((d) => d !== def && d.id !== def);
   }
 
   clear() {
@@ -82,12 +84,15 @@ class State {
   }
 
   loadFromLocalStorage(key) {
-    const serialized = window.localStorage && window.localStorage[key || 'GlitcherState'];
+    const serialized =
+      window.localStorage && window.localStorage[key || 'GlitcherState'];
     if (serialized) this.unserialize(serialized);
   }
 
   saveIntoLocalStorage(key) {
-    if (window.localStorage) window.localStorage[key || 'GlitcherState'] = this.serialize();
+    if (window.localStorage) {
+      window.localStorage[key || 'GlitcherState'] = this.serialize();
+    }
   }
 }
 
