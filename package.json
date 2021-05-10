@@ -23,7 +23,7 @@
     "less": "^4.1.1",
     "less-loader": "^8.1.1",
     "lodash": "^4.17.21",
-    "mithril": "^0.2.8",
+    "mithril": "^1.1.7",
     "style-loader": "2.0.0",
     "url-loader": "^4.1.1",
     "webpack": "^5.37.0",
