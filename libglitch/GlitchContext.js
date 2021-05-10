@@ -16,7 +16,12 @@ class GlitchContext {
    */
   getImageData() {
     if (this._imageData) return this._imageData;
-    return this._context.getImageData(0, 0, this._canvas.width, this._canvas.height);
+    return this._context.getImageData(
+      0,
+      0,
+      this._canvas.width,
+      this._canvas.height,
+    );
   }
 
   /**
@@ -25,7 +30,12 @@ class GlitchContext {
    */
   copyImageData() {
     this._commitImageData();
-    return this._context.getImageData(0, 0, this._canvas.width, this._canvas.height);
+    return this._context.getImageData(
+      0,
+      0,
+      this._canvas.width,
+      this._canvas.height,
+    );
   }
 
   /**

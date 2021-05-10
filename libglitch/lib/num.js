@@ -2,7 +2,6 @@ function lerp(a, b, alpha = 0.5) {
   return b * alpha + a * (1 - alpha);
 }
 
-
 function wrap(num, max) {
   while (num < 0) {
     num += max;
@@ -26,7 +25,7 @@ function clamp(num, min, max) {
 
 function mod(a, b) {
   if (a < 0) {
-    a += (1 + 0 | a / -b) * b;
+    a += ((1 + 0) | (a / -b)) * b;
   }
   return 0 | a % b;
 }

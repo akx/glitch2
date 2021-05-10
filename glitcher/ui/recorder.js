@@ -1,31 +1,28 @@
-/* eslint-disable no-alert */
 import m from 'mithril';
 
 import generateGIF from '../generate-gif';
 import { forceDownload } from '../util';
 
-const saveCurrentButton = ctrl => (
+const saveCurrentButton = (ctrl) =>
   m(
     'button',
     {
       onclick() {
-        ctrl.engine.toURL('image/png')
-          .then((url) => {
-            forceDownload(url, `glitch-${new Date().toISOString()}.png`)
-              .then(() => {
-                if (/^blob:/.test(url)) {
-                  URL.revokeObjectURL(url);
-                }
-              });
-          });
+        ctrl.engine.toURL('image/png').then((url) => {
+          forceDownload(url, `glitch-${new Date().toISOString()}.png`).then(
+            () => {
+              if (/^blob:/.test(url)) {
+                URL.revokeObjectURL(url);
+              }
+            },
+          );
+        });
       },
       title: 'Save Current Image',
     },
     m('i.icon-flash'),
-    ' Save Current Image'
-  )
-);
-
+    ' Save Current Image',
+  );
 
 const refreshRow = (ctrl) => {
   const manualRefreshButton = m(
@@ -53,20 +50,14 @@ const refreshRow = (ctrl) => {
       },
     }),
   ]);
-  return m(
-    'div.button-row',
-    [
-      saveCurrentButton(ctrl),
-      m('div', [refreshRateSetting, manualRefreshButton]),
-    ],
-  );
+  return m('div.button-row', [
+    saveCurrentButton(ctrl),
+    m('div', [refreshRateSetting, manualRefreshButton]),
+  ]);
 };
 
-
-const recorder = ctrl => m(
-  'div.recorder',
-  { key: 'recorder' },
-  [
+const recorder = (ctrl) =>
+  m('div.recorder', { key: 'recorder' }, [
     refreshRow(ctrl),
     m('div.button-row', [
       m(
@@ -100,16 +91,18 @@ const recorder = ctrl => m(
             });
             ctrl.gifRenderProgress = 0;
           },
-          disabled: (ctrl.recordFrames.length === 0 || ctrl.gifRenderProgress !== null),
+          disabled:
+            ctrl.recordFrames.length === 0 || ctrl.gifRenderProgress !== null,
         },
         m('i.icon-flash'),
-        (ctrl.gifRenderProgress !== null ? `Rendering ${(ctrl.gifRenderProgress * 100).toFixed(1)}%` : ' Save GIF'),
+        ctrl.gifRenderProgress !== null
+          ? `Rendering ${(ctrl.gifRenderProgress * 100).toFixed(1)}%`
+          : ' Save GIF',
       ),
       m(
         'button',
         {
           onclick(event) {
-            // eslint-disable-next-line no-restricted-globals
             if (confirm('Clear animation?')) {
               ctrl.recordFrames = [];
             }
@@ -121,20 +114,25 @@ const recorder = ctrl => m(
         ' Clear',
       ),
     ]),
-    m(`div.frames.${ctrl.ui.fx ? 'slim' : 'phat'}`, ctrl.recordFrames.map((f, index) => m('div.frame', [
-      m('img', { src: f.data }),
-      m('div.tools', [
-        m(
-          'button', {
-            onclick() {
-              ctrl.recordFrames.splice(index, 1);
-            },
-          },
-          [m('i.icon-times')],
-        ),
-      ]),
-    ]))),
-  ]
-);
+    m(
+      `div.frames.${ctrl.ui.fx ? 'slim' : 'phat'}`,
+      ctrl.recordFrames.map((f, index) =>
+        m('div.frame', [
+          m('img', { src: f.data }),
+          m('div.tools', [
+            m(
+              'button',
+              {
+                onclick() {
+                  ctrl.recordFrames.splice(index, 1);
+                },
+              },
+              [m('i.icon-times')],
+            ),
+          ]),
+        ]),
+      ),
+    ),
+  ]);
 
 export default recorder;

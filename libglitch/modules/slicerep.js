@@ -1,6 +1,6 @@
 import defaults from '../lib/defaults';
 import { randint } from '../lib/rand';
-import p from '../param';
+import * as p from '../param';
 
 function runSliceRep(imageData, startY, sliceHeight, repeats) {
   let writeOffset;
@@ -8,7 +8,11 @@ function runSliceRep(imageData, startY, sliceHeight, repeats) {
   const { width } = imageData;
   const offsetStart = startY * width * 4;
   const sliceLength = sliceHeight * width * 4;
-  const sourceSlice = new Uint8ClampedArray(imageData.data.buffer, offsetStart, sliceLength);
+  const sourceSlice = new Uint8ClampedArray(
+    imageData.data.buffer,
+    offsetStart,
+    sliceLength,
+  );
   writeOffset = offsetStart;
   for (rep = 1; rep < repeats; ++rep) {
     writeOffset = offsetStart + sliceLength * rep;
@@ -24,7 +28,10 @@ function slicerep(glitchContext, options) {
   if (n <= 0) return;
   const data = glitchContext.getImageData();
   for (let x = 0; x < n; ++x) {
-    const height = randint(options.heightMin * data.height, options.heightMax * data.height);
+    const height = randint(
+      options.heightMin * data.height,
+      options.heightMax * data.height,
+    );
     const repeats = randint(options.repeatsMin, options.repeatsMax);
     const y0 = randint(0, data.height - height);
     runSliceRep(data, y0, height, repeats);

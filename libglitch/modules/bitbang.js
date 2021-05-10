@@ -2,7 +2,7 @@ import lerper from '../lib/lerper';
 import defaults from '../lib/defaults';
 import { randint, rand } from '../lib/rand';
 import { mod } from '../lib/num';
-import p from '../param';
+import * as p from '../param';
 
 function _bitbang(outputData, inputData, options) {
   const strideIn = randint(options.strideInMin, options.strideInMax);
@@ -20,7 +20,7 @@ function _bitbang(outputData, inputData, options) {
   let last = 0;
   for (let i = 0; i < outl; ++i) {
     let ii = offIn + i * strideIn;
-    ii += (0 | ii / width) * yDrift;
+    ii += (0 | (ii / width)) * yDrift;
     ii = mod(ii, inl);
     const io = mod(offOut + i * strideOut, outl);
     if (feedback > 0) {
@@ -55,7 +55,6 @@ bitbang.paramDefaults = {
   maxYDrift: 0,
 };
 
-
 bitbang.params = [
   p.int('offInScale', { description: '' }),
   p.int('offOutScale', { description: '' }),
@@ -68,6 +67,5 @@ bitbang.params = [
   p.int('minYDrift', { description: '' }),
   p.int('maxYDrift', { description: '' }),
 ];
-
 
 export default bitbang;

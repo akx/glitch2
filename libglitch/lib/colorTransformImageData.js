@@ -23,9 +23,9 @@ function colorTransformImageData(imageData, matrix) {
     r = data[offset] + rPre;
     g = data[offset + 1] + gPre;
     b = data[offset + 2] + bPre;
-    data[offset] = (r0 * r + r1 * g + r2 * b) + rPost;
-    data[offset + 1] = (g0 * r + g1 * g + g2 * b) + gPost;
-    data[offset + 2] = (b0 * r + b1 * g + b2 * b) + bPost;
+    data[offset] = r0 * r + r1 * g + r2 * b + rPost;
+    data[offset + 1] = g0 * r + g1 * g + g2 * b + gPost;
+    data[offset + 2] = b0 * r + b1 * g + b2 * b + bPost;
   }
 }
 

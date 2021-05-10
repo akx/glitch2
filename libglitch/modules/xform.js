@@ -1,5 +1,5 @@
 import defaults from '../lib/defaults';
-import p from '../param';
+import * as p from '../param';
 import blendModes from '../lib/nativeBlendModes';
 
 function xform(glitchContext, options) {
@@ -18,8 +18,8 @@ function xform(glitchContext, options) {
   const halfHeight = height / 2;
 
   context.translate(
-    halfWidth + (options.xOffset / 100 * width),
-    halfHeight + (options.yOffset / 100 * height),
+    halfWidth + (options.xOffset / 100) * width,
+    halfHeight + (options.yOffset / 100) * height,
   );
   context.rotate(options.rotation * 0.0174533);
 

@@ -1,6 +1,6 @@
 import defaults from '../lib/defaults';
 import { randint, rand } from '../lib/rand';
-import p from '../param';
+import * as p from '../param';
 
 function elastic(glitchContext, options) {
   options = defaults(options, elastic.paramDefaults);
@@ -12,24 +12,68 @@ function elastic(glitchContext, options) {
   for (let i = 0; i < iterations; i++) {
     if (rand() < options.xChance) {
       const x = randint(0, width);
-      const stretch = (1 + rand(options.xMinStretch, options.xMaxStretch));
-      if (rand() < 0.5) { // left half
+      const stretch = 1 + rand(options.xMinStretch, options.xMaxStretch);
+      if (rand() < 0.5) {
+        // left half
         const targetWidth = x * stretch;
-        context.drawImage(canvas, 0, 0, x, height, x - targetWidth, 0, targetWidth, height);
-      } else { // right half
+        context.drawImage(
+          canvas,
+          0,
+          0,
+          x,
+          height,
+          x - targetWidth,
+          0,
+          targetWidth,
+          height,
+        );
+      } else {
+        // right half
         const targetWidth = (width - x) * stretch;
-        context.drawImage(canvas, x, 0, width - x, height, x, 0, targetWidth, height);
+        context.drawImage(
+          canvas,
+          x,
+          0,
+          width - x,
+          height,
+          x,
+          0,
+          targetWidth,
+          height,
+        );
       }
     }
     if (rand() < options.yChance) {
       const y = randint(0, height);
-      const stretch = (1 + rand(options.yMinStretch, options.yMaxStretch));
-      if (rand() < 0.5) { // top half
+      const stretch = 1 + rand(options.yMinStretch, options.yMaxStretch);
+      if (rand() < 0.5) {
+        // top half
         const targetHeight = y * stretch;
-        context.drawImage(canvas, 0, 0, width, y, 0, y - targetHeight, width, targetHeight);
-      } else { // bottom half
+        context.drawImage(
+          canvas,
+          0,
+          0,
+          width,
+          y,
+          0,
+          y - targetHeight,
+          width,
+          targetHeight,
+        );
+      } else {
+        // bottom half
         const targetHeight = (height - y) * stretch;
-        context.drawImage(canvas, 0, y, width, height - y, 0, y, width, targetHeight);
+        context.drawImage(
+          canvas,
+          0,
+          y,
+          width,
+          height - y,
+          0,
+          y,
+          width,
+          targetHeight,
+        );
       }
     }
   }

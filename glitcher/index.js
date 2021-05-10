@@ -6,29 +6,32 @@ import injectGA from './inject-ga';
 function loadLenna(engine) {
   const sourceImage = new Image();
   // eslint-disable-next-line global-require
-  sourceImage.src = require('./lenna.jpg');
+  sourceImage.src = require('./lenna.jpg').default;
   engine.sourceImage = sourceImage;
 }
 
 function addPasteHandler(engine) {
-  document.addEventListener('paste', (event) => {
-    let imageItem = null;
-    for (let i = 0; i < event.clipboardData.items.length; i++) {
-      const item = event.clipboardData.items[i];
-      if (item.type.indexOf('image') > -1) {
-        imageItem = item;
-        break;
+  document.addEventListener(
+    'paste',
+    (event) => {
+      let imageItem = null;
+      for (let i = 0; i < event.clipboardData.items.length; i++) {
+        const item = event.clipboardData.items[i];
+        if (item.type.indexOf('image') > -1) {
+          imageItem = item;
+          break;
+        }
       }
-    }
-    // eslint-disable-next-line no-restricted-globals, no-alert
-    if (imageItem && confirm('Paste image into Glitch2?')) {
-      const blob = imageItem.getAsFile();
-      const url = URL.createObjectURL(blob);
-      const pasteSourceImage = new Image();
-      pasteSourceImage.src = url;
-      engine.sourceImage = pasteSourceImage;
-    }
-  }, false);
+      if (imageItem && confirm('Paste image into Glitch2?')) {
+        const blob = imageItem.getAsFile();
+        const url = URL.createObjectURL(blob);
+        const pasteSourceImage = new Image();
+        pasteSourceImage.src = url;
+        engine.sourceImage = pasteSourceImage;
+      }
+    },
+    false,
+  );
 }
 
 function init() {
@@ -47,9 +50,8 @@ function init() {
   engine.state.loadFromLocalStorage();
   UI.init(engine);
   engine.renderLoop();
-  if (typeof GA_ID !== 'undefined') {
-    // eslint-disable-next-line no-undef
-    injectGA(GA_ID);
+  if (typeof window.GA_ID !== 'undefined') {
+    injectGA(window.GA_ID);
   }
 }
 

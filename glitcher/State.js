@@ -11,10 +11,12 @@ class State {
     const defaults = moduleObj.paramDefaults || {};
     (moduleObj.params || []).forEach((param) => {
       const defaultValue = defaults[param.name];
-      if (!(param.name in options) && defaultValue !== undefined) options[param.name] = defaultValue;
+      if (!(param.name in options) && defaultValue !== undefined) {
+        options[param.name] = defaultValue;
+      }
     });
     const def = {
-      id: (0 | (Math.random() * 0xFFFFFFFF)).toString(36),
+      id: (0 | (Math.random() * 0xffffffff)).toString(36),
       module: moduleObj,
       moduleName,
       options,
@@ -33,7 +35,7 @@ class State {
   }
 
   deleteDef(def) {
-    this.defs = this.defs.filter(d => (d !== def) && (d.id !== def));
+    this.defs = this.defs.filter((d) => d !== def && d.id !== def);
   }
 
   clear() {
@@ -44,17 +46,16 @@ class State {
     const { defs } = this;
     const idx = defs.indexOf(def);
     if (idx === -1) return;
-    // eslint-disable-next-line prefer-destructuring
-    def = defs.splice(idx, 1)[0];
+    const [ndef] = defs.splice(idx, 1)[0];
     let newIdx = idx + direction;
     if (newIdx < 0) newIdx = 0;
     if (newIdx >= defs.length) newIdx = defs.length;
-    defs.splice(newIdx, 0, def);
+    defs.splice(newIdx, 0, ndef);
   }
 
   serialize() {
     const ser = {};
-    ser.defs = this.defs.map(def => ({
+    ser.defs = this.defs.map((def) => ({
       id: def.id,
       moduleName: def.moduleName,
       options: def.options,
@@ -82,14 +83,16 @@ class State {
   }
 
   loadFromLocalStorage(key) {
-    const serialized = window.localStorage && window.localStorage[key || 'GlitcherState'];
+    const serialized =
+      window.localStorage && window.localStorage[key || 'GlitcherState'];
     if (serialized) this.unserialize(serialized);
   }
 
   saveIntoLocalStorage(key) {
-    if (window.localStorage) window.localStorage[key || 'GlitcherState'] = this.serialize();
+    if (window.localStorage) {
+      window.localStorage[key || 'GlitcherState'] = this.serialize();
+    }
   }
 }
-
 
 export default State;

@@ -20,11 +20,13 @@ function displacementMapper(imageData, displacementMap, scaleX, scaleY) {
     for (let x = 0; x < width; ++x) {
       let offset = yoff + x * 4;
       const disZ = displacementData[offset + 2] / 127.0;
-      const disX = (displacementData[offset] - 127) / 128.0 * scaleX * disZ;
-      const disY = (displacementData[offset + 1] - 127) / 128.0 * scaleY * disZ;
+      const disX = ((displacementData[offset] - 127) / 128.0) * scaleX * disZ;
+      const disY =
+        ((displacementData[offset + 1] - 127) / 128.0) * scaleY * disZ;
       const sourceX = 0 | Math.round(x + disX);
       const sourceY = 0 | Math.round(y + disY);
-      let sourceOffset = clamp(sourceY, height) * width * 4 + clamp(sourceX, width) * 4;
+      let sourceOffset =
+        clamp(sourceY, height) * width * 4 + clamp(sourceX, width) * 4;
       destBuf[offset++] = sourceBuf[sourceOffset++];
       destBuf[offset++] = sourceBuf[sourceOffset++];
       destBuf[offset++] = sourceBuf[sourceOffset++];

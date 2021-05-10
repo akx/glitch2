@@ -1,7 +1,7 @@
 import defaults from '../lib/defaults';
 import { randint, rand } from '../lib/rand';
 import { clamp } from '../lib/num';
-import p from '../param';
+import * as p from '../param';
 
 function streak(glitchContext, options) {
   options = defaults(options, streak.paramDefaults);
@@ -12,10 +12,10 @@ function streak(glitchContext, options) {
   for (let y = 0; y < height; y++) {
     for (let x = 0; x < width; x++) {
       if (randint(0, 65535) < options.xOffsetChance) {
-        xoff += (rand() < 0.5 ? -1 : +1);
+        xoff += rand() < 0.5 ? -1 : +1;
       }
       if (randint(0, 65535) < options.yOffsetChance) {
-        yoff += (rand() < 0.5 ? -1 : +1);
+        yoff += rand() < 0.5 ? -1 : +1;
       }
       if (randint(0, 65535) < options.offsetHalveChance) {
         xoff = 0 | (xoff / 2);

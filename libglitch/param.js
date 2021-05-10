@@ -7,9 +7,17 @@ import extend from './lib/extend';
  * @returns {*} Parameter definition object.
  */
 function Num(name, options) {
-  return extend({}, {
-    type: 'num', min: 0, max: 1, step: null, name,
-  }, options);
+  return extend(
+    {},
+    {
+      type: 'num',
+      min: 0,
+      max: 1,
+      step: null,
+      name,
+    },
+    options,
+  );
 }
 
 /**
@@ -19,9 +27,17 @@ function Num(name, options) {
  * @returns {*} Parameter definition object.
  */
 function Int(name, options) {
-  return extend({}, {
-    type: 'int', min: 0, max: 100, step: 1, name,
-  }, options);
+  return extend(
+    {},
+    {
+      type: 'int',
+      min: 0,
+      max: 100,
+      step: 1,
+      name,
+    },
+    options,
+  );
 }
 
 /**
@@ -34,7 +50,6 @@ function Bool(name, options) {
   return extend({}, { type: 'bool', name }, options);
 }
 
-
 /**
  * Choice parameter.
  * @param name The name of the parameter.
@@ -46,16 +61,4 @@ function Choice(name, choices, options) {
   return extend({}, { type: 'choice', name, choices }, options);
 }
 
-export {
-  Num as num,
-  Int as int,
-  Bool as bool,
-  Choice as choice,
-};
-
-export default {
-  num: Num, // num num num
-  int: Int,
-  bool: Bool,
-  choice: Choice,
-};
+export { Num as num, Int as int, Bool as bool, Choice as choice };

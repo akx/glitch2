@@ -1,10 +1,17 @@
-/* eslint-disable no-continue */
 import defaults from '../lib/defaults';
 
 import { randint } from '../lib/rand';
-import p from '../param';
+import * as p from '../param';
 
-function _noiseBand(imageData, y0, y1, noisiness, minBrightness, maxBrightness, replace) {
+function _noiseBand(
+  imageData,
+  y0,
+  y1,
+  noisiness,
+  minBrightness,
+  maxBrightness,
+  replace,
+) {
   let y;
   let yoff;
   let x;
@@ -37,7 +44,7 @@ function _noiseBand(imageData, y0, y1, noisiness, minBrightness, maxBrightness, 
 
 function noise(glitchContext, options) {
   options = defaults(options, noise.paramDefaults);
-  const n = (options.full ? 1 : randint(options.nMin, options.nMax));
+  const n = options.full ? 1 : randint(options.nMin, options.nMax);
   if (n <= 0) return;
   const imageData = glitchContext.getImageData();
   if (options.full) {
@@ -48,7 +55,7 @@ function noise(glitchContext, options) {
       options.noisiness,
       options.brightnessMin,
       options.brightnessMax,
-      options.replace
+      options.replace,
     );
   } else {
     const hMin = options.heightMin * imageData.height;
@@ -58,7 +65,15 @@ function noise(glitchContext, options) {
       if (h <= 0) continue;
       const y0 = randint(0, imageData.height - h);
       const y1 = y0 + h;
-      _noiseBand(imageData, y0, y1, options.noisiness, options.brightnessMin, options.brightnessMax, options.replace);
+      _noiseBand(
+        imageData,
+        y0,
+        y1,
+        options.noisiness,
+        options.brightnessMin,
+        options.brightnessMax,
+        options.replace,
+      );
     }
   }
 
@@ -77,16 +92,25 @@ noise.paramDefaults = {
   full: false,
 };
 
-
 noise.params = [
   p.num('heightMin', { description: 'Noise band min height' }),
   p.num('heightMax', { description: 'Noise band max height' }),
   p.int('nMin', { description: 'Minimum number of noise bands' }),
   p.int('nMax', { description: 'Maximum number of noise bands' }),
-  p.num('brightnessMin', { description: 'Minimum brightness modulation amount', min: -255, max: +255 }),
-  p.num('brightnessMax', { description: 'Maximum brightness modulation amount', min: -255, max: +255 }),
+  p.num('brightnessMin', {
+    description: 'Minimum brightness modulation amount',
+    min: -255,
+    max: +255,
+  }),
+  p.num('brightnessMax', {
+    description: 'Maximum brightness modulation amount',
+    min: -255,
+    max: +255,
+  }),
   p.num('noisiness', { description: 'Probability of noising pixel' }),
-  p.bool('replace', { description: 'Use brightness as absolute value instead of modulator' }),
+  p.bool('replace', {
+    description: 'Use brightness as absolute value instead of modulator',
+  }),
   p.bool('full', { description: "Don't band \u2013 noise the whole mess" }),
 ];
 

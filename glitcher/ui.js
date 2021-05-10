@@ -1,4 +1,3 @@
-/* eslint-disable import/prefer-default-export */
 import m from 'mithril';
 import stateUI from './ui/state';
 import fxUI from './ui/fx';
@@ -27,11 +26,13 @@ function view(ctrl) {
   document.body.classList.toggle('zoom-canvas-to-fit', ctrl.ui.zoom);
   return m('div', [
     titleUI(ctrl),
-    (ctrl.ui.stateMgmt ? stateUI(ctrl) : null),
-    (ctrl.ui.image ? imageUI(ctrl) : null),
-    (ctrl.ui.recorder ? recorderUI(ctrl) : null),
-    (ctrl.ui.fx ? fxUI(ctrl) : null),
-    (ctrl.ui.misc ? m('div', [`Render time: ${ctrl.engine.renderTime} ms`]) : null),
+    ctrl.ui.stateMgmt ? stateUI(ctrl) : null,
+    ctrl.ui.image ? imageUI(ctrl) : null,
+    ctrl.ui.recorder ? recorderUI(ctrl) : null,
+    ctrl.ui.fx ? fxUI(ctrl) : null,
+    ctrl.ui.misc
+      ? m('div', [`Render time: ${ctrl.engine.renderTime} ms`])
+      : null,
   ]);
 }
 
