@@ -59,7 +59,6 @@ const mul_table = [
   289, 287, 285, 282, 280, 278, 275, 273, 271, 269, 267, 265, 263, 261, 259,
 ];
 
-
 const shg_table = [
   9, 11, 12, 13, 13, 14, 14, 15, 15, 15, 15, 16, 16, 16, 16, 17,
   17, 17, 17, 17, 17, 17, 18, 18, 18, 18, 18, 18, 18, 18, 18, 19,
@@ -79,7 +78,6 @@ const shg_table = [
   24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24,
 ];
 
-
 function BlurStack() {
   this.r = 0;
   this.g = 0;
@@ -87,7 +85,6 @@ function BlurStack() {
   this.a = 0;
   this.next = null;
 }
-
 
 function stackBlurImageData(imageData, top_x, top_y, width, height, radius) {
   if (isNaN(radius) || radius < 1) return;
@@ -171,7 +168,6 @@ function stackBlurImageData(imageData, top_x, top_y, width, height, radius) {
       stack = stack.next;
     }
 
-
     stackIn = stackStart;
     stackOut = stackEnd;
     for (x = 0; x < width; x++) {
@@ -213,7 +209,6 @@ function stackBlurImageData(imageData, top_x, top_y, width, height, radius) {
     }
     yw += width;
   }
-
 
   for (x = 0; x < width; x++) {
     g_in_sum = b_in_sum = r_in_sum = g_sum = b_sum = r_sum = 0;

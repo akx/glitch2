@@ -1,5 +1,5 @@
 const lerperCache = {};
-const constantA = a => a;
+const constantA = (a) => a;
 const constantB = (a, b) => b;
 
 function makeLerper(alpha) {

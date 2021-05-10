@@ -14,7 +14,7 @@ const showHide = (ctrl, id, name) => (
   )
 );
 
-const titleUI = ctrl => (
+const titleUI = (ctrl) => (
   m(
     'div.title',
     [

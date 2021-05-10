@@ -1,5 +1,5 @@
 import defaults from '../lib/defaults';
-import p from '../param';
+import * as p from '../param';
 import dataBlend from '../lib/dataBlend';
 
 function bufferLoad(glitchContext, options) {

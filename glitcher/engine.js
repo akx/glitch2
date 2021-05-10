@@ -1,4 +1,5 @@
-import { modules, Context } from '../libglitch';
+import Context from '../libglitch/GlitchContext';
+import modules from '../libglitch/modules';
 import State from './State';
 
 class Engine {
@@ -54,8 +55,8 @@ class Engine {
 
   toURL(type = 'image/png', encoderOptions, forceDataUrl = false) {
     const blobUrlSupported = (
-      (typeof this.targetCanvas.toBlob === 'function') &&
-      (typeof URL.createObjectURL === 'function')
+      (typeof this.targetCanvas.toBlob === 'function')
+      && (typeof URL.createObjectURL === 'function')
     );
     return new Promise((resolve) => {
       if (blobUrlSupported && !forceDataUrl) {

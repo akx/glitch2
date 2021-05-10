@@ -2,7 +2,7 @@
 import defaults from '../lib/defaults';
 
 import { randint } from '../lib/rand';
-import p from '../param';
+import * as p from '../param';
 
 function _noiseBand(imageData, y0, y1, noisiness, minBrightness, maxBrightness, replace) {
   let y;
@@ -76,7 +76,6 @@ noise.paramDefaults = {
   replace: false,
   full: false,
 };
-
 
 noise.params = [
   p.num('heightMin', { description: 'Noise band min height' }),

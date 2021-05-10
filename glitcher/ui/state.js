@@ -1,9 +1,7 @@
-
 /* eslint-disable no-alert */
 import m from 'mithril';
 
-
-const stateButtons = ctrl => (
+const stateButtons = (ctrl) => (
   m('div.state-box', [
     m(
       'div.button-row', { key: 'state-global-buttons' },

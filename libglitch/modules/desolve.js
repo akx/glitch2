@@ -1,6 +1,6 @@
 import defaults from '../lib/defaults';
 import { rand, randint } from '../lib/rand';
-import p from '../param';
+import * as p from '../param';
 
 function desolve(glitchContext, options) {
   options = defaults(options, desolve.paramDefaults);

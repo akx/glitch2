@@ -1,6 +1,6 @@
 import defaults from '../lib/defaults';
 import { randint } from '../lib/rand';
-import p from '../param';
+import * as p from '../param';
 
 function runSliceRep(imageData, startY, sliceHeight, repeats) {
   let writeOffset;

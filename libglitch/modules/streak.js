@@ -1,7 +1,7 @@
 import defaults from '../lib/defaults';
 import { randint, rand } from '../lib/rand';
 import { clamp } from '../lib/num';
-import p from '../param';
+import * as p from '../param';
 
 function streak(glitchContext, options) {
   options = defaults(options, streak.paramDefaults);

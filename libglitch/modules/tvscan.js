@@ -2,7 +2,7 @@
 import defaults from '../lib/defaults';
 
 import { mod } from '../lib/num';
-import p from '../param';
+import * as p from '../param';
 
 function runTvScan(imageData, clock, speed, strength, heightPerc) {
   const { data, width, height } = imageData;
@@ -44,12 +44,10 @@ tvScan.paramDefaults = {
   heightPerc: 0.2,
 };
 
-
 tvScan.params = [
   p.num('speed', { description: 'Scan speed' }),
   p.num('strength', { description: 'Scan brightness' }),
   p.num('heightPerc', { description: 'Scan height (percentage)' }),
 ];
-
 
 export default tvScan;

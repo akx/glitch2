@@ -33,7 +33,7 @@ class State {
   }
 
   deleteDef(def) {
-    this.defs = this.defs.filter(d => (d !== def) && (d.id !== def));
+    this.defs = this.defs.filter((d) => (d !== def) && (d.id !== def));
   }
 
   clear() {
@@ -54,7 +54,7 @@ class State {
 
   serialize() {
     const ser = {};
-    ser.defs = this.defs.map(def => ({
+    ser.defs = this.defs.map((def) => ({
       id: def.id,
       moduleName: def.moduleName,
       options: def.options,
@@ -90,6 +90,5 @@ class State {
     if (window.localStorage) window.localStorage[key || 'GlitcherState'] = this.serialize();
   }
 }
-
 
 export default State;

@@ -1,6 +1,6 @@
 import defaults from '../lib/defaults';
 import { randint, rand } from '../lib/rand';
-import p from '../param';
+import * as p from '../param';
 
 function elastic(glitchContext, options) {
   options = defaults(options, elastic.paramDefaults);

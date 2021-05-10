@@ -34,7 +34,6 @@ function Bool(name, options) {
   return extend({}, { type: 'bool', name }, options);
 }
 
-
 /**
  * Choice parameter.
  * @param name The name of the parameter.
@@ -51,11 +50,4 @@ export {
   Int as int,
   Bool as bool,
   Choice as choice,
-};
-
-export default {
-  num: Num, // num num num
-  int: Int,
-  bool: Bool,
-  choice: Choice,
 };

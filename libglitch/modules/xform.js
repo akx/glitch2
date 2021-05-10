@@ -1,5 +1,5 @@
 import defaults from '../lib/defaults';
-import p from '../param';
+import * as p from '../param';
 import blendModes from '../lib/nativeBlendModes';
 
 function xform(glitchContext, options) {

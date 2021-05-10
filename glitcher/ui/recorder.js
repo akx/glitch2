@@ -4,7 +4,7 @@ import m from 'mithril';
 import generateGIF from '../generate-gif';
 import { forceDownload } from '../util';
 
-const saveCurrentButton = ctrl => (
+const saveCurrentButton = (ctrl) => (
   m(
     'button',
     {
@@ -25,7 +25,6 @@ const saveCurrentButton = ctrl => (
     ' Save Current Image'
   )
 );
-
 
 const refreshRow = (ctrl) => {
   const manualRefreshButton = m(
@@ -62,8 +61,7 @@ const refreshRow = (ctrl) => {
   );
 };
 
-
-const recorder = ctrl => m(
+const recorder = (ctrl) => m(
   'div.recorder',
   { key: 'recorder' },
   [

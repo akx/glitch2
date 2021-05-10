@@ -1,4 +1,3 @@
-
 import GIF from 'gif.js';
 import GIFWorker from 'file-loader!gif.js/dist/gif.worker.js';  // eslint-disable-line
 

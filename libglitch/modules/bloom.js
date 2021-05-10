@@ -1,7 +1,7 @@
 import defaults from '../lib/defaults';
 import dataBlend from '../lib/dataBlend';
 import stackBlurImageData from '../lib/stackBlurImageData';
-import p from '../param';
+import * as p from '../param';
 
 function bloom(glitchContext, options) {
   options = defaults(options, bloom.paramDefaults);
@@ -29,6 +29,5 @@ bloom.params = [
   p.num('strength', { description: 'bloom strength' }),
   p.num('counterStrength', { description: 'bloom counter-strength, set to < 0 for auto' }),
 ];
-
 
 export default bloom;

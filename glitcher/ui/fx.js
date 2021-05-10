@@ -82,7 +82,7 @@ function getParamEditor(def, paramDef) {
             def.options[paramName] = event.target.value;
           },
         },
-        paramDef.choices.map(choice => m('option', { value: choice }, choice))
+        paramDef.choices.map((choice) => m('option', { value: choice }, choice))
       ),
       m('a', {
         href: '#',
@@ -106,8 +106,8 @@ const defEditor = (ctrl, state, def) => {
   const enabled = (def.enabled && def.probability > 0);
   const params = (def.module.params || []);
   const collapseBtn = (
-    params.length ?
-      m(
+    params.length
+      ? m(
         'button',
         {
           onclick() {
@@ -179,23 +179,22 @@ const defEditor = (ctrl, state, def) => {
           }, m('i.icon-plus')),
         ]
       ),
-      (def.uiVisible ?
-        m(
+      (def.uiVisible
+        ? m(
           'div.params',
-          params.map(pDef => getParamEditor(def, pDef))
+          params.map((pDef) => getParamEditor(def, pDef))
         ) : null
       ),
     ],
   );
 };
 
-
 function moduleList(ctrl) {
   const { state } = ctrl.engine;
   return m(
     'div.module-list',
     { key: 'module-list' },
-    state.defs.map(def => defEditor(ctrl, state, def))
+    state.defs.map((def) => defEditor(ctrl, state, def))
   );
 }
 

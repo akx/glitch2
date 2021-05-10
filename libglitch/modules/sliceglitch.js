@@ -4,7 +4,7 @@ import lerper from '../lib/lerper';
 import defaults from '../lib/defaults';
 import { randint } from '../lib/rand';
 import { wrap } from '../lib/num';
-import p from '../param';
+import * as p from '../param';
 
 function sliceoffset(imageData, y0, y1, offset, channelMask, blend, drift) {
   let x0;

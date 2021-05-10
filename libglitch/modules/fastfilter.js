@@ -1,5 +1,5 @@
 import defaults from '../lib/defaults';
-import p from '../param';
+import * as p from '../param';
 import blendModes from '../lib/nativeBlendModes';
 
 function fastfilterCore(glitchContext, options, filterFn) {
@@ -26,11 +26,10 @@ const baseParams = [
   p.choice('operation', blendModes),
 ];
 
-
 const build = (filterFn, params = [], paramDefaults = {}) => Object.assign(
   (glitchContext, options) => fastfilterCore(glitchContext, options, filterFn),
   {
-    paramDefaults: Object.assign({}, fastfilterCore.paramDefaults, paramDefaults),
+    paramDefaults: { ...fastfilterCore.paramDefaults, ...paramDefaults },
     params: [].concat(params).concat(baseParams),
   }
 );

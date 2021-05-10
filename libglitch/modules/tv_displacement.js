@@ -1,7 +1,7 @@
 import makeTVDisplacement from '../displace/tv';
 import displacementMapper from '../displace/mapper';
 import defaults from '../lib/defaults';
-import p from '../param';
+import * as p from '../param';
 
 function tvDisplacement(glitchContext, options) {
   options = defaults(options, tvDisplacement.paramDefaults);

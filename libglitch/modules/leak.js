@@ -1,7 +1,7 @@
 import lerper from '../lib/lerper';
 import defaults from '../lib/defaults';
 import { randint } from '../lib/rand';
-import p from '../param';
+import * as p from '../param';
 
 function _leak(imageData, lerp, magic1, magic2, yToMagic1, yToMagic2) {
   const { width, height, data } = imageData;
@@ -51,6 +51,5 @@ leak.params = [
   p.int('nMin', { description: 'Min repetitions' }),
   p.int('nMax', { description: 'Max repetitions' }),
 ];
-
 
 export default leak;

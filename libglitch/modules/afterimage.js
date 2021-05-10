@@ -1,6 +1,6 @@
 import defaults from '../lib/defaults';
 import dataBlend from '../lib/dataBlend';
-import p from '../param';
+import * as p from '../param';
 
 function afterimage(glitchContext, options) {
   options = defaults(options, afterimage.paramDefaults);

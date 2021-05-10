@@ -1,5 +1,5 @@
 import defaults from '../lib/defaults';
-import p from '../param';
+import * as p from '../param';
 
 function bufferSave(glitchContext, options) {
   options = defaults(options, bufferSave.paramDefaults);

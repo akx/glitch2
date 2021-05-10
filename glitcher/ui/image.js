@@ -39,7 +39,7 @@ const resizePrompt = (ctrl) => {
   }
 };
 
-const loadImageDiv = ctrl => (
+const loadImageDiv = (ctrl) => (
   m(
     'div.image',
     { key: 'load-image' },
