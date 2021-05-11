@@ -1,7 +1,7 @@
 import m from 'mithril';
 
 const stateButtons = (ctrl) =>
-  m('div.state-box', [
+  m('div.state-box', { key: 'state-ui' }, [
     m(
       'div.button-row',
       { key: 'state-global-buttons' },

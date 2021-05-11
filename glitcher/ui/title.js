@@ -14,7 +14,7 @@ const showHide = (ctrl, id, name) =>
   );
 
 const titleUI = (ctrl) =>
-  m('div.title', [
+  m('div.title', { key: 'title-ui' }, [
     m(
       'a.by',
       { href: 'https://github.com/akx/glitch2', target: '_blank' },

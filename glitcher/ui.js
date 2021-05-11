@@ -6,8 +6,7 @@ import recorderUI from './ui/recorder';
 import titleUI from './ui/title';
 
 function oninit(vnode, engine) {
-  vnode.state = {
-    state: null,
+  Object.assign(vnode.state, {
     engine,
     ui: {
       stateMgmt: false,
@@ -19,23 +18,28 @@ function oninit(vnode, engine) {
     },
     recordFrames: [],
     gifRenderProgress: null,
-  };
+  });
 }
 
 function view({ state: ctrl }) {
   if (ctrl.engine === null) return null;
   // Slightly yucky side effect
   document.body.classList.toggle('zoom-canvas-to-fit', ctrl.ui.zoom);
-  return m('div', [
-    titleUI(ctrl),
-    ctrl.ui.stateMgmt ? stateUI(ctrl) : null,
-    ctrl.ui.image ? imageUI(ctrl) : null,
-    ctrl.ui.recorder ? recorderUI(ctrl) : null,
-    ctrl.ui.fx ? fxUI(ctrl) : null,
-    ctrl.ui.misc
-      ? m('div', [`Render time: ${ctrl.engine.renderTime} ms`])
-      : null,
-  ]);
+  return m(
+    'div',
+    [
+      titleUI(ctrl),
+      ctrl.ui.stateMgmt ? stateUI(ctrl) : null,
+      ctrl.ui.image ? imageUI(ctrl) : null,
+      ctrl.ui.recorder ? recorderUI(ctrl) : null,
+      ctrl.ui.fx ? fxUI(ctrl) : null,
+      ctrl.ui.misc
+        ? m('div', { key: 'misc' }, [
+            `Render time: ${ctrl.engine.renderTime} ms`,
+          ])
+        : null,
+    ].filter(Boolean),
+  );
 }
 
 export function init(engine) {
