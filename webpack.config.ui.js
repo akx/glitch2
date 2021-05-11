@@ -1,11 +1,11 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const fs = require('fs');
+const path = require('path');
 const webpack = require('webpack');
 
 module.exports = {
   entry: './glitcher/index.js',
   output: {
-    path: fs.realpathSync('./dist'),
+    path: path.join(__dirname, 'dist'),
     filename: 'glitcher.js',
   },
   module: {
@@ -40,7 +40,9 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({ title: 'glitch2' }),
     new webpack.DefinePlugin({
-      GA_ID: process.env.GA_ID ? JSON.stringify(process.env.GA_ID) : null,
+      'window.GA_ID': process.env.GA_ID
+        ? JSON.stringify(process.env.GA_ID)
+        : null,
     }),
   ],
 };

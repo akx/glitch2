@@ -7,8 +7,7 @@
     "lint": "eslint libglitch glitcher",
     "build:lib": "webpack --config webpack.config.lib.js --mode production",
     "build:ui": "webpack --config webpack.config.ui.js --mode production",
-    "dev": "webpack serve --config webpack.config.ui.js --mode development",
-    "pub": "cross-env GA_ID=UA-282164-17 webpack --config webpack.config.ui.js --mode production && ghpg -d dist"
+    "dev": "webpack serve --config webpack.config.ui.js --mode development"
   },
   "author": "Aarni Koskela <akx@iki.fi>",
   "license": "MIT",
@@ -30,12 +29,10 @@
     "webpack-cli": "^4.7.0"
   },
   "devDependencies": {
-    "cross-env": "^7.0.3",
     "eslint": "^7.26.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-import": "^2.22.1",
-    "ghpg": "^2.0.0",
     "prettier": "^2.3.0",
     "webpack-dev-server": "^3.11.2"
   },
