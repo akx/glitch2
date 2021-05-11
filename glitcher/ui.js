@@ -5,22 +5,24 @@ import imageUI from './ui/image';
 import recorderUI from './ui/recorder';
 import titleUI from './ui/title';
 
-function controller() {
-  this.state = null;
-  this.engine = null;
-  this.ui = {
-    stateMgmt: false,
-    recorder: true,
-    image: true,
-    fx: true,
-    misc: false,
-    zoom: false,
+function oninit(vnode, engine) {
+  vnode.state = {
+    state: null,
+    engine,
+    ui: {
+      stateMgmt: false,
+      recorder: true,
+      image: true,
+      fx: true,
+      misc: false,
+      zoom: false,
+    },
+    recordFrames: [],
+    gifRenderProgress: null,
   };
-  this.recordFrames = [];
-  this.gifRenderProgress = null;
 }
 
-function view(ctrl) {
+function view({ state: ctrl }) {
   if (ctrl.engine === null) return null;
   // Slightly yucky side effect
   document.body.classList.toggle('zoom-canvas-to-fit', ctrl.ui.zoom);
@@ -40,8 +42,8 @@ export function init(engine) {
   const uiContainer = document.createElement('div');
   uiContainer.id = 'ui-container';
   document.body.appendChild(uiContainer);
-  m.startComputation();
-  const ctrl = m.module(uiContainer, { controller, view });
-  ctrl.engine = engine;
-  m.endComputation();
+  m.mount(uiContainer, {
+    oninit: (vnode) => oninit(vnode, engine),
+    view,
+  });
 }
