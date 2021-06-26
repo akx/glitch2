@@ -1,11 +1,18 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { Filter } from '../libglitch/types';
+import { Def } from './types';
+
 class State {
-  constructor(modules) {
+  public readonly modules: Record<string, Filter<any>>;
+
+  defs: Def[];
+
+  constructor(modules: Record<string, Filter<any>>) {
     this.modules = modules;
     this.defs = [];
   }
 
-  addModule(moduleName, options) {
-    options = options || {};
+  addModule(moduleName: string, options: Record<string, any> = {}): Def {
     const moduleObj = this.modules[moduleName];
     if (!moduleObj) throw new Error(`Unknown module: ${moduleName}`);
     const defaults = moduleObj.paramDefaults || {};
@@ -15,7 +22,7 @@ class State {
         options[param.name] = defaultValue;
       }
     });
-    const def = {
+    const def: Def = {
       id: (0 | (Math.random() * 0xffffffff)).toString(36),
       module: moduleObj,
       moduleName,
@@ -28,13 +35,13 @@ class State {
     return def;
   }
 
-  duplicateDef(def) {
+  duplicateDef(def: Def) {
     const newDef = this.addModule(def.moduleName, def.options);
     newDef.enabled = def.enabled;
     newDef.probability = def.probability;
   }
 
-  deleteDef(def) {
+  deleteDef(def: Def | string) {
     this.defs = this.defs.filter((d) => d !== def && d.id !== def);
   }
 
@@ -42,37 +49,38 @@ class State {
     this.defs = [];
   }
 
-  moveDef(def, direction) {
+  moveDef(def: Def, direction: number): void {
     const { defs } = this;
     const idx = defs.indexOf(def);
     if (idx === -1) return;
-    const [ndef] = defs.splice(idx, 1)[0];
+    const [ndef] = defs.splice(idx, 1);
     let newIdx = idx + direction;
     if (newIdx < 0) newIdx = 0;
     if (newIdx >= defs.length) newIdx = defs.length;
     defs.splice(newIdx, 0, ndef);
   }
 
-  serialize() {
-    const ser = {};
-    ser.defs = this.defs.map((def) => ({
-      id: def.id,
-      moduleName: def.moduleName,
-      options: def.options,
-      enabled: !!def.enabled,
-      probability: +def.probability,
-    }));
-    return JSON.stringify(ser);
+  serialize(): string {
+    return JSON.stringify({
+      defs: this.defs.map(
+        ({ enabled, id, moduleName, options, probability }) => ({
+          id,
+          moduleName,
+          options,
+          enabled: !!enabled,
+          probability: +probability,
+        }),
+      ),
+    });
   }
 
-  unserialize(ser) {
-    ser = JSON.parse(ser);
-    const self = this;
+  unserialize(ser: string): void {
+    const ss = JSON.parse(ser);
     this.defs = [];
-    ser.defs.forEach((serDef) => {
+    ss.defs.forEach((serDef: Def) => {
       let def;
       try {
-        def = self.addModule(serDef.moduleName, serDef.options);
+        def = this.addModule(serDef.moduleName, serDef.options);
       } catch (e) {
         return;
       }
@@ -82,15 +90,14 @@ class State {
     });
   }
 
-  loadFromLocalStorage(key) {
-    const serialized =
-      window.localStorage && window.localStorage[key || 'GlitcherState'];
+  loadFromLocalStorage(key = 'GlitcherState') {
+    const serialized = window.localStorage && window.localStorage[key];
     if (serialized) this.unserialize(serialized);
   }
 
-  saveIntoLocalStorage(key) {
+  saveIntoLocalStorage(key = 'GlitcherState') {
     if (window.localStorage) {
-      window.localStorage[key || 'GlitcherState'] = this.serialize();
+      window.localStorage[key] = this.serialize();
     }
   }
 }

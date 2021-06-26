@@ -1,6 +1,7 @@
 import m from 'mithril';
+import { UIState } from '../types';
 
-const stateButtons = (ctrl) =>
+const stateButtons = (ctrl: UIState) =>
   m('div.state-box', { key: 'state-ui' }, [
     m(
       'div.button-row',

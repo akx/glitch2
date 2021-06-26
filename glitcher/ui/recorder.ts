@@ -2,8 +2,9 @@ import m from 'mithril';
 
 import generateGIF from '../generate-gif';
 import { forceDownload } from '../util';
+import { UIState } from '../types';
 
-const saveCurrentButton = (ctrl) =>
+const saveCurrentButton = (ctrl: UIState) =>
   m(
     'button',
     {
@@ -24,7 +25,7 @@ const saveCurrentButton = (ctrl) =>
     ' Save Current Image',
   );
 
-const refreshRow = (ctrl) => {
+const refreshRow = (ctrl: UIState) => {
   const manualRefreshButton = m(
     'button',
     {
@@ -56,14 +57,14 @@ const refreshRow = (ctrl) => {
   ]);
 };
 
-const recorder = (ctrl) =>
+const recorder = (ctrl: UIState) =>
   m('div.recorder', { key: 'recorder' }, [
     refreshRow(ctrl),
     m('div.button-row', [
       m(
         'button',
         {
-          onclick(event) {
+          onclick(event: Event) {
             ctrl.recordFrames.push({
               data: ctrl.engine.toDataURL(),
             });
@@ -102,7 +103,7 @@ const recorder = (ctrl) =>
       m(
         'button',
         {
-          onclick(event) {
+          onclick(event: Event) {
             if (confirm('Clear animation?')) {
               ctrl.recordFrames = [];
             }

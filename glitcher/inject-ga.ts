@@ -1,4 +1,4 @@
-export default function injectGA(propertyId) {
+export default function injectGA(propertyId: string | null | undefined) {
   if (!propertyId) return;
 
   const gaScript = document.createElement('script');

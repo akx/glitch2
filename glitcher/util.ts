@@ -1,4 +1,6 @@
-export function randomizeDef(def) {
+import { Def } from './types';
+
+export function randomizeDef(def: Def) {
   (def.module.params || []).forEach((paramDef) => {
     const paramName = paramDef.name;
     let rnd = Math.random();
@@ -20,8 +22,10 @@ export function randomizeDef(def) {
         }
         break;
       case 'choice':
-        def.options[paramName] =
-          paramDef.choices[Math.floor(rnd * paramDef.choices.length)];
+        if (paramDef.choices) {
+          def.options[paramName] =
+            paramDef.choices[Math.floor(rnd * paramDef.choices.length)];
+        }
         break;
       default:
         break;
@@ -29,7 +33,7 @@ export function randomizeDef(def) {
   });
 }
 
-export function forceDownload(url, filename) {
+export function forceDownload(url: string, filename: string): Promise<void> {
   return new Promise((resolve) => {
     const link = document.createElement('a');
     link.href = url;
@@ -38,7 +42,7 @@ export function forceDownload(url, filename) {
     link.click();
     setTimeout(() => {
       try {
-        link.parentNode.removeChild(link);
+        link.parentNode?.removeChild(link);
       } catch (e) {
         // *shrug*
       }

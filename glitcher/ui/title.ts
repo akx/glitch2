@@ -1,11 +1,12 @@
 import m from 'mithril';
+import { UIState } from '../types';
 
-const showHide = (ctrl, id, name) =>
+const showHide = (ctrl: UIState, id: keyof UIState['ui'], name: string) =>
   m(
     'a',
     {
       href: '#',
-      onclick: (event) => {
+      onclick: (event: MouseEvent) => {
         ctrl.ui[id] = !ctrl.ui[id];
         event.preventDefault();
       },
@@ -13,7 +14,7 @@ const showHide = (ctrl, id, name) =>
     `${ctrl.ui[id] ? '-' : '+'} ${name}`,
   );
 
-const titleUI = (ctrl) =>
+const titleUI = (ctrl: UIState) =>
   m('div.title', { key: 'title-ui' }, [
     m(
       'a.by',

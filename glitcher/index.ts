@@ -3,25 +3,22 @@ import Engine from './engine';
 import './look/glitcher.less';
 import injectGA from './inject-ga';
 
-function loadLenna(engine) {
+function loadLenna(engine: Engine) {
   const sourceImage = new Image();
-  // eslint-disable-next-line global-require
+  // eslint-disable-next-line global-require,@typescript-eslint/no-var-requires
   sourceImage.src = require('./lenna.jpg').default;
   engine.sourceImage = sourceImage;
 }
 
-function addPasteHandler(engine) {
+function addPasteHandler(engine: Engine) {
   document.addEventListener(
     'paste',
     (event) => {
-      let imageItem = null;
-      for (let i = 0; i < event.clipboardData.items.length; i++) {
-        const item = event.clipboardData.items[i];
-        if (item.type.indexOf('image') > -1) {
-          imageItem = item;
-          break;
-        }
-      }
+      const { clipboardData } = event;
+      if (!clipboardData) return;
+      const imageItem = Array.from(clipboardData.items).find(
+        (item) => item.type.indexOf('image') > -1,
+      );
       if (imageItem && confirm('Paste image into Glitch2?')) {
         const blob = imageItem.getAsFile();
         const url = URL.createObjectURL(blob);
@@ -50,8 +47,9 @@ function init() {
   engine.state.loadFromLocalStorage();
   UI.init(engine);
   engine.renderLoop();
-  if (typeof window.GA_ID !== 'undefined') {
-    injectGA(window.GA_ID);
+  const gaid = window.GA_ID;
+  if (gaid) {
+    injectGA(gaid);
   }
 }
 

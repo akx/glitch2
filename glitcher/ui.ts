@@ -4,9 +4,11 @@ import fxUI from './ui/fx';
 import imageUI from './ui/image';
 import recorderUI from './ui/recorder';
 import titleUI from './ui/title';
+import Engine from './engine';
+import { UIState } from './types';
 
-function oninit(vnode, engine) {
-  Object.assign(vnode.state, {
+function oninit(vnode: m.Vnode<unknown, UIState>, engine: Engine) {
+  const uiState: UIState = {
     engine,
     ui: {
       stateMgmt: false,
@@ -18,11 +20,11 @@ function oninit(vnode, engine) {
     },
     recordFrames: [],
     gifRenderProgress: null,
-  });
+  };
+  Object.assign(vnode.state, uiState);
 }
 
-function view({ state: ctrl }) {
-  if (ctrl.engine === null) return null;
+function view({ state: ctrl }: { state: UIState }) {
   // Slightly yucky side effect
   document.body.classList.toggle('zoom-canvas-to-fit', ctrl.ui.zoom);
   return m(
@@ -42,12 +44,12 @@ function view({ state: ctrl }) {
   );
 }
 
-export function init(engine) {
+export function init(engine: Engine) {
   const uiContainer = document.createElement('div');
   uiContainer.id = 'ui-container';
   document.body.appendChild(uiContainer);
   m.mount(uiContainer, {
-    oninit: (vnode) => oninit(vnode, engine),
+    oninit: (vnode: m.Vnode<unknown, UIState>) => oninit(vnode, engine),
     view,
-  });
+  } as never);
 }

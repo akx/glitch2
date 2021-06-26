@@ -1,38 +1,47 @@
 import m from 'mithril';
+import { UIState } from '../types';
 
-function loadImageFromFileField(event, complete) {
+function loadImageFromFileField(
+  event: Event,
+  complete: (img: HTMLImageElement) => void,
+) {
   const fileReader = new FileReader();
   fileReader.onload = (loadEvent) => {
-    const src = loadEvent.target.result;
+    const src = loadEvent.target?.result;
     const img = document.createElement('img');
-    img.src = src;
+    img.src = String(src);
     img.onload = () => {
       complete(img);
     };
   };
-  fileReader.readAsDataURL(event.target.files[0]);
+  if (event.target) {
+    const file = (event.target as HTMLInputElement).files?.[0];
+    if (file) fileReader.readAsDataURL(file);
+  }
 }
 
-const resizePrompt = (ctrl) => {
+const resizePrompt = (ctrl: UIState) => {
   const img = ctrl.engine.sourceImage;
+  if (!img) return;
   const currSize = `${img.width}x${img.height}`;
   let newSize;
   if (
     (newSize = prompt('Enter the desired new size for the image.', currSize))
   ) {
     if (currSize === newSize) return;
-    let [, width, height] = /^(\d+)\s*x\s*(\d+)$/i.exec(newSize);
-    width = parseInt(width, 10);
-    height = parseInt(height, 10);
+    const match = /^(\d+)\s*x\s*(\d+)$/i.exec(newSize);
+    if (!match) return;
+    const width = parseInt(match[1], 10);
+    const height = parseInt(match[2], 10);
     if (!(width > 0 && height > 0)) {
       alert('Unable to parse new size.');
       return;
     }
-    const tempCanvas = Object.assign(document.createElement('canvas'), {
-      width,
-      height,
-    });
+    const tempCanvas = document.createElement('canvas');
+    tempCanvas.width = width;
+    tempCanvas.height = height;
     const tempContext = tempCanvas.getContext('2d');
+    if (!tempContext) return;
     tempContext.drawImage(img, 0, 0, width, height);
     const url = tempCanvas.toDataURL('image/png');
     const newImage = new Image();
@@ -43,7 +52,7 @@ const resizePrompt = (ctrl) => {
   }
 };
 
-const loadImageDiv = (ctrl) =>
+const loadImageDiv = (ctrl: UIState) =>
   m(
     'div.image',
     { key: 'load-image' },
@@ -53,10 +62,10 @@ const loadImageDiv = (ctrl) =>
         type: 'file',
         id: 'select-image',
         accept: 'image/*',
-        onchange(event) {
+        onchange(event: Event) {
           loadImageFromFileField(event, (img) => {
             ctrl.engine.sourceImage = img;
-            event.target.value = null;
+            if (event.target) (event.target as HTMLInputElement).value = '';
           });
         },
       }),
@@ -73,8 +82,8 @@ const loadImageDiv = (ctrl) =>
     m('label', [
       m('input', {
         type: 'checkbox',
-        onchange: (e) => {
-          ctrl.ui.zoom = e.target.checked;
+        onchange: (e: Event) => {
+          if (e.target) ctrl.ui.zoom = (e.target as HTMLInputElement).checked;
         },
       }),
       'zoom down to fit',

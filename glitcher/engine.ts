@@ -1,20 +1,34 @@
-import Context from '../libglitch/GlitchContext';
 import modules from '../libglitch/modules';
 import State from './State';
+import GlitchContext from '../libglitch/GlitchContext';
+import { Filter } from '../libglitch/types';
 
 class Engine {
-  constructor(targetCanvas) {
+  public rate: number;
+
+  public state: State;
+
+  public sourceImage: HTMLImageElement | null;
+
+  private readonly targetCanvas: HTMLCanvasElement;
+
+  private glitchContext: GlitchContext;
+
+  public renderTime: number;
+
+  constructor(targetCanvas: HTMLCanvasElement) {
     this.rate = 40;
-    this.state = new State(modules);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    this.state = new State(modules as unknown as Record<string, Filter<any>>); // TODO
     this.sourceImage = null;
     this.targetCanvas = targetCanvas;
-    this.glitchContext = new Context(targetCanvas);
+    this.glitchContext = new GlitchContext(targetCanvas);
     this.renderTime = 0;
   }
 
-  renderFrame() {
+  public renderFrame() {
     const { sourceImage, targetCanvas, glitchContext, state } = this;
-    if (!sourceImage.complete) return;
+    if (!sourceImage?.complete) return;
     const t0 = +new Date();
     targetCanvas.width = 0 | sourceImage.width;
     targetCanvas.height = 0 | sourceImage.height;
@@ -36,22 +50,25 @@ class Engine {
     this.renderTime = t1 - t0;
   }
 
-  renderLoop() {
+  public renderLoop() {
     try {
       if (this.rate > 0) this.renderFrame();
     } finally {
-      const self = this;
       setTimeout(() => {
-        self.renderLoop();
+        this.renderLoop();
       }, Math.max(2, 4000 / this.rate));
     }
   }
 
-  toDataURL() {
+  public toDataURL(): string {
     return this.targetCanvas.toDataURL();
   }
 
-  toURL(type = 'image/png', encoderOptions, forceDataUrl = false) {
+  public toURL(
+    type = 'image/png',
+    encoderOptions: unknown = {},
+    forceDataUrl = false,
+  ): Promise<string> {
     const blobUrlSupported =
       typeof this.targetCanvas.toBlob === 'function' &&
       typeof URL.createObjectURL === 'function';

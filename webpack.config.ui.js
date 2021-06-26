@@ -3,7 +3,7 @@ const path = require('path');
 const webpack = require('webpack');
 
 module.exports = {
-  entry: './glitcher/index.js',
+  entry: './glitcher/index.ts',
   output: {
     path: path.join(__dirname, 'dist'),
     filename: 'glitcher.js',

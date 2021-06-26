@@ -1,10 +1,15 @@
-import m from 'mithril';
+import m, { Child } from 'mithril';
 
 import { randomizeDef } from '../util';
+import { Def, UIState } from '../types';
+import { Parameter } from '../../libglitch/param';
+import State from '../State';
 
-function moduleSelector(ctrl) {
+function moduleSelector(ctrl: UIState) {
+  const { engine } = ctrl;
+  if (!engine) return null;
   const options = [m('option', { value: '' }, '<< Add module... >>')];
-  const { modules } = ctrl.engine.state;
+  const { modules } = engine.state;
   Object.keys(modules).forEach((key) => {
     const module = modules[key];
     options.push(m('option', { value: key }, `${module.friendlyName || key}`));
@@ -15,9 +20,10 @@ function moduleSelector(ctrl) {
     m(
       'select',
       {
-        onchange(event) {
-          ctrl.engine.state.addModule(event.target.value);
-          event.target.value = '';
+        onchange(event: Event) {
+          const target = event.target as HTMLSelectElement;
+          engine.state.addModule(target.value);
+          target.value = '';
         },
       },
       options,
@@ -25,7 +31,11 @@ function moduleSelector(ctrl) {
   );
 }
 
-function rotateChoiceParam({ choices }, value, direction) {
+function rotateChoiceParam(
+  choices: string[],
+  value: string,
+  direction: number,
+) {
   const currentValueIndex = choices.indexOf(value);
   if (currentValueIndex === -1) return value;
   const newValueIndex =
@@ -33,17 +43,14 @@ function rotateChoiceParam({ choices }, value, direction) {
   return choices[newValueIndex];
 }
 
-function getParamEditor(def, paramDef) {
+function getParamEditor(def: Def, paramDef: Parameter) {
   const paramName = paramDef.name;
-  const paramNode = m(
-    `div.param.param-${paramDef.type}`,
-    { key: `${def.id}-${paramName}` },
-    [],
-  );
+
+  const children: Child[] = [];
   const value = def.options[paramName];
 
   if (paramDef.type === 'bool') {
-    paramNode.children.push(
+    children.push(
       m(
         'label',
         m('input', {
@@ -59,15 +66,20 @@ function getParamEditor(def, paramDef) {
   }
 
   if (paramDef.type === 'int' || paramDef.type === 'num') {
-    paramNode.children.push(m('div.param-name', paramName));
+    children.push(m('div.param-name', paramName));
+    const oninput = (event: InputEvent) => {
+      if (event.target) {
+        def.options[paramName] = (
+          event.target as HTMLInputElement
+        ).valueAsNumber;
+      }
+    };
 
-    paramNode.children.push(
+    children.push(
       m(
         'div.slider-and-input',
         m('input.slider', {
-          oninput(event) {
-            def.options[paramName] = event.target.valueAsNumber;
-          },
+          oninput,
           value,
           min: paramDef.min,
           max: paramDef.max,
@@ -75,9 +87,7 @@ function getParamEditor(def, paramDef) {
           type: 'range',
         }),
         m('input.num', {
-          oninput(event) {
-            def.options[paramName] = event.target.valueAsNumber;
-          },
+          oninput,
           value,
           step: paramDef.step !== null ? paramDef.step : 0.0001,
           type: 'number',
@@ -87,18 +97,22 @@ function getParamEditor(def, paramDef) {
   }
 
   if (paramDef.type === 'choice') {
-    paramNode.children.push(m('div.param-name', paramName));
-    paramNode.children.push(
+    children.push(m('div.param-name', paramName));
+    children.push(
       m('div', [
         m(
           'select',
           {
             value,
-            oninput(event) {
-              def.options[paramName] = event.target.value;
+            oninput(event: InputEvent) {
+              if (event.target) {
+                def.options[paramName] = (
+                  event.target as HTMLSelectElement
+                ).value;
+              }
             },
           },
-          paramDef.choices.map((choice) =>
+          paramDef.choices?.map((choice) =>
             m('option', { value: choice }, choice),
           ),
         ),
@@ -107,7 +121,10 @@ function getParamEditor(def, paramDef) {
           {
             href: '#',
             onclick() {
-              def.options[paramName] = rotateChoiceParam(paramDef, value, -1);
+              const { choices } = paramDef;
+              if (choices) {
+                def.options[paramName] = rotateChoiceParam(choices, value, -1);
+              }
             },
           },
           m('i.icon-flash'),
@@ -118,7 +135,10 @@ function getParamEditor(def, paramDef) {
           {
             href: '#',
             onclick() {
-              def.options[paramName] = rotateChoiceParam(paramDef, value, +1);
+              const { choices } = paramDef;
+              if (choices) {
+                def.options[paramName] = rotateChoiceParam(choices, value, +1);
+              }
             },
           },
           m('i.icon-arrow-right-thick'),
@@ -126,10 +146,14 @@ function getParamEditor(def, paramDef) {
       ]),
     );
   }
-  return paramNode;
+  return m(
+    `div.param.param-${paramDef.type}`,
+    { key: `${def.id}-${paramName}` },
+    children,
+  );
 }
 
-const defEditor = (ctrl, state, def) => {
+const defEditor = (ctrl: UIState, state: State, def: Def) => {
   const enabled = def.enabled && def.probability > 0;
   const params = def.module.params || [];
   const collapseBtn = params.length
@@ -148,8 +172,10 @@ const defEditor = (ctrl, state, def) => {
     m('div.def-kit.button-row', [
       m('div.module-name', [def.moduleName]),
       m('input.prob-slider', {
-        oninput(event) {
-          def.probability = event.target.valueAsNumber;
+        oninput(event: InputEvent) {
+          if (event.target) {
+            def.probability = (event.target as HTMLInputElement).valueAsNumber;
+          }
         },
         value: def.probability,
         min: 0,
@@ -229,16 +255,16 @@ const defEditor = (ctrl, state, def) => {
   ]);
 };
 
-function moduleList(ctrl) {
+function moduleList(ctrl: UIState) {
   const { state } = ctrl.engine;
   return m(
     'div.module-list',
     { key: 'module-list' },
-    state.defs.map((def) => defEditor(ctrl, state, def)),
+    state.defs.map((def: Def) => defEditor(ctrl, state, def)),
   );
 }
 
-export default function fxUI(ctrl) {
+export default function fxUI(ctrl: UIState) {
   return m('div.fx-ui', { key: 'fx-ui' }, [
     moduleSelector(ctrl),
     moduleList(ctrl),
