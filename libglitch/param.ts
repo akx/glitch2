@@ -3,7 +3,7 @@ export interface Parameter {
   name: string;
   min?: number;
   max?: number;
-  step?: number;
+  step?: number | null;
   choices?: string[];
   description?: string;
   randomBias?: number;
@@ -20,7 +20,7 @@ function Num(name: string, options?: Partial<Parameter>): Parameter {
     type: 'num',
     min: 0,
     max: 1,
-    step: undefined,
+    step: null,
     name,
     ...options,
   };
