@@ -12,16 +12,13 @@ class State {
     this.defs = [];
   }
 
-  addModule(moduleName: string, options: Record<string, any> = {}): Def {
+  addModule(moduleName: string, pOptions: Record<string, any> = {}): Def {
     const moduleObj = this.modules[moduleName];
     if (!moduleObj) throw new Error(`Unknown module: ${moduleName}`);
-    const defaults = moduleObj.paramDefaults || {};
-    (moduleObj.params || []).forEach((param) => {
-      const defaultValue = defaults[param.name];
-      if (!(param.name in options) && defaultValue !== undefined) {
-        options[param.name] = defaultValue;
-      }
-    });
+    const options = {
+      ...(moduleObj.paramDefaults || {}),
+      ...pOptions,
+    };
     const def: Def = {
       id: (0 | (Math.random() * 0xffffffff)).toString(36),
       module: moduleObj,
