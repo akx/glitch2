@@ -8,10 +8,13 @@ module.exports = {
     library: 'Glitch',
     libraryTarget: 'umd',
   },
+  resolve: {
+    extensions: ['.tsx', '.ts', '.js'],
+  },
   module: {
     rules: [
       {
-        test: /\.jsx?$/,
+        test: /\.[jt]sx?$/,
         exclude: /node_modules/,
         loader: 'babel-loader',
       },
