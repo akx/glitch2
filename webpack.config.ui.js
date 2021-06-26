@@ -3,15 +3,18 @@ const path = require('path');
 const webpack = require('webpack');
 
 module.exports = {
-  entry: './glitcher/index.js',
+  entry: './glitcher/index.ts',
   output: {
     path: path.join(__dirname, 'dist'),
     filename: 'glitcher.js',
   },
+  resolve: {
+    extensions: ['.tsx', '.ts', '.js'],
+  },
   module: {
     rules: [
       {
-        test: /\.js$/,
+        test: /\.[jt]sx?$/,
         exclude: /node_modules/,
         loader: 'babel-loader',
       },
