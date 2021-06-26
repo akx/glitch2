@@ -42,6 +42,9 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({ title: 'glitch2' }),
+    new webpack.ProvidePlugin({
+      Buffer: ['buffer', 'Buffer'],
+    }),
     new webpack.DefinePlugin({
       'window.GA_ID': process.env.GA_ID
         ? JSON.stringify(process.env.GA_ID)

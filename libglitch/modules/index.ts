@@ -8,6 +8,7 @@ import buffer_save from './buffer_save';
 import desolve from './desolve';
 import elastic from './elastic';
 import from_ycbcr from './from_ycbcr';
+import jpeg from './jpeg';
 import leak from './leak';
 import noise from './noise';
 import scanlines from './scanlines';
@@ -33,6 +34,7 @@ export default {
   ffhue: fastfilter.hue,
   ffsaturate: fastfilter.saturate,
   from_ycbcr,
+  jpeg,
   leak,
   noise,
   scanlines,
