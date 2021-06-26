@@ -1,4 +1,7 @@
-function colorTransformImageData(imageData, matrix) {
+export default function colorTransformImageData(
+  imageData: ImageData,
+  matrix: readonly number[],
+): void {
   let r;
   let g;
   let b;
@@ -28,5 +31,3 @@ function colorTransformImageData(imageData, matrix) {
     data[offset + 2] = b0 * r + b1 * g + b2 * b + bPost;
   }
 }
-
-export default colorTransformImageData;

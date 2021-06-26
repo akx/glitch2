@@ -1,9 +1,24 @@
-import defaults from '../lib/defaults';
 import * as p from '../param';
+import { Parameter } from '../param';
 import blendModes from '../lib/nativeBlendModes';
+import GlitchContext from '../GlitchContext';
+import { Filter } from '../types';
 
-function fastfilterCore(glitchContext, options, filterFn) {
-  options = defaults(options, fastfilterCore.options);
+export interface FastFilterOptions {
+  blend: number;
+  operation: string;
+  iterations: number;
+}
+
+function fastfilterCore<T extends Record<string, never>>(
+  glitchContext: GlitchContext,
+  pOptions: Partial<T & FastFilterOptions>,
+  filterFn: (t: T) => string,
+) {
+  const options: FastFilterOptions & T = {
+    ...fastFilterDefaults,
+    ...pOptions,
+  } as any; // eslint-disable-line @typescript-eslint/no-explicit-any
   const context = glitchContext.getContext();
   context.filter = filterFn(options);
   context.globalAlpha = options.blend;
@@ -14,27 +29,36 @@ function fastfilterCore(glitchContext, options, filterFn) {
   context.globalAlpha = 1;
   context.globalCompositeOperation = 'source-over';
 }
-fastfilterCore.paramDefaults = {
+
+const fastFilterDefaults = {
   blend: 1,
   iterations: 1,
   operation: 'source-over', // TODO: implement
 };
+fastfilterCore.paramDefaults = fastFilterDefaults;
 
-const baseParams = [
+const baseParams: Parameter[] = [
   p.num('blend', { description: 'blend' }),
   p.int('iterations', { min: 1, max: 15 }),
   p.choice('operation', blendModes),
 ];
 
-const build = (filterFn, params = [], paramDefaults = {}) =>
-  Object.assign(
-    (glitchContext, options) =>
-      fastfilterCore(glitchContext, options, filterFn),
-    {
-      paramDefaults: { ...fastfilterCore.paramDefaults, ...paramDefaults },
-      params: [].concat(params).concat(baseParams),
-    },
-  );
+function build<T extends Record<string, never>>(
+  filterFn: (t: T) => string,
+  params: readonly Parameter[] = [],
+  paramDefaults = {},
+): Filter<T & FastFilterOptions> {
+  const func: Filter<T & FastFilterOptions> = (
+    glitchContext: GlitchContext,
+    options: Partial<T & FastFilterOptions>,
+  ) => fastfilterCore(glitchContext, options, filterFn);
+  func.paramDefaults = {
+    ...fastfilterCore.paramDefaults,
+    ...paramDefaults,
+  } as any; // eslint-disable-line @typescript-eslint/no-explicit-any
+  func.params = params.concat(baseParams);
+  return func;
+}
 
 export const blur = build(
   ({ strength }) => `blur(${strength}px)`,

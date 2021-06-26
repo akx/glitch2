@@ -1,10 +1,27 @@
 import lerper from '../lib/lerper';
-import defaults from '../lib/defaults';
-import { randint, rand } from '../lib/rand';
+import { rand, randint } from '../lib/rand';
 import { mod } from '../lib/num';
 import * as p from '../param';
+import GlitchContext from '../GlitchContext';
 
-function _bitbang(outputData, inputData, options) {
+interface BitbangOptions {
+  maxYDrift: number;
+  offOutScale: number;
+  feedbackMax: number;
+  offInScale: number;
+  feedbackMin: number;
+  strideOutMin: number;
+  strideOutMax: number;
+  strideInMin: number;
+  minYDrift: number;
+  strideInMax: number;
+}
+
+function _bitbang(
+  outputData: ImageData,
+  inputData: ImageData,
+  options: BitbangOptions,
+) {
   const strideIn = randint(options.strideInMin, options.strideInMax);
   const strideOut = randint(options.strideOutMin, options.strideOutMax);
   const offIn = randint(-options.offInScale, options.offInScale);
@@ -34,15 +51,18 @@ function _bitbang(outputData, inputData, options) {
   }
 }
 
-function bitbang(glitchContext, options) {
-  options = defaults(options, bitbang.paramDefaults);
+function bitbang(
+  glitchContext: GlitchContext,
+  pOptions: Partial<BitbangOptions>,
+) {
+  const options = { ...bitbang.paramDefaults, ...pOptions };
   const inputData = glitchContext.copyImageData();
   const outputData = glitchContext.copyImageData();
   _bitbang(outputData, inputData, options);
   glitchContext.setImageData(outputData);
 }
 
-bitbang.paramDefaults = {
+const bitbangDefaults: BitbangOptions = {
   offInScale: 0,
   offOutScale: 0,
   strideInMin: 1,
@@ -54,6 +74,7 @@ bitbang.paramDefaults = {
   minYDrift: 0,
   maxYDrift: 0,
 };
+bitbang.paramDefaults = bitbangDefaults;
 
 bitbang.params = [
   p.int('offInScale', { description: '' }),

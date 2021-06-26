@@ -1,19 +1,20 @@
-import defaults from '../lib/defaults';
 import * as p from '../param';
 import blendModes from '../lib/nativeBlendModes';
+import GlitchContext from '../GlitchContext';
 
-function xform(glitchContext, options) {
-  options = defaults(options, xform.paramDefaults);
+function xform(glitchContext: GlitchContext, pOptions: Partial<XformOptions>) {
+  const options = { ...xformDefaults, ...pOptions };
 
-  if (options.multiplier >= 1) {
-    return;
-  }
+  // TODO: reinstate?
+  // if (options.multiplier >= 1) {
+  //   return;
+  // }
   const { width, height } = glitchContext.getSize();
   const context = glitchContext.getContext();
   context.globalAlpha = options.blend;
   context.globalCompositeOperation = options.operation;
   context.imageSmoothingEnabled = options.smooth;
-  context.setTransform(1, 0, 0, 1, 0, 0, 0);
+  context.setTransform(1, 0, 0, 1, 0, 0);
   const halfWidth = width / 2;
   const halfHeight = height / 2;
 
@@ -34,7 +35,20 @@ function xform(glitchContext, options) {
   context.globalCompositeOperation = 'source-over';
 }
 
-xform.paramDefaults = {
+interface XformOptions {
+  yOffset: number;
+  xOffset: number;
+  blend: number;
+  rotation: number;
+  xScale: number;
+  xFlip: boolean;
+  yScale: number;
+  yFlip: boolean;
+  operation: string;
+  smooth: boolean;
+}
+
+const xformDefaults: XformOptions = {
   blend: 1,
   operation: 'source-over',
   rotation: 0,
@@ -46,6 +60,7 @@ xform.paramDefaults = {
   yOffset: 0,
   yScale: 1,
 };
+xform.paramDefaults = xformDefaults;
 
 xform.params = [
   p.bool('xFlip'),

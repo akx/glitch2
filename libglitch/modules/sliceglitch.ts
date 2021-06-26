@@ -1,11 +1,19 @@
 import lerper from '../lib/lerper';
 
-import defaults from '../lib/defaults';
 import { randint } from '../lib/rand';
 import { wrap } from '../lib/num';
 import * as p from '../param';
+import GlitchContext from '../GlitchContext';
 
-function sliceoffset(imageData, y0, y1, offset, channelMask, blend, drift) {
+function sliceoffset(
+  imageData: ImageData,
+  y0: number,
+  y1: number,
+  offset: number,
+  channelMask: number,
+  blend: number,
+  drift: number,
+) {
   let x0;
   let x1;
   let dir;
@@ -47,7 +55,7 @@ function sliceoffset(imageData, y0, y1, offset, channelMask, blend, drift) {
   }
 }
 
-function deriveChanMask(options) {
+function deriveChanMask(options: SliceglitchOptions): number {
   let chanmask = 0;
   if (!options.randomChan || randint(0, 100) < 33) {
     chanmask |= +options.chanR;
@@ -61,8 +69,11 @@ function deriveChanMask(options) {
   return chanmask;
 }
 
-function sliceglitch(glitchContext, options) {
-  options = defaults(options, sliceglitch.paramDefaults);
+function sliceglitch(
+  glitchContext: GlitchContext,
+  pOptions: Partial<SliceglitchOptions>,
+) {
+  const options = { ...sliceglitchDefaults, ...pOptions };
   const n = randint(options.nMin, options.nMax);
   if (n <= 0) return;
   const data = glitchContext.getImageData();
@@ -90,7 +101,23 @@ function sliceglitch(glitchContext, options) {
   glitchContext.setImageData(data);
 }
 
-sliceglitch.paramDefaults = {
+interface SliceglitchOptions {
+  blend: number;
+  chanB: boolean;
+  chanG: boolean;
+  chanR: boolean;
+  driftMag: number;
+  driftProb: number;
+  heightMax: number;
+  heightMin: number;
+  nMax: number;
+  nMin: number;
+  offsetMax: number;
+  offsetMin: number;
+  randomChan: boolean;
+}
+
+const sliceglitchDefaults = {
   chanR: true,
   chanG: true,
   chanB: true,
@@ -105,6 +132,7 @@ sliceglitch.paramDefaults = {
   offsetMin: -5,
   offsetMax: +5,
 };
+sliceglitch.paramDefaults = sliceglitchDefaults;
 
 sliceglitch.params = [
   p.bool('chanR', { description: 'Glitch red channel?' }),

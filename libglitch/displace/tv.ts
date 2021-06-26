@@ -1,9 +1,12 @@
 /* eslint-env browser */
-function createTVDisplacementMap(width = 256, height = 224) {
+function createTVDisplacementMap(width = 256, height = 224): HTMLCanvasElement {
   const canvas = document.createElement('canvas');
   canvas.width = width;
   canvas.height = height;
   const context = canvas.getContext('2d');
+  if (!context) {
+    throw new Error('oops');
+  }
   context.fillStyle = 'black';
   context.fillRect(0, 0, width, height);
   const data = context.getImageData(0, 0, width, height);

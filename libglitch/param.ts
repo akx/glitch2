@@ -1,15 +1,26 @@
+export interface Parameter {
+  type: 'num' | 'int' | 'bool' | 'choice';
+  name: string;
+  min?: number;
+  max?: number;
+  step?: number;
+  choices?: string[];
+  description?: string;
+  randomBias?: number;
+}
+
 /**
  * Numeric (decimal) parameter.
  * @param name The name of the parameter.
  * @param options Options for the parameter.
  * @returns {*} Parameter definition object.
  */
-function Num(name, options) {
+function Num(name: string, options?: Partial<Parameter>): Parameter {
   return {
     type: 'num',
     min: 0,
     max: 1,
-    step: null,
+    step: undefined,
     name,
     ...options,
   };
@@ -21,7 +32,7 @@ function Num(name, options) {
  * @param options Options for the parameter.
  * @returns {*} Parameter definition object.
  */
-function Int(name, options) {
+function Int(name: string, options?: Partial<Parameter>): Parameter {
   return {
     type: 'int',
     min: 0,
@@ -38,7 +49,7 @@ function Int(name, options) {
  * @param options Options for the parameter.
  * @returns {*} Parameter definition object.
  */
-function Bool(name, options) {
+function Bool(name: string, options?: Partial<Parameter>): Parameter {
   return { type: 'bool', name, ...options };
 }
 
@@ -49,7 +60,11 @@ function Bool(name, options) {
  * @param options Options for the parameter.
  * @returns {*} Parameter definition object.
  */
-function Choice(name, choices, options) {
+function Choice(
+  name: string,
+  choices: string[],
+  options?: Partial<Parameter>,
+): Parameter {
   return { type: 'choice', name, choices, ...options };
 }
 

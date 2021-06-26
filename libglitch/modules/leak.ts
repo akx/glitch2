@@ -1,9 +1,26 @@
-import lerper from '../lib/lerper';
-import defaults from '../lib/defaults';
+import lerper, { Lerper } from '../lib/lerper';
 import { randint } from '../lib/rand';
 import * as p from '../param';
+import GlitchContext from '../GlitchContext';
 
-function _leak(imageData, lerp, magic1, magic2, yToMagic1, yToMagic2) {
+interface LeakOptions {
+  intensity: number;
+  magic2: number;
+  yToMagic2: number;
+  magic1: number;
+  yToMagic1: number;
+  nMax: number;
+  nMin: number;
+}
+
+function _leak(
+  imageData: ImageData,
+  lerp: Lerper,
+  magic1: number,
+  magic2: number,
+  yToMagic1: number,
+  yToMagic2: number,
+) {
   const { width, height, data } = imageData;
   const dwidth = width * 4;
   const len = data.length;
@@ -23,8 +40,8 @@ function _leak(imageData, lerp, magic1, magic2, yToMagic1, yToMagic2) {
   }
 }
 
-function leak(glitchContext, options) {
-  options = defaults(options, leak.paramDefaults);
+function leak(glitchContext: GlitchContext, pOptions: Partial<LeakOptions>) {
+  const options = { ...leakDefaults, ...pOptions };
   if (options.intensity <= 0) return;
   const n = randint(options.nMin, options.nMax);
   if (n <= 0) return;
@@ -43,7 +60,7 @@ function leak(glitchContext, options) {
   glitchContext.setImageData(imageData);
 }
 
-leak.paramDefaults = {
+const leakDefaults: LeakOptions = {
   intensity: 0.5,
   magic1: 0,
   magic2: 0,
@@ -52,6 +69,7 @@ leak.paramDefaults = {
   nMin: 10,
   nMax: 10,
 };
+leak.paramDefaults = leakDefaults;
 
 leak.params = [
   p.num('intensity', { description: 'Effect intensity' }),

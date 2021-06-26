@@ -1,27 +1,44 @@
 import makeTVDisplacement from '../displace/tv';
 import displacementMapper from '../displace/mapper';
-import defaults from '../lib/defaults';
 import * as p from '../param';
+import GlitchContext from '../GlitchContext';
 
-function tvDisplacement(glitchContext, options) {
-  options = defaults(options, tvDisplacement.paramDefaults);
-  let data = glitchContext.getImageData();
-  let dismap;
+interface TVDisplacementOptions {
+  strengthX: number;
+  strengthY: number;
+}
+
+function tvDisplacement(
+  glitchContext: GlitchContext,
+  pOptions: Partial<TVDisplacementOptions>,
+) {
+  const options = { ...tvDisplacementDefaults, ...pOptions };
+  const data = glitchContext.getImageData();
   const dismapCacheKey = `tvdis_${data.width}_${data.height}`;
-  if (!(dismap = glitchContext.persist[dismapCacheKey])) {
+
+  let dismap = glitchContext.persist[dismapCacheKey] as
+    | HTMLCanvasElement
+    | undefined;
+  if (!dismap) {
     dismap = glitchContext.persist[dismapCacheKey] = makeTVDisplacement(
       data.width,
       data.height,
     );
   }
-  data = displacementMapper(data, dismap, options.strengthX, options.strengthY);
-  glitchContext.setImageData(data);
+  const newData = displacementMapper(
+    data,
+    dismap,
+    options.strengthX,
+    options.strengthY,
+  );
+  if (newData) glitchContext.setImageData(newData);
 }
 
-tvDisplacement.paramDefaults = {
+const tvDisplacementDefaults = {
   strengthX: 0,
   strengthY: 0,
 };
+tvDisplacement.paramDefaults = tvDisplacementDefaults;
 
 tvDisplacement.params = [
   p.int('strengthX', {

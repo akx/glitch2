@@ -1,15 +1,15 @@
-function lerp(a, b, alpha = 0.5) {
+export function lerp(a: number, b: number, alpha = 0.5) {
   return b * alpha + a * (1 - alpha);
 }
 
-function wrap(num, max) {
+export function wrap(num: number, max: number) {
   while (num < 0) {
     num += max;
   }
   return num % max;
 }
 
-function clamp(num, min, max) {
+export function clamp(num: number, min: number, max?: number): number {
   if (max === undefined) {
     max = min;
     min = 0;
@@ -23,11 +23,10 @@ function clamp(num, min, max) {
   return num;
 }
 
-function mod(a, b) {
+export function mod(a: number, b: number): number {
   if (a < 0) {
+    // TODO: this is buggy?
     a += ((1 + 0) | (a / -b)) * b;
   }
   return 0 | a % b;
 }
-
-export { lerp, wrap, clamp, mod };

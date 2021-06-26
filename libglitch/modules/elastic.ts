@@ -1,11 +1,27 @@
-import defaults from '../lib/defaults';
 import { randint, rand } from '../lib/rand';
 import * as p from '../param';
+import GlitchContext from '../GlitchContext';
 
-function elastic(glitchContext, options) {
-  options = defaults(options, elastic.paramDefaults);
+interface ElasticOptions {
+  xMinStretch: number;
+  maxIterations: number;
+  yMaxStretch: number;
+  yChance: number;
+  yMinStretch: number;
+  xMaxStretch: number;
+  xChance: number;
+  minIterations: number;
+  smooth: boolean;
+}
+
+function elastic(
+  glitchContext: GlitchContext,
+  pOptions: Partial<ElasticOptions>,
+) {
+  const options = { ...elasticDefaults, ...pOptions };
   const canvas = glitchContext.copyCanvas();
   const context = canvas.getContext('2d');
+  if (!context) return;
   context.imageSmoothingEnabled = options.smooth;
   const iterations = randint(options.minIterations, options.maxIterations);
   const { width, height } = canvas;
@@ -80,7 +96,7 @@ function elastic(glitchContext, options) {
   glitchContext.setImageData(context.getImageData(0, 0, width, height));
 }
 
-elastic.paramDefaults = {
+const elasticDefaults: ElasticOptions = {
   minIterations: 1,
   maxIterations: 1,
   smooth: true,
@@ -91,6 +107,7 @@ elastic.paramDefaults = {
   yMinStretch: 0,
   yMaxStretch: 0.1,
 };
+elastic.paramDefaults = elasticDefaults;
 
 elastic.params = [
   p.int('minIterations', { min: 0, max: 100 }),

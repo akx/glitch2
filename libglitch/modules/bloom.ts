@@ -1,10 +1,16 @@
-import defaults from '../lib/defaults';
 import dataBlend from '../lib/dataBlend';
 import stackBlurImageData from '../lib/stackBlurImageData';
 import * as p from '../param';
+import GlitchContext from '../GlitchContext';
 
-function bloom(glitchContext, options) {
-  options = defaults(options, bloom.paramDefaults);
+interface BloomOptions {
+  counterStrength: number;
+  strength: number;
+  radius: number;
+}
+
+function bloom(glitchContext: GlitchContext, pOptions: Partial<BloomOptions>) {
+  const options = { ...bloomDefaults, ...pOptions };
 
   if (options.strength <= 0 || options.radius <= 0) {
     return;
@@ -28,11 +34,12 @@ function bloom(glitchContext, options) {
   glitchContext.setImageData(sourceData);
 }
 
-bloom.paramDefaults = {
+const bloomDefaults: BloomOptions = {
   radius: 5,
   strength: 0.7,
   counterStrength: -1,
 };
+bloom.paramDefaults = bloomDefaults;
 
 bloom.params = [
   p.int('radius', { description: 'blur radius' }),

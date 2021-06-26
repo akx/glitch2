@@ -1,24 +1,36 @@
-import defaults from '../lib/defaults';
 import dataBlend from '../lib/dataBlend';
 import * as p from '../param';
+import GlitchContext from '../GlitchContext';
 
-function afterimage(glitchContext, options) {
-  options = defaults(options, afterimage.paramDefaults);
+interface AfterimageOptions {
+  strengthIn: number;
+  strengthOut: number;
+  counterStrengthOut: number;
+}
+
+function afterimage(
+  glitchContext: GlitchContext,
+  pOptions: Partial<AfterimageOptions>,
+) {
+  const options = { ...afterimageDefaults, ...pOptions };
 
   const data = glitchContext.getImageData();
-  if (glitchContext.persist.afterimageData) {
+  const afterimageData = glitchContext.persist.afterimageData as
+    | ImageData
+    | undefined;
+  if (afterimageData) {
     dataBlend(
-      glitchContext.persist.afterimageData,
+      afterimageData,
       data,
       options.strengthOut,
       options.counterStrengthOut,
       'screen',
     );
   }
-  if (glitchContext.persist.afterimageData && options.strengthIn < 1) {
+  if (afterimageData && options.strengthIn < 1) {
     dataBlend(
       data,
-      glitchContext.persist.afterimageData,
+      afterimageData,
       options.strengthIn,
       1.0 - options.strengthIn,
       'normal',
@@ -29,11 +41,13 @@ function afterimage(glitchContext, options) {
   }
   glitchContext.setImageData(data);
 }
-afterimage.paramDefaults = {
+
+const afterimageDefaults: AfterimageOptions = {
   strengthOut: 0.2,
   counterStrengthOut: 0.3,
   strengthIn: 0.2,
 };
+afterimage.paramDefaults = afterimageDefaults;
 
 afterimage.params = [
   p.num('strengthOut', { description: 'Afterimage write strength' }),

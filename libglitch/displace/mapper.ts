@@ -3,7 +3,12 @@ import makeDrawable from '../lib/makeDrawable';
 
 import { clamp } from '../lib/num';
 
-function displacementMapper(imageData, displacementMap, scaleX, scaleY) {
+export default function displacementMapper(
+  imageData: ImageData,
+  displacementMap: HTMLCanvasElement,
+  scaleX: number,
+  scaleY: number,
+): ImageData | null {
   if (scaleX === 0 && scaleY === 0) return null;
   const { width, height } = imageData;
   // Rescale displacement map
@@ -11,6 +16,7 @@ function displacementMapper(imageData, displacementMap, scaleX, scaleY) {
   tempCanvas.width = width;
   tempCanvas.height = height;
   const tempContext = tempCanvas.getContext('2d');
+  if (!tempContext) return null;
   tempContext.drawImage(makeDrawable(displacementMap), 0, 0, width, height);
   const displacementData = tempContext.getImageData(0, 0, width, height).data;
   const sourceBuf = imageData.data;
@@ -35,5 +41,3 @@ function displacementMapper(imageData, displacementMap, scaleX, scaleY) {
   imageData.data.set(destBuf);
   return imageData;
 }
-
-export default displacementMapper;

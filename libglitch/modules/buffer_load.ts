@@ -1,11 +1,14 @@
-import defaults from '../lib/defaults';
 import * as p from '../param';
 import dataBlend from '../lib/dataBlend';
+import GlitchContext from '../GlitchContext';
 
-function bufferLoad(glitchContext, options) {
-  options = defaults(options, bufferLoad.paramDefaults);
+function bufferLoad(
+  glitchContext: GlitchContext,
+  pOptions: Partial<BufferLoadOptions>,
+) {
+  const options = { ...bufferLoadDefaults, ...pOptions };
   const id = `buffer${options.id}`;
-  const buf = glitchContext.persist[id];
+  const buf = glitchContext.persist[id] as ImageData | undefined;
   if (!buf) return;
   if (options.blend >= 1) {
     glitchContext.setImageData(buf);
@@ -16,11 +19,18 @@ function bufferLoad(glitchContext, options) {
   }
 }
 
-bufferLoad.paramDefaults = {
+interface BufferLoadOptions {
+  mode: string;
+  blend: number;
+  id: number;
+}
+
+const bufferLoadDefaults: BufferLoadOptions = {
   id: 0,
   blend: 1,
   mode: 'normal',
 };
+bufferLoad.paramDefaults = bufferLoadDefaults;
 
 bufferLoad.params = [
   p.int('id', { description: 'buffer ID' }),

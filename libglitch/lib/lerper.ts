@@ -1,8 +1,9 @@
-const lerperCache = {};
-const constantA = (a) => a;
-const constantB = (a, b) => b;
+export type Lerper = (a: number, b: number) => number;
+const lerperCache: Record<string, Lerper> = {};
+const constantA = (a: number) => a;
+const constantB = (a: number, b: number) => b;
 
-function makeLerper(alpha) {
+function makeLerper(alpha: number): Lerper {
   let cached;
   if (alpha <= 0) {
     return constantA;
@@ -17,7 +18,7 @@ function makeLerper(alpha) {
     'a',
     'b',
     `return b * ${alpha} + a * ${beta}`,
-  ));
+  ) as Lerper);
   return lerper;
 }
 

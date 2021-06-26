@@ -1,17 +1,27 @@
-import defaults from '../lib/defaults';
 import * as p from '../param';
+import GlitchContext from '../GlitchContext';
 
-function bufferSave(glitchContext, options) {
-  options = defaults(options, bufferSave.paramDefaults);
+interface BufferSaveOptions {
+  id: number;
+  reset: boolean;
+}
+
+function bufferSave(
+  glitchContext: GlitchContext,
+  pOptions: Partial<BufferSaveOptions>,
+) {
+  const options = { ...bufferSaveDefaults, ...pOptions };
   const id = `buffer${options.id}`;
   glitchContext.persist[id] = options.reset
     ? null
     : glitchContext.copyImageData();
 }
-bufferSave.paramDefaults = {
+
+const bufferSaveDefaults = {
   id: 0,
   reset: false,
 };
+bufferSave.paramDefaults = bufferSaveDefaults;
 
 bufferSave.params = [
   p.int('id', { description: 'buffer ID' }),

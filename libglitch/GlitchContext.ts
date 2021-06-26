@@ -1,11 +1,21 @@
-class GlitchContext {
-  constructor(canvas) {
-    /** @type canvas {HTMLCanvasElement} */
+export default class GlitchContext {
+  private readonly _canvas: HTMLCanvasElement;
+
+  private readonly _context: CanvasRenderingContext2D;
+
+  private _imageData: ImageData | null = null;
+
+  public clock: number = +new Date();
+
+  public persist: Record<string, unknown> = {};
+
+  constructor(canvas: HTMLCanvasElement) {
     this._canvas = canvas;
-    this._context = canvas.getContext('2d');
-    this._imageData = null;
-    this.clock = +new Date();
-    this.persist = {};
+    const context = canvas.getContext('2d');
+    if (!context) {
+      throw new Error('Unable to get context');
+    }
+    this._context = context;
   }
 
   /**
@@ -14,7 +24,7 @@ class GlitchContext {
    * call the (possibly expensive) `context.getImageData` method.
    * @returns {ImageData}
    */
-  getImageData() {
+  getImageData(): ImageData {
     if (this._imageData) return this._imageData;
     return this._context.getImageData(
       0,
@@ -28,7 +38,7 @@ class GlitchContext {
    * When a fresh _copy_ of image data is required, call this potentially expensive method.
    * @returns {ImageData}
    */
-  copyImageData() {
+  copyImageData(): ImageData {
     this._commitImageData();
     return this._context.getImageData(
       0,
@@ -43,7 +53,7 @@ class GlitchContext {
    * knows of any possible changes to it.
    * @param newImageData {ImageData} Modified image data.
    */
-  setImageData(newImageData) {
+  setImageData(newImageData: ImageData) {
     if (this._imageData === newImageData) return;
     this._commitImageData();
     this._imageData = newImageData;
@@ -59,23 +69,24 @@ class GlitchContext {
   /**
    * If an effect requires the actual 2D Canvas context instead of just ImageData,
    * it can call this. May be expensive.
-   * @returns {CanvasRenderingContext2D}
    */
-  getContext() {
+  getContext(): CanvasRenderingContext2D {
     this._commitImageData();
     return this._context;
   }
 
   /**
    * Copy the image data into a new `canvas` element. Can be expensive.
-   * @returns {HTMLCanvasElement}
    */
-  copyCanvas() {
+  copyCanvas(): HTMLCanvasElement {
     /* eslint-env browser */
     const tempCanvas = document.createElement('canvas');
     tempCanvas.width = this._canvas.width;
     tempCanvas.height = this._canvas.height;
     const tempContext = tempCanvas.getContext('2d');
+    if (!tempContext) {
+      throw new Error('unable to get context');
+    }
     this._commitImageData();
     tempContext.drawImage(this._canvas, 0, 0);
     return tempCanvas;
@@ -91,10 +102,8 @@ class GlitchContext {
   /**
    * Get the size of the glitch canvas.
    */
-  getSize() {
+  getSize(): { width: number; height: number } {
     const { width, height } = this._canvas;
     return { width, height };
   }
 }
-
-export default GlitchContext;

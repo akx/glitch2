@@ -1,6 +1,12 @@
 /* based on https://github.com/Phrogz/context-blender */
 
-function dataBlend(srcD, dstD, sA, dA, blendMode) {
+function dataBlend(
+  srcD: ImageData,
+  dstD: ImageData,
+  sA: number,
+  dA: number,
+  blendMode: string,
+): void {
   const src = srcD.data;
   const dst = dstD.data;
   const len = dst.length;

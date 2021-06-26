@@ -1,10 +1,13 @@
-import defaults from '../lib/defaults';
 import { randint, rand } from '../lib/rand';
 import { clamp } from '../lib/num';
 import * as p from '../param';
+import GlitchContext from '../GlitchContext';
 
-function streak(glitchContext, options) {
-  options = defaults(options, streak.paramDefaults);
+function streak(
+  glitchContext: GlitchContext,
+  pOptions: Partial<StreakOptions>,
+) {
+  const options = { ...streakDefaults, ...pOptions };
   const imageData = glitchContext.getImageData();
   const { height, width, data: buf } = imageData;
   let xoff = 0;
@@ -39,12 +42,20 @@ function streak(glitchContext, options) {
   glitchContext.setImageData(imageData);
 }
 
-streak.paramDefaults = {
+interface StreakOptions {
+  yOffsetChance: number;
+  offsetHalveChance: number;
+  offsetResetEveryLine: boolean;
+  xOffsetChance: number;
+}
+
+const streakDefaults: StreakOptions = {
   xOffsetChance: 100,
   yOffsetChance: 500,
   offsetHalveChance: 10,
   offsetResetEveryLine: false,
 };
+streak.paramDefaults = streakDefaults;
 
 streak.params = [
   p.int('xOffsetChance', { min: 0, max: 65535 }),

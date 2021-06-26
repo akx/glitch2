@@ -1,9 +1,20 @@
-import defaults from '../lib/defaults';
-
 import { mod } from '../lib/num';
 import * as p from '../param';
+import GlitchContext from '../GlitchContext';
 
-function runTvScan(imageData, clock, speed, strength, heightPerc) {
+interface TVScanOptions {
+  speed: number;
+  strength: number;
+  heightPerc: number;
+}
+
+function runTvScan(
+  imageData: ImageData,
+  clock: number,
+  speed: number,
+  strength: number,
+  heightPerc: number,
+) {
   const { data, width, height } = imageData;
   let y;
   let b;
@@ -28,8 +39,11 @@ function runTvScan(imageData, clock, speed, strength, heightPerc) {
   }
 }
 
-function tvScan(glitchContext, options) {
-  options = defaults(options, tvScan.paramDefaults);
+function tvScan(
+  glitchContext: GlitchContext,
+  pOptions: Partial<TVScanOptions>,
+) {
+  const options = { ...tvScanDefaults, ...pOptions };
   if (options.strength <= 0) return;
   if (options.heightPerc <= 0) return;
   const imageData = glitchContext.getImageData();
@@ -43,11 +57,12 @@ function tvScan(glitchContext, options) {
   glitchContext.setImageData(imageData);
 }
 
-tvScan.paramDefaults = {
+const tvScanDefaults: TVScanOptions = {
   speed: 0.2,
   strength: 0.2,
   heightPerc: 0.2,
 };
+tvScan.paramDefaults = tvScanDefaults;
 
 tvScan.params = [
   p.num('speed', { description: 'Scan speed' }),

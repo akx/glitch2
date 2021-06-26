@@ -1,14 +1,27 @@
-import defaults from '../lib/defaults';
 import { rand, randint } from '../lib/rand';
 import * as p from '../param';
+import GlitchContext from '../GlitchContext';
 
-function desolve(glitchContext, options) {
-  options = defaults(options, desolve.paramDefaults);
+interface DesolveOptions {
+  yMin: number;
+  rXorChance: number;
+  yMax: number;
+  bXorChance: number;
+  xMax: number;
+  xMin: number;
+  gXorChance: number;
+}
+
+function desolve(
+  glitchContext: GlitchContext,
+  pOptions: Partial<DesolveOptions>,
+) {
+  const options = { ...desolveDefaults, ...pOptions };
   const imageData = glitchContext.getImageData();
   const { data, height, width } = imageData;
   const xRes = randint(options.xMin % width, options.xMax % width);
   const yRes = randint(options.yMin % height, options.yMax % height);
-  const op = (a, b, xor) => (xor ? a ^ b : b);
+  const op = (a: number, b: number, xor: boolean) => (xor ? a ^ b : b);
   for (let y = 0; y < height; y += yRes) {
     for (let x = 0; x < width; x += xRes) {
       const srcOffset = y * 4 * width + x * 4;
@@ -40,7 +53,7 @@ function desolve(glitchContext, options) {
   glitchContext.setImageData(imageData);
 }
 
-desolve.paramDefaults = {
+const desolveDefaults: DesolveOptions = {
   xMin: 1,
   xMax: 4,
   yMin: 1,
@@ -49,6 +62,7 @@ desolve.paramDefaults = {
   gXorChance: 0,
   bXorChance: 0,
 };
+desolve.paramDefaults = desolveDefaults;
 
 desolve.params = [
   p.int('xMax', { min: 1, max: 800 }),

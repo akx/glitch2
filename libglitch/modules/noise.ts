@@ -1,16 +1,27 @@
-import defaults from '../lib/defaults';
-
 import { randint } from '../lib/rand';
 import * as p from '../param';
+import GlitchContext from '../GlitchContext';
+
+interface NoiseOptions {
+  nMax: number;
+  brightnessMin: number;
+  noisiness: number;
+  nMin: number;
+  brightnessMax: number;
+  replace: boolean;
+  heightMax: number;
+  heightMin: number;
+  full: boolean;
+}
 
 function _noiseBand(
-  imageData,
-  y0,
-  y1,
-  noisiness,
-  minBrightness,
-  maxBrightness,
-  replace,
+  imageData: ImageData,
+  y0: number,
+  y1: number,
+  noisiness: number,
+  minBrightness: number,
+  maxBrightness: number,
+  replace: boolean,
 ) {
   let y;
   let yoff;
@@ -42,8 +53,8 @@ function _noiseBand(
   }
 }
 
-function noise(glitchContext, options) {
-  options = defaults(options, noise.paramDefaults);
+function noise(glitchContext: GlitchContext, pOptions: Partial<NoiseOptions>) {
+  const options = { ...noiseDefaults, ...pOptions };
   const n = options.full ? 1 : randint(options.nMin, options.nMax);
   if (n <= 0) return;
   const imageData = glitchContext.getImageData();
@@ -80,7 +91,7 @@ function noise(glitchContext, options) {
   glitchContext.setImageData(imageData);
 }
 
-noise.paramDefaults = {
+const noiseDefaults: NoiseOptions = {
   heightMin: 0,
   heightMax: 0.1,
   nMin: 0,
@@ -91,6 +102,7 @@ noise.paramDefaults = {
   replace: false,
   full: false,
 };
+noise.paramDefaults = noiseDefaults;
 
 noise.params = [
   p.num('heightMin', { description: 'Noise band min height' }),

@@ -1,8 +1,13 @@
-import defaults from '../lib/defaults';
 import { randint } from '../lib/rand';
 import * as p from '../param';
+import GlitchContext from '../GlitchContext';
 
-function runSliceRep(imageData, startY, sliceHeight, repeats) {
+function runSliceRep(
+  imageData: ImageData,
+  startY: number,
+  sliceHeight: number,
+  repeats: number,
+) {
   let writeOffset;
   let rep;
   const { width } = imageData;
@@ -22,8 +27,11 @@ function runSliceRep(imageData, startY, sliceHeight, repeats) {
   }
 }
 
-function slicerep(glitchContext, options) {
-  options = defaults(options, slicerep.paramDefaults);
+function slicerep(
+  glitchContext: GlitchContext,
+  pOptions: Partial<SlicerepOptions>,
+) {
+  const options = { ...slicerepDefaults, ...pOptions };
   const n = randint(options.nMin, options.nMax);
   if (n <= 0) return;
   const data = glitchContext.getImageData();
@@ -39,7 +47,16 @@ function slicerep(glitchContext, options) {
   glitchContext.setImageData(data);
 }
 
-slicerep.paramDefaults = {
+type SlicerepOptions = {
+  repeatsMin: number;
+  nMax: number;
+  nMin: number;
+  repeatsMax: number;
+  heightMax: number;
+  heightMin: number;
+};
+
+const slicerepDefaults: SlicerepOptions = {
   nMin: 0,
   nMax: 5,
   heightMin: 0,
@@ -47,6 +64,7 @@ slicerep.paramDefaults = {
   repeatsMin: 0,
   repeatsMax: 50,
 };
+slicerep.paramDefaults = slicerepDefaults;
 
 slicerep.params = [
   p.int('nMin', { description: '' }),

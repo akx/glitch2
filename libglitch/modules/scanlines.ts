@@ -1,9 +1,16 @@
-import defaults from '../lib/defaults';
 import * as p from '../param';
+import GlitchContext from '../GlitchContext';
 
-function scanlines(glitchContext, options) {
-  options = defaults(options, scanlines.paramDefaults);
+interface ScanlinesOptions {
+  multiplier: number;
+  density: number;
+}
 
+function scanlines(
+  glitchContext: GlitchContext,
+  pOptions: Partial<ScanlinesOptions>,
+) {
+  const options = { ...scanlinesDefaults, ...pOptions };
   if (options.multiplier >= 1) {
     return;
   }
@@ -24,10 +31,11 @@ function scanlines(glitchContext, options) {
   glitchContext.setImageData(imageData);
 }
 
-scanlines.paramDefaults = {
+const scanlinesDefaults = {
   multiplier: 0.7,
   density: 2,
 };
+scanlines.paramDefaults = scanlinesDefaults;
 
 scanlines.params = [
   p.num('multiplier', { description: 'Brightness multiplier' }),
