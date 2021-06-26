@@ -19,6 +19,7 @@ import to_ycbcr from './to_ycbcr';
 import tv_displacement from './tv_displacement';
 import tvscan from './tvscan';
 import xform from './xform';
+import pixelsort from './pixelsort';
 
 export default {
   afterimage,
@@ -37,6 +38,7 @@ export default {
   jpeg,
   leak,
   noise,
+  pixelsort,
   scanlines,
   sliceglitch,
   slicerep,
