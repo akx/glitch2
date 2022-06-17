@@ -20,7 +20,7 @@
     "file-loader": "^6.2.0",
     "gif.js": "^0.2.0",
     "html-webpack-plugin": "5.3.2",
-    "jpeg-js": "^0.4.3",
+    "jpeg-js": "^0.4.4",
     "less": "^4.1.1",
     "less-loader": "^10.0.0",
     "lodash": "^4.17.21",
