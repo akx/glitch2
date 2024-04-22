@@ -41,6 +41,7 @@ function jpeg(glitchContext: GlitchContext, pOptions: Partial<JpegOptions>) {
         decoded.height,
       );
     } catch (e) {
+      // eslint-disable-next-line no-console
       console.warn('JPEG failed:', e);
     }
   }

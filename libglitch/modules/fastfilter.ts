@@ -6,7 +6,7 @@ import { Filter } from '../types';
 
 export interface FastFilterOptions {
   blend: number;
-  operation: string;
+  operation: GlobalCompositeOperation;
   iterations: number;
 }
 
