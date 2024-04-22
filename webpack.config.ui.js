@@ -28,15 +28,7 @@ module.exports = {
       },
       {
         test: /\.(woff|ttf|eot|otf|svg|woff2|png|jpg|jpeg)$/,
-        use: [
-          {
-            loader: 'url-loader',
-            options: {
-              limit: 16000,
-              name: 'assets/[name].[sha1:hash:base36:10].[ext]',
-            },
-          },
-        ],
+        type: 'asset/resource',
       },
     ],
   },

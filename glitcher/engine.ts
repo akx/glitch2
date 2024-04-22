@@ -76,6 +76,9 @@ class Engine {
       if (blobUrlSupported && !forceDataUrl) {
         this.targetCanvas.toBlob(
           (blob) => {
+            if(!blob) {
+              throw new Error('Failed to create blob');
+            }
             resolve(URL.createObjectURL(blob));
           },
           type,

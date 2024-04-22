@@ -2,11 +2,11 @@ import * as UI from './ui';
 import Engine from './engine';
 import './look/glitcher.less';
 import injectGA from './inject-ga';
+import lenna from './lenna.jpg';
 
 function loadLenna(engine: Engine) {
   const sourceImage = new Image();
-  // eslint-disable-next-line global-require,@typescript-eslint/no-var-requires
-  sourceImage.src = require('./lenna.jpg').default;
+  sourceImage.src = lenna;
   engine.sourceImage = sourceImage;
 }
 
@@ -21,6 +21,10 @@ function addPasteHandler(engine: Engine) {
       );
       if (imageItem && confirm('Paste image into Glitch2?')) {
         const blob = imageItem.getAsFile();
+        if(!blob) {
+          alert('Failed to paste image');
+          return;
+        }
         const url = URL.createObjectURL(blob);
         const pasteSourceImage = new Image();
         pasteSourceImage.src = url;
