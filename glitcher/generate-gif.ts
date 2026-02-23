@@ -1,7 +1,7 @@
-/* eslint-disable import/no-webpack-loader-syntax,@typescript-eslint/ban-ts-comment,import/no-unresolved */
+/* eslint-disable @typescript-eslint/ban-ts-comment,import/no-unresolved */
 import GIF from 'gif.js';
 // @ts-ignore
-import GIFWorker from 'file-loader!gif.js/dist/gif.worker.js';
+import GIFWorker from 'gif.js/dist/gif.worker.js?url';
 import { RecordFrame } from './types';
 
 export default function generateGIF(frames: readonly RecordFrame[]) {
