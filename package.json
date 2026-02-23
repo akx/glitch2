@@ -8,7 +8,8 @@
     "build:lib": "vite build --config vite.config.lib.ts",
     "build:ui": "vite build",
     "dev": "vite",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "checkbuild": "tsc --noEmit 2>&1 && vite build 2>&1"
   },
   "author": "Aarni Koskela <akx@iki.fi>",
   "license": "MIT",
