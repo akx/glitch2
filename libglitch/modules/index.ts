@@ -15,6 +15,7 @@ import from_ycbcr from './from_ycbcr';
 import jpeg from './jpeg';
 import leak from './leak';
 import noise from './noise';
+import posterize from './posterize';
 import scanlines from './scanlines';
 import sliceglitch from './sliceglitch';
 import slicerep from './slicerep';
@@ -45,6 +46,7 @@ export default {
   leak,
   noise,
   pixelsort,
+  posterize,
   scanlines,
   sliceglitch,
   slicerep,
