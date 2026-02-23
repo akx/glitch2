@@ -2,6 +2,10 @@
 import * as fastfilter from './fastfilter';
 import afterimage from './afterimage';
 import bitbang from './bitbang';
+import {
+  chromaticAberrationAngular,
+  chromaticAberrationCartesian,
+} from './chromatic_aberration';
 import bloom from './bloom';
 import buffer_load from './buffer_load';
 import buffer_save from './buffer_save';
@@ -25,6 +29,8 @@ export default {
   afterimage,
   bitbang,
   bloom,
+  chromatic_aberration_angular: chromaticAberrationAngular,
+  chromatic_aberration_xy: chromaticAberrationCartesian,
   buffer_load,
   buffer_save,
   desolve,
