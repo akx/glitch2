@@ -20,6 +20,7 @@ function oninit(vnode: m.Vnode<unknown, UIState>, engine: Engine) {
     },
     recordFrames: [],
     gifRenderProgress: null,
+    cameraStream: null,
   };
   Object.assign(vnode.state, uiState);
 }

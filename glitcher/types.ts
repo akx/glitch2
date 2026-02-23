@@ -17,6 +17,7 @@ export interface UIState {
   };
   recordFrames: RecordFrame[];
   gifRenderProgress: number | null;
+  cameraStream: MediaStream | null;
 }
 
 export interface Def {
