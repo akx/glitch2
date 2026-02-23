@@ -21,9 +21,8 @@ function loadImageFromFileField(
 }
 
 const resizePrompt = (ctrl: UIState) => {
-  const img = ctrl.engine.sourceImage;
-  if (!img) return;
-  const currSize = `${img.width}x${img.height}`;
+  const [w, h] = ctrl.engine.getSourceDimensions();
+  const currSize = `${w}x${h}`;
   let newSize;
   if (
     (newSize = prompt('Enter the desired new size for the image.', currSize))
@@ -37,20 +36,62 @@ const resizePrompt = (ctrl: UIState) => {
       alert('Unable to parse new size.');
       return;
     }
-    const tempCanvas = document.createElement('canvas');
-    tempCanvas.width = width;
-    tempCanvas.height = height;
-    const tempContext = tempCanvas.getContext('2d');
-    if (!tempContext) return;
-    tempContext.drawImage(img, 0, 0, width, height);
-    const url = tempCanvas.toDataURL('image/png');
-    const newImage = new Image();
-    newImage.onload = () => {
-      ctrl.engine.sourceImage = newImage;
-    };
-    newImage.src = url;
+    const src = ctrl.engine.sourceImage;
+    if (src instanceof HTMLImageElement) {
+      // Static image: snapshot at the new size to avoid per-frame resampling
+      const tempCanvas = document.createElement('canvas');
+      tempCanvas.width = width;
+      tempCanvas.height = height;
+      const tempContext = tempCanvas.getContext('2d');
+      if (!tempContext) return;
+      tempContext.drawImage(src, 0, 0, width, height);
+      const url = tempCanvas.toDataURL('image/png');
+      const newImage = new Image();
+      newImage.onload = () => {
+        ctrl.engine.sourceImage = newImage;
+        ctrl.engine.targetSize = null;
+      };
+      newImage.src = url;
+    } else {
+      // Live source (camera etc.): use targetSize override
+      ctrl.engine.targetSize = [width, height];
+    }
   }
 };
+
+function stopCamera(ctrl: UIState) {
+  if (ctrl.cameraStream) {
+    ctrl.cameraStream.getTracks().forEach((track) => track.stop());
+    ctrl.cameraStream = null;
+  }
+}
+
+async function startCamera(ctrl: UIState) {
+  stopCamera(ctrl);
+  try {
+    const [w, h] = ctrl.engine.getSourceDimensions();
+    const videoConstraints: MediaTrackConstraints = {};
+    if (w > 0 && h > 0) {
+      videoConstraints.width = { ideal: w };
+      videoConstraints.height = { ideal: h };
+    }
+    const stream = await navigator.mediaDevices.getUserMedia({
+      video: videoConstraints,
+    });
+    ctrl.cameraStream = stream;
+    const video = document.createElement('video');
+    video.srcObject = stream;
+    video.playsInline = true;
+    video.muted = true;
+    video.onloadedmetadata = () => {
+      video.play();
+      ctrl.engine.sourceImage = video;
+      m.redraw();
+    };
+  } catch (err) {
+    alert(`Camera access failed: ${err}`);
+  }
+}
 
 const loadImageDiv = (ctrl: UIState) =>
   m(
@@ -64,6 +105,7 @@ const loadImageDiv = (ctrl: UIState) =>
         accept: 'image/*',
         onchange(event: Event) {
           loadImageFromFileField(event, (img) => {
+            stopCamera(ctrl);
             ctrl.engine.sourceImage = img;
             if (event.target) (event.target as HTMLInputElement).value = '';
           });
@@ -79,6 +121,26 @@ const loadImageDiv = (ctrl: UIState) =>
       m('i.icon-arrow-maximise'),
       ' Resize',
     ]),
+    ' ',
+    ctrl.cameraStream
+      ? m(
+          'button',
+          {
+            onclick: () => {
+              stopCamera(ctrl);
+            },
+          },
+          [m('i.icon-camera'), ' Stop Camera'],
+        )
+      : m(
+          'button',
+          {
+            onclick: () => {
+              startCamera(ctrl);
+            },
+          },
+          [m('i.icon-camera'), ' Start Camera'],
+        ),
     m('label', [
       m('input', {
         type: 'checkbox',

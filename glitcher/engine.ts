@@ -8,7 +8,9 @@ class Engine {
 
   public state: State;
 
-  public sourceImage: HTMLImageElement | null;
+  public sourceImage: CanvasImageSource | null;
+
+  public targetSize: [number, number] | null;
 
   private readonly targetCanvas: HTMLCanvasElement;
 
@@ -21,19 +23,49 @@ class Engine {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     this.state = new State(modules as unknown as Record<string, Filter<any>>); // TODO
     this.sourceImage = null;
+    this.targetSize = null;
     this.targetCanvas = targetCanvas;
     this.glitchContext = new GlitchContext(targetCanvas);
     this.renderTime = 0;
   }
 
+  private isSourceReady(): boolean {
+    const { sourceImage } = this;
+    if (!sourceImage) return false;
+    if (sourceImage instanceof HTMLVideoElement) {
+      return sourceImage.readyState >= 2;
+    }
+    if (sourceImage instanceof HTMLImageElement) {
+      return sourceImage.complete;
+    }
+    return true;
+  }
+
+  private getNativeSourceDimensions(): [number, number] {
+    const { sourceImage, targetCanvas } = this;
+    if (sourceImage instanceof HTMLVideoElement) {
+      return [sourceImage.videoWidth, sourceImage.videoHeight];
+    }
+    if (sourceImage instanceof HTMLImageElement) {
+      return [sourceImage.width, sourceImage.height];
+    }
+    return [targetCanvas.width, targetCanvas.height];
+  }
+
+  public getSourceDimensions(): [number, number] {
+    return this.targetSize ?? this.getNativeSourceDimensions();
+  }
+
   public renderFrame() {
     const { sourceImage, targetCanvas, glitchContext, state } = this;
-    if (!sourceImage?.complete) return;
+    if (!sourceImage || !this.isSourceReady()) return;
+    const [width, height] = this.getSourceDimensions();
+    if (!width || !height) return;
     const t0 = +new Date();
-    targetCanvas.width = 0 | sourceImage.width;
-    targetCanvas.height = 0 | sourceImage.height;
+    targetCanvas.width = 0 | width;
+    targetCanvas.height = 0 | height;
     glitchContext.clock = +new Date();
-    glitchContext.getContext().drawImage(sourceImage, 0, 0);
+    glitchContext.getContext().drawImage(sourceImage, 0, 0, width, height);
     if (state) {
       state.defs.forEach((def) => {
         if (!def.enabled) return;
