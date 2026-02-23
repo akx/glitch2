@@ -21,7 +21,7 @@ function addPasteHandler(engine: Engine) {
       );
       if (imageItem && confirm('Paste image into Glitch2?')) {
         const blob = imageItem.getAsFile();
-        if(!blob) {
+        if (!blob) {
           alert('Failed to paste image');
           return;
         }
