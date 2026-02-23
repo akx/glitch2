@@ -6,6 +6,7 @@ import {
   chromaticAberrationAngular,
   chromaticAberrationCartesian,
 } from './chromatic_aberration';
+import blockshuffle from './blockshuffle';
 import bloom from './bloom';
 import buffer_load from './buffer_load';
 import buffer_save from './buffer_save';
@@ -29,6 +30,7 @@ import pixelsort from './pixelsort';
 export default {
   afterimage,
   bitbang,
+  blockshuffle,
   bloom,
   chromatic_aberration_angular: chromaticAberrationAngular,
   chromatic_aberration_xy: chromaticAberrationCartesian,
