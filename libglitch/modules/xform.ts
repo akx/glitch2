@@ -12,7 +12,8 @@ function xform(glitchContext: GlitchContext, pOptions: Partial<XformOptions>) {
   const { width, height } = glitchContext.getSize();
   const context = glitchContext.getContext();
   context.globalAlpha = options.blend;
-  context.globalCompositeOperation = options.operation as GlobalCompositeOperation;
+  context.globalCompositeOperation =
+    options.operation as GlobalCompositeOperation;
   context.imageSmoothingEnabled = options.smooth;
   context.setTransform(1, 0, 0, 1, 0, 0);
   const halfWidth = width / 2;

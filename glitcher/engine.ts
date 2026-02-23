@@ -54,9 +54,12 @@ class Engine {
     try {
       if (this.rate > 0) this.renderFrame();
     } finally {
-      setTimeout(() => {
-        this.renderLoop();
-      }, Math.max(2, 4000 / this.rate));
+      setTimeout(
+        () => {
+          this.renderLoop();
+        },
+        Math.max(2, 4000 / this.rate),
+      );
     }
   }
 
@@ -76,7 +79,7 @@ class Engine {
       if (blobUrlSupported && !forceDataUrl) {
         this.targetCanvas.toBlob(
           (blob) => {
-            if(!blob) {
+            if (!blob) {
               throw new Error('Failed to create blob');
             }
             resolve(URL.createObjectURL(blob));

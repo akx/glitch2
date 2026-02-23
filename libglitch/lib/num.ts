@@ -28,5 +28,5 @@ export function mod(a: number, b: number): number {
     // TODO: this is buggy?
     a += ((1 + 0) | (a / -b)) * b;
   }
-  return 0 | a % b;
+  return 0 | (a % b);
 }

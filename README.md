@@ -20,8 +20,6 @@ yarn dev
 
 to start up the development server.
 
-
-
 ### Building the Glitcher UI
 
 ```
