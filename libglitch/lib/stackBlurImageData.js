@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 /*
 
  StackBlur - a fast almost Gaussian Blur For Canvas
@@ -86,7 +85,9 @@ function BlurStack() {
 }
 
 function stackBlurImageData(imageData, top_x, top_y, width, height, radius) {
-  if (Number.isNaN(radius) || radius < 1) return;
+  if (Number.isNaN(radius) || radius < 1) {
+    return;
+  }
   radius |= 0;
 
   const pixels = imageData.data;
@@ -123,7 +124,9 @@ function stackBlurImageData(imageData, top_x, top_y, width, height, radius) {
   let stack = stackStart;
   for (i = 1; i < div; i++) {
     stack = stack.next = new BlurStack();
-    if (i === radiusPlus1) stackEnd = stack;
+    if (i === radiusPlus1) {
+      stackEnd = stack;
+    }
   }
   stack.next = stackStart;
   let stackIn = null;

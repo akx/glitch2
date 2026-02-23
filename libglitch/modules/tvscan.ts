@@ -44,8 +44,12 @@ function tvScan(
   pOptions: Partial<TVScanOptions>,
 ) {
   const options = { ...tvScanDefaults, ...pOptions };
-  if (options.strength <= 0) return;
-  if (options.heightPerc <= 0) return;
+  if (options.strength <= 0) {
+    return;
+  }
+  if (options.heightPerc <= 0) {
+    return;
+  }
   const imageData = glitchContext.getImageData();
   runTvScan(
     imageData,

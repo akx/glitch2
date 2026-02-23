@@ -9,7 +9,9 @@ function bufferLoad(
   const options = { ...bufferLoadDefaults, ...pOptions };
   const id = `buffer${options.id}`;
   const buf = glitchContext.persist[id] as ImageData | undefined;
-  if (!buf) return;
+  if (!buf) {
+    return;
+  }
   if (options.blend >= 1) {
     glitchContext.setImageData(buf);
   } else {

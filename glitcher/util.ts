@@ -3,7 +3,9 @@ import { Parameter } from '../libglitch/param';
 
 function biasedRandom(bias: number): number {
   const rnd = Math.random();
-  if (bias === 0) return rnd;
+  if (bias === 0) {
+    return rnd;
+  }
   // bias > 0 skews toward max, bias < 0 skews toward min
   return rnd ** (1 / (1 + bias));
 }
@@ -34,7 +36,6 @@ export function resolveIterations(def: Def): number {
 export function resolveOptions(def: Def): Record<string, any> {
   const params: Parameter[] = def.module.params || [];
   const opts = { ...def.options };
-  // eslint-disable-next-line no-restricted-syntax
   for (const paramDef of params) {
     const { name } = paramDef;
 
@@ -72,7 +73,9 @@ export function randomizeDef(def: Def) {
           const min = paramDef.min || 0;
           const max = paramDef.max || 1;
           let val = min + rnd * (max - min);
-          if (paramDef.type === 'int') val = Math.round(val);
+          if (paramDef.type === 'int') {
+            val = Math.round(val);
+          }
           def.options[paramName] = val;
         }
         break;
@@ -98,7 +101,7 @@ export function forceDownload(url: string, filename: string): Promise<void> {
     setTimeout(() => {
       try {
         link.parentNode?.removeChild(link);
-      } catch (e) {
+      } catch {
         // *shrug*
       }
       resolve();

@@ -41,7 +41,9 @@ const stateButtons = (ctrl: UIState) =>
               'Serialized content (copy/paste):',
               ctrl.engine.state.serialize(),
             );
-            if (d) ctrl.engine.state.unserialize(d);
+            if (d) {
+              ctrl.engine.state.unserialize(d);
+            }
           },
         },
         'Import/Export State',

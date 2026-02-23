@@ -25,7 +25,9 @@ export default class GlitchContext {
    * @returns {ImageData}
    */
   getImageData(): ImageData {
-    if (this._imageData) return this._imageData;
+    if (this._imageData) {
+      return this._imageData;
+    }
     return this._context.getImageData(
       0,
       0,
@@ -54,7 +56,9 @@ export default class GlitchContext {
    * @param newImageData {ImageData} Modified image data.
    */
   setImageData(newImageData: ImageData) {
-    if (this._imageData === newImageData) return;
+    if (this._imageData === newImageData) {
+      return;
+    }
     this._commitImageData();
     this._imageData = newImageData;
   }
@@ -79,7 +83,6 @@ export default class GlitchContext {
    * Copy the image data into a new `canvas` element. Can be expensive.
    */
   copyCanvas(): HTMLCanvasElement {
-    /* eslint-env browser */
     const tempCanvas = document.createElement('canvas');
     tempCanvas.width = this._canvas.width;
     tempCanvas.height = this._canvas.height;

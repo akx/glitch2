@@ -33,7 +33,9 @@ function slicerep(
 ) {
   const options = { ...slicerepDefaults, ...pOptions };
   const { n } = options;
-  if (n <= 0) return;
+  if (n <= 0) {
+    return;
+  }
   const data = glitchContext.getImageData();
   for (let x = 0; x < n; ++x) {
     const height = randint(

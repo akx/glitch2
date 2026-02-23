@@ -1,5 +1,7 @@
 export default function injectGA(propertyId: string | null | undefined) {
-  if (!propertyId) return;
+  if (!propertyId) {
+    return;
+  }
 
   const gaScript = document.createElement('script');
   const textNode = document.createTextNode(`

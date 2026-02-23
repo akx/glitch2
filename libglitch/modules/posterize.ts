@@ -39,7 +39,9 @@ function posterize(
   for (let i = 0; i < data.length; i += 4) {
     for (let c = 0; c < 3; c++) {
       const n = levels[c];
-      if (n >= 256) continue;
+      if (n >= 256) {
+        continue;
+      }
       let bucket = (data[i + c] / 255) * (n - 1) + biases[c];
       const j = jitters[c];
       if (j > 0) {

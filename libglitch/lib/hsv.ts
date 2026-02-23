@@ -1,5 +1,3 @@
-/* eslint-disable no-nested-ternary */
-
 // input: r,g,b in [0,255], out: h in [0,360) and s,v in [0,1]
 // via https://stackoverflow.com/a/54070620/51685
 export function rgb2hsv(

@@ -1,4 +1,3 @@
-/* eslint-env browser */
 function makeDrawable(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   obj: any,

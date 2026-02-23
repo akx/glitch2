@@ -1,4 +1,3 @@
-/* eslint-env browser */
 import makeDrawable from '../lib/makeDrawable';
 
 import { clamp } from '../lib/num';
@@ -9,14 +8,18 @@ export default function displacementMapper(
   scaleX: number,
   scaleY: number,
 ): ImageData | null {
-  if (scaleX === 0 && scaleY === 0) return null;
+  if (scaleX === 0 && scaleY === 0) {
+    return null;
+  }
   const { width, height } = imageData;
   // Rescale displacement map
   const tempCanvas = document.createElement('canvas');
   tempCanvas.width = width;
   tempCanvas.height = height;
   const tempContext = tempCanvas.getContext('2d');
-  if (!tempContext) return null;
+  if (!tempContext) {
+    return null;
+  }
   tempContext.drawImage(makeDrawable(displacementMap), 0, 0, width, height);
   const displacementData = tempContext.getImageData(0, 0, width, height).data;
   const sourceBuf = imageData.data;

@@ -14,7 +14,9 @@ class State {
 
   addModule(moduleName: string, pOptions: Record<string, any> = {}): Def {
     const moduleObj = this.modules[moduleName];
-    if (!moduleObj) throw new Error(`Unknown module: ${moduleName}`);
+    if (!moduleObj) {
+      throw new Error(`Unknown module: ${moduleName}`);
+    }
     const options = {
       ...(moduleObj.paramDefaults || {}),
       ...pOptions,
@@ -51,11 +53,17 @@ class State {
   moveDef(def: Def, direction: number): void {
     const { defs } = this;
     const idx = defs.indexOf(def);
-    if (idx === -1) return;
+    if (idx === -1) {
+      return;
+    }
     const [ndef] = defs.splice(idx, 1);
     let newIdx = idx + direction;
-    if (newIdx < 0) newIdx = 0;
-    if (newIdx >= defs.length) newIdx = defs.length;
+    if (newIdx < 0) {
+      newIdx = 0;
+    }
+    if (newIdx >= defs.length) {
+      newIdx = defs.length;
+    }
     defs.splice(newIdx, 0, ndef);
   }
 
@@ -81,7 +89,7 @@ class State {
       let def;
       try {
         def = this.addModule(serDef.moduleName, serDef.options);
-      } catch (e) {
+      } catch {
         return;
       }
       def.id = serDef.id;
@@ -93,7 +101,9 @@ class State {
 
   loadFromLocalStorage(key = 'GlitcherState') {
     const serialized = window.localStorage && window.localStorage[key];
-    if (serialized) this.unserialize(serialized);
+    if (serialized) {
+      this.unserialize(serialized);
+    }
   }
 
   saveIntoLocalStorage(key = 'GlitcherState') {

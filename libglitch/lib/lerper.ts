@@ -12,7 +12,9 @@ function makeLerper(alpha: number): Lerper {
     return constantB;
   }
   const key = 0 | (alpha * 100);
-  if ((cached = lerperCache[key])) return cached;
+  if ((cached = lerperCache[key])) {
+    return cached;
+  }
   const beta = 1 - alpha;
   const lerper = (lerperCache[key] = new Function(
     'a',

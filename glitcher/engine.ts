@@ -32,7 +32,9 @@ class Engine {
 
   private isSourceReady(): boolean {
     const { sourceImage } = this;
-    if (!sourceImage) return false;
+    if (!sourceImage) {
+      return false;
+    }
     if (sourceImage instanceof HTMLVideoElement) {
       return sourceImage.readyState >= 2;
     }
@@ -59,9 +61,13 @@ class Engine {
 
   public renderFrame() {
     const { sourceImage, targetCanvas, glitchContext, state } = this;
-    if (!sourceImage || !this.isSourceReady()) return;
+    if (!sourceImage || !this.isSourceReady()) {
+      return;
+    }
     const [width, height] = this.getSourceDimensions();
-    if (!width || !height) return;
+    if (!width || !height) {
+      return;
+    }
     const t0 = +new Date();
     targetCanvas.width = 0 | width;
     targetCanvas.height = 0 | height;
@@ -69,9 +75,15 @@ class Engine {
     glitchContext.getContext().drawImage(sourceImage, 0, 0, width, height);
     if (state) {
       state.defs.forEach((def) => {
-        if (!def.enabled) return;
-        if (def.probability <= 0) return;
-        if (def.probability < Math.random()) return;
+        if (!def.enabled) {
+          return;
+        }
+        if (def.probability <= 0) {
+          return;
+        }
+        if (def.probability < Math.random()) {
+          return;
+        }
         const defT0 = +new Date();
         const iters = resolveIterations(def);
         for (let i = 0; i < iters; i++) {
@@ -88,7 +100,9 @@ class Engine {
 
   public renderLoop() {
     try {
-      if (this.rate > 0) this.renderFrame();
+      if (this.rate > 0) {
+        this.renderFrame();
+      }
     } finally {
       setTimeout(
         () => {
@@ -105,7 +119,7 @@ class Engine {
 
   public toURL(
     type = 'image/png',
-    encoderOptions: unknown = {},
+    encoderOptions?: number,
     forceDataUrl = false,
   ): Promise<string> {
     const blobUrlSupported =

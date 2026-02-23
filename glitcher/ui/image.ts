@@ -16,7 +16,9 @@ function loadImageFromFileField(
   };
   if (event.target) {
     const file = (event.target as HTMLInputElement).files?.[0];
-    if (file) fileReader.readAsDataURL(file);
+    if (file) {
+      fileReader.readAsDataURL(file);
+    }
   }
 }
 
@@ -27,9 +29,13 @@ const resizePrompt = (ctrl: UIState) => {
   if (
     (newSize = prompt('Enter the desired new size for the image.', currSize))
   ) {
-    if (currSize === newSize) return;
+    if (currSize === newSize) {
+      return;
+    }
     const match = /^(\d+)\s*x\s*(\d+)$/i.exec(newSize);
-    if (!match) return;
+    if (!match) {
+      return;
+    }
     const width = parseInt(match[1], 10);
     const height = parseInt(match[2], 10);
     if (!(width > 0 && height > 0)) {
@@ -43,7 +49,9 @@ const resizePrompt = (ctrl: UIState) => {
       tempCanvas.width = width;
       tempCanvas.height = height;
       const tempContext = tempCanvas.getContext('2d');
-      if (!tempContext) return;
+      if (!tempContext) {
+        return;
+      }
       tempContext.drawImage(src, 0, 0, width, height);
       const url = tempCanvas.toDataURL('image/png');
       const newImage = new Image();
@@ -107,7 +115,9 @@ const loadImageDiv = (ctrl: UIState) =>
           loadImageFromFileField(event, (img) => {
             stopCamera(ctrl);
             ctrl.engine.sourceImage = img;
-            if (event.target) (event.target as HTMLInputElement).value = '';
+            if (event.target) {
+              (event.target as HTMLInputElement).value = '';
+            }
           });
         },
       }),
@@ -145,7 +155,9 @@ const loadImageDiv = (ctrl: UIState) =>
       m('input', {
         type: 'checkbox',
         onchange: (e: Event) => {
-          if (e.target) ctrl.ui.zoom = (e.target as HTMLInputElement).checked;
+          if (e.target) {
+            ctrl.ui.zoom = (e.target as HTMLInputElement).checked;
+          }
         },
       }),
       'zoom down to fit',

@@ -27,7 +27,9 @@ function blockshuffle(
     ...defaults,
     ...pOptions,
   };
-  if (cols < 2 && rows < 2) return;
+  if (cols < 2 && rows < 2) {
+    return;
+  }
 
   const srcCanvas = glitchContext.copyCanvas();
   const ctx = glitchContext.getContext();
@@ -73,7 +75,9 @@ function blockshuffle(
       if (unlimited) {
         // Any other block is a valid source
         let k = Math.floor(Math.random() * (count - 1));
-        if (k >= i) k++;
+        if (k >= i) {
+          k++;
+        }
         indices[i] = k;
       } else {
         const nb = neighbors![i];
