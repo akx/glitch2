@@ -1,7 +1,16 @@
+import { Buffer } from 'buffer';
 import jpegjs from 'jpeg-js';
 import * as p from '../param';
 import GlitchContext from '../GlitchContext';
 import { canvasFromImageData, resizeImage } from '../lib/resize';
+import { shiftImageData } from '../lib/shift';
+
+// jpeg-js uses Node's Buffer internally; provide it in the browser
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+if (typeof (globalThis as any).Buffer === 'undefined') {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  (globalThis as any).Buffer = Buffer;
+}
 
 function jpeg(glitchContext: GlitchContext, pOptions: Partial<JpegOptions>) {
   const options = { ...jpegDefaults, ...pOptions };
@@ -19,7 +28,11 @@ function jpeg(glitchContext: GlitchContext, pOptions: Partial<JpegOptions>) {
     );
   }
   if (options.quality < 100) {
-    const jpegImageData = jpegjs.encode(imageData, options.quality).data;
+    const sx = Math.round(options.shiftX);
+    const sy = Math.round(options.shiftY);
+    const toEncode =
+      sx !== 0 || sy !== 0 ? shiftImageData(imageData, sx, sy) : imageData;
+    const jpegImageData = jpegjs.encode(toEncode, options.quality).data;
     if (options.corruption > 0) {
       const bytes = new Uint8ClampedArray(jpegImageData.buffer);
       const start = 0 | (bytes.length / 2);
@@ -35,11 +48,15 @@ function jpeg(glitchContext: GlitchContext, pOptions: Partial<JpegOptions>) {
         tolerantDecoding: true,
         useTArray: true,
       });
-      imageData = new ImageData(
+      let result = new ImageData(
         new Uint8ClampedArray(decoded.data),
         decoded.width,
         decoded.height,
       );
+      if (sx !== 0 || sy !== 0) {
+        result = shiftImageData(result, -sx, -sy);
+      }
+      imageData = result;
     } catch (e) {
       // eslint-disable-next-line no-console
       console.warn('JPEG failed:', e);
@@ -63,6 +80,8 @@ interface JpegOptions {
   smoothScaleIn: boolean;
   smoothScaleOut: boolean;
   corruption: number;
+  shiftX: number;
+  shiftY: number;
 }
 
 const jpegDefaults: JpegOptions = {
@@ -72,6 +91,8 @@ const jpegDefaults: JpegOptions = {
   smoothScaleIn: true,
   smoothScaleOut: true,
   corruption: 0,
+  shiftX: 0,
+  shiftY: 0,
 };
 jpeg.paramDefaults = jpegDefaults;
 
@@ -82,6 +103,16 @@ jpeg.params = [
   p.num('corruption', { min: 0, max: 0.005, step: 0.0001 }),
   p.bool('smoothScaleIn'),
   p.bool('smoothScaleOut'),
+  p.int('shiftX', {
+    min: -16,
+    max: 16,
+    description: 'Pixel shift X before encoding',
+  }),
+  p.int('shiftY', {
+    min: -16,
+    max: 16,
+    description: 'Pixel shift Y before encoding',
+  }),
 ];
 
 export default jpeg;
