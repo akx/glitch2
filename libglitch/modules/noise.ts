@@ -3,14 +3,12 @@ import * as p from '../param';
 import GlitchContext from '../GlitchContext';
 
 interface NoiseOptions {
-  nMax: number;
+  n: number;
   brightnessMin: number;
   noisiness: number;
-  nMin: number;
   brightnessMax: number;
   replace: boolean;
-  heightMax: number;
-  heightMin: number;
+  height: number;
   full: boolean;
 }
 
@@ -55,7 +53,7 @@ function _noiseBand(
 
 function noise(glitchContext: GlitchContext, pOptions: Partial<NoiseOptions>) {
   const options = { ...noiseDefaults, ...pOptions };
-  const n = options.full ? 1 : randint(options.nMin, options.nMax);
+  const n = options.full ? 1 : options.n;
   if (n <= 0) return;
   const imageData = glitchContext.getImageData();
   if (options.full) {
@@ -69,10 +67,8 @@ function noise(glitchContext: GlitchContext, pOptions: Partial<NoiseOptions>) {
       options.replace,
     );
   } else {
-    const hMin = options.heightMin * imageData.height;
-    const hMax = options.heightMax * imageData.height;
+    const h = options.height * imageData.height;
     for (let x = 0; x < n; ++x) {
-      const h = randint(hMin, hMax);
       if (h <= 0) continue;
       const y0 = randint(0, imageData.height - h);
       const y1 = y0 + h;
@@ -92,10 +88,8 @@ function noise(glitchContext: GlitchContext, pOptions: Partial<NoiseOptions>) {
 }
 
 const noiseDefaults: NoiseOptions = {
-  heightMin: 0,
-  heightMax: 0.1,
-  nMin: 0,
-  nMax: 10,
+  height: 0.05,
+  n: 5,
   brightnessMin: -50,
   brightnessMax: +50,
   noisiness: 1,
@@ -105,10 +99,8 @@ const noiseDefaults: NoiseOptions = {
 noise.paramDefaults = noiseDefaults;
 
 noise.params = [
-  p.num('heightMin', { description: 'Noise band min height' }),
-  p.num('heightMax', { description: 'Noise band max height' }),
-  p.int('nMin', { description: 'Minimum number of noise bands' }),
-  p.int('nMax', { description: 'Maximum number of noise bands' }),
+  p.num('height', { description: 'Noise band height (fraction of image)' }),
+  p.int('n', { description: 'Number of noise bands' }),
   p.num('brightnessMin', {
     description: 'Minimum brightness modulation amount',
     min: -255,

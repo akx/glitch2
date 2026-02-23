@@ -1,5 +1,4 @@
 import lerper, { Lerper } from '../lib/lerper';
-import { randint } from '../lib/rand';
 import * as p from '../param';
 import GlitchContext from '../GlitchContext';
 
@@ -9,8 +8,7 @@ interface LeakOptions {
   yToMagic2: number;
   magic1: number;
   yToMagic1: number;
-  nMax: number;
-  nMin: number;
+  n: number;
 }
 
 function _leak(
@@ -43,7 +41,7 @@ function _leak(
 function leak(glitchContext: GlitchContext, pOptions: Partial<LeakOptions>) {
   const options = { ...leakDefaults, ...pOptions };
   if (options.intensity <= 0) return;
-  const n = randint(options.nMin, options.nMax);
+  const { n } = options;
   if (n <= 0) return;
   const imageData = glitchContext.getImageData();
   const lerp = lerper(options.intensity);
@@ -66,8 +64,7 @@ const leakDefaults: LeakOptions = {
   magic2: 0,
   yToMagic1: 0,
   yToMagic2: 0,
-  nMin: 10,
-  nMax: 10,
+  n: 10,
 };
 leak.paramDefaults = leakDefaults;
 
@@ -85,8 +82,7 @@ leak.params = [
     min: -100,
     max: +100,
   }),
-  p.int('nMin', { description: 'Min repetitions' }),
-  p.int('nMax', { description: 'Max repetitions' }),
+  p.int('n', { description: 'Repetitions' }),
 ];
 
 export default leak;

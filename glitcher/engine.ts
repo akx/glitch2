@@ -2,6 +2,7 @@ import modules from '../libglitch/modules';
 import State from './State';
 import GlitchContext from '../libglitch/GlitchContext';
 import { Filter } from '../libglitch/types';
+import { resolveIterations, resolveOptions } from './util';
 
 class Engine {
   public rate: number;
@@ -72,7 +73,10 @@ class Engine {
         if (def.probability <= 0) return;
         if (def.probability < Math.random()) return;
         const defT0 = +new Date();
-        def.module(glitchContext, def.options);
+        const iters = resolveIterations(def);
+        for (let i = 0; i < iters; i++) {
+          def.module(glitchContext, resolveOptions(def));
+        }
         const defT1 = +new Date();
         def.renderTime = defT1 - defT0;
       });

@@ -28,5 +28,6 @@ export interface Def {
   enabled: boolean;
   uiVisible: boolean;
   probability: number;
+  iterations: number;
   renderTime?: number;
 }

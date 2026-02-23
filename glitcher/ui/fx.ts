@@ -43,6 +43,88 @@ function rotateChoiceParam(
   return choices[newValueIndex];
 }
 
+function rangeToggle(def: Def, paramName: string, isActive: boolean) {
+  return m(
+    'button.range-toggle',
+    {
+      onclick() {
+        const minKey = `${paramName}__rangeMin`;
+        const maxKey = `${paramName}__rangeMax`;
+        const biasKey = `${paramName}__rangeBias`;
+        if (isActive) {
+          delete def.options[minKey];
+          delete def.options[maxKey];
+          delete def.options[biasKey];
+        } else {
+          // Initialize range from current value or param defaults
+          const cur = def.options[paramName];
+          def.options[minKey] = cur ?? 0;
+          def.options[maxKey] = cur ?? 1;
+          def.options[biasKey] = 0;
+        }
+      },
+      title: isActive
+        ? 'Disable range randomization'
+        : 'Enable range randomization',
+    },
+    m(`i.${isActive ? 'icon-times' : 'icon-arrow-shuffle'}`),
+  );
+}
+
+function rangeSliders(def: Def, paramName: string, paramDef: Parameter) {
+  const minKey = `${paramName}__rangeMin`;
+  const maxKey = `${paramName}__rangeMax`;
+  const biasKey = `${paramName}__rangeBias`;
+  const step = paramDef.step ?? 0.0001;
+
+  const makeSliderRow = (
+    label: string,
+    key: string,
+    min: number,
+    max: number,
+    sliderStep: number,
+  ) => {
+    const s = sliderStep;
+    return m('div.range-row', [
+      m('span.range-label', label),
+      m('div.slider-and-input', [
+        m('input.slider', {
+          oninput(event: InputEvent) {
+            if (event.target) {
+              def.options[key] = (
+                event.target as HTMLInputElement
+              ).valueAsNumber;
+            }
+          },
+          value: def.options[key],
+          min,
+          max,
+          step: s,
+          type: 'range',
+        }),
+        m('input.num', {
+          oninput(event: InputEvent) {
+            if (event.target) {
+              def.options[key] = (
+                event.target as HTMLInputElement
+              ).valueAsNumber;
+            }
+          },
+          value: def.options[key],
+          step: s,
+          type: 'number',
+        }),
+      ]),
+    ]);
+  };
+
+  return m('div.range-controls', [
+    makeSliderRow('Min', minKey, paramDef.min ?? 0, paramDef.max ?? 1, step),
+    makeSliderRow('Max', maxKey, paramDef.min ?? 0, paramDef.max ?? 1, step),
+    makeSliderRow('Bias', biasKey, -1, 1, 0.01),
+  ]);
+}
+
 function getParamEditor(def: Def, paramDef: Parameter) {
   const paramName = paramDef.name;
 
@@ -50,50 +132,141 @@ function getParamEditor(def: Def, paramDef: Parameter) {
   const value = def.options[paramName];
 
   if (paramDef.type === 'bool') {
+    const minKey = `${paramName}__rangeMin`;
+    const biasKey = `${paramName}__rangeBias`;
+    const rangeActive = minKey in def.options;
+
     children.push(
-      m(
-        'label',
-        m('input', {
-          onclick() {
-            def.options[paramName] = !def.options[paramName];
-          },
-          checked: !!value,
-          type: 'checkbox',
-        }),
-        paramName,
-      ),
+      m('div.param-header', [
+        m(
+          'label',
+          m('input', {
+            onclick() {
+              def.options[paramName] = !def.options[paramName];
+            },
+            checked: !!value,
+            type: 'checkbox',
+            disabled: rangeActive,
+          }),
+          paramName,
+        ),
+        rangeToggle(def, paramName, rangeActive),
+      ]),
     );
+
+    if (rangeActive) {
+      const step = 0.01;
+      children.push(
+        m('div.range-controls', [
+          m('div.range-row', [
+            m('span.range-label', 'P(true)'),
+            m('div.slider-and-input', [
+              m('input.slider', {
+                oninput(event: InputEvent) {
+                  if (event.target) {
+                    def.options[minKey] = (
+                      event.target as HTMLInputElement
+                    ).valueAsNumber;
+                  }
+                },
+                value: def.options[minKey],
+                min: 0,
+                max: 1,
+                step,
+                type: 'range',
+              }),
+              m('input.num', {
+                oninput(event: InputEvent) {
+                  if (event.target) {
+                    def.options[minKey] = (
+                      event.target as HTMLInputElement
+                    ).valueAsNumber;
+                  }
+                },
+                value: def.options[minKey],
+                step,
+                type: 'number',
+              }),
+            ]),
+          ]),
+          m('div.range-row', [
+            m('span.range-label', 'Bias'),
+            m('div.slider-and-input', [
+              m('input.slider', {
+                oninput(event: InputEvent) {
+                  if (event.target) {
+                    def.options[biasKey] = (
+                      event.target as HTMLInputElement
+                    ).valueAsNumber;
+                  }
+                },
+                value: def.options[biasKey] ?? 0,
+                min: -1,
+                max: 1,
+                step: 0.01,
+                type: 'range',
+              }),
+              m('input.num', {
+                oninput(event: InputEvent) {
+                  if (event.target) {
+                    def.options[biasKey] = (
+                      event.target as HTMLInputElement
+                    ).valueAsNumber;
+                  }
+                },
+                value: def.options[biasKey] ?? 0,
+                step: 0.01,
+                type: 'number',
+              }),
+            ]),
+          ]),
+        ]),
+      );
+    }
   }
 
   if (paramDef.type === 'int' || paramDef.type === 'num') {
-    children.push(m('div.param-name', paramName));
-    const oninput = (event: InputEvent) => {
-      if (event.target) {
-        def.options[paramName] = (
-          event.target as HTMLInputElement
-        ).valueAsNumber;
-      }
-    };
+    const minKey = `${paramName}__rangeMin`;
+    const rangeActive = minKey in def.options;
 
     children.push(
-      m(
-        'div.slider-and-input',
-        m('input.slider', {
-          oninput,
-          value,
-          min: paramDef.min,
-          max: paramDef.max,
-          step: paramDef.step !== null ? paramDef.step : 0.0001,
-          type: 'range',
-        }),
-        m('input.num', {
-          oninput,
-          value,
-          step: paramDef.step !== null ? paramDef.step : 0.0001,
-          type: 'number',
-        }),
-      ),
+      m('div.param-header', [
+        m('div.param-name', paramName),
+        rangeToggle(def, paramName, rangeActive),
+      ]),
     );
+
+    if (rangeActive) {
+      children.push(rangeSliders(def, paramName, paramDef));
+    } else {
+      const oninput = (event: InputEvent) => {
+        if (event.target) {
+          def.options[paramName] = (
+            event.target as HTMLInputElement
+          ).valueAsNumber;
+        }
+      };
+
+      children.push(
+        m(
+          'div.slider-and-input',
+          m('input.slider', {
+            oninput,
+            value,
+            min: paramDef.min,
+            max: paramDef.max,
+            step: paramDef.step !== null ? paramDef.step : 0.0001,
+            type: 'range',
+          }),
+          m('input.num', {
+            oninput,
+            value,
+            step: paramDef.step !== null ? paramDef.step : 0.0001,
+            type: 'number',
+          }),
+        ),
+      );
+    }
   }
 
   if (paramDef.type === 'choice') {
@@ -151,6 +324,117 @@ function getParamEditor(def: Def, paramDef: Parameter) {
     { key: `${def.id}-${paramName}` },
     children,
   );
+}
+
+function iterationsEditor(def: Def) {
+  const rangeMinKey = 'iterations__rangeMin';
+  const rangeMaxKey = 'iterations__rangeMax';
+  const rangeBiasKey = 'iterations__rangeBias';
+  const rangeActive = rangeMinKey in def.options;
+
+  const toggleRange = () => {
+    if (rangeActive) {
+      delete def.options[rangeMinKey];
+      delete def.options[rangeMaxKey];
+      delete def.options[rangeBiasKey];
+    } else {
+      def.options[rangeMinKey] = def.iterations;
+      def.options[rangeMaxKey] = def.iterations;
+      def.options[rangeBiasKey] = 0;
+    }
+  };
+
+  if (rangeActive) {
+    const makeRow = (
+      label: string,
+      key: string,
+      min: number,
+      max: number,
+      step: number,
+    ) =>
+      m('div.range-row', [
+        m('span.range-label', label),
+        m('div.slider-and-input', [
+          m('input.slider', {
+            oninput(event: InputEvent) {
+              if (event.target) {
+                def.options[key] = (
+                  event.target as HTMLInputElement
+                ).valueAsNumber;
+              }
+            },
+            value: def.options[key],
+            min,
+            max,
+            step,
+            type: 'range',
+          }),
+          m('input.num', {
+            oninput(event: InputEvent) {
+              if (event.target) {
+                def.options[key] = (
+                  event.target as HTMLInputElement
+                ).valueAsNumber;
+              }
+            },
+            value: def.options[key],
+            step,
+            type: 'number',
+          }),
+        ]),
+      ]);
+
+    return m('div.iterations-editor', { key: `${def.id}-iters` }, [
+      m('div.param-header', [
+        m('div.param-name', 'iterations'),
+        m(
+          'button.range-toggle',
+          { onclick: toggleRange, title: 'Disable range randomization' },
+          m('i.icon-times'),
+        ),
+      ]),
+      m('div.range-controls', [
+        makeRow('Min', rangeMinKey, 0, 100, 1),
+        makeRow('Max', rangeMaxKey, 0, 100, 1),
+        makeRow('Bias', rangeBiasKey, -1, 1, 0.01),
+      ]),
+    ]);
+  }
+
+  return m('div.iterations-editor', { key: `${def.id}-iters` }, [
+    m('div.param-header', [
+      m('div.param-name', 'iterations'),
+      m(
+        'button.range-toggle',
+        { onclick: toggleRange, title: 'Enable range randomization' },
+        m('i.icon-arrow-shuffle'),
+      ),
+    ]),
+    m('div.slider-and-input', [
+      m('input.slider', {
+        oninput(event: InputEvent) {
+          if (event.target) {
+            def.iterations = (event.target as HTMLInputElement).valueAsNumber;
+          }
+        },
+        value: def.iterations,
+        min: 1,
+        max: 20,
+        step: 1,
+        type: 'range',
+      }),
+      m('input.num', {
+        oninput(event: InputEvent) {
+          if (event.target) {
+            def.iterations = (event.target as HTMLInputElement).valueAsNumber;
+          }
+        },
+        value: def.iterations,
+        step: 1,
+        type: 'number',
+      }),
+    ]),
+  ]);
 }
 
 const defEditor = (ctrl: UIState, state: State, def: Def) => {
@@ -247,10 +531,14 @@ const defEditor = (ctrl: UIState, state: State, def: Def) => {
       ),
     ]),
     def.uiVisible
-      ? m(
-          'div.params',
-          params.map((pDef) => getParamEditor(def, pDef)),
-        )
+      ? [
+          iterationsEditor(def),
+          m(
+            'div.params',
+            { key: `${def.id}-params` },
+            params.map((pDef) => getParamEditor(def, pDef)),
+          ),
+        ]
       : null,
   ]);
 };
