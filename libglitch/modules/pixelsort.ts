@@ -54,7 +54,9 @@ function pixelSort(
   };
   const metricFunc = functionMap[metricFuncName] as Func | undefined;
   const sortFunc = functionMap[sortFuncName] as Func | undefined;
-  if (!(metricFunc && sortFunc)) return;
+  if (!(metricFunc && sortFunc)) {
+    return;
+  }
   const imageData = glitchContext.getImageData();
   const { width, height, data } = imageData;
 
@@ -95,7 +97,9 @@ function pixelSort(
     }
     intervals.forEach(({ pixels, start }) => {
       const sortedPixels = sortBy(pixels, (px) => sortFunc(px) ^ sortXor);
-      if (reverse) sortedPixels.reverse();
+      if (reverse) {
+        sortedPixels.reverse();
+      }
       for (let i = 0; i < sortedPixels.length; i++) {
         const [r, g, b] = sortedPixels[i];
         const offset = getOffset(a, i + start) + writeOffset;

@@ -75,7 +75,9 @@ function sliceglitch(
 ) {
   const options = { ...sliceglitchDefaults, ...pOptions };
   const { n } = options;
-  if (n <= 0) return;
+  if (n <= 0) {
+    return;
+  }
   const data = glitchContext.getImageData();
   for (let i = 0; i < n; i++) {
     const drift = Math.random() < options.driftProb ? options.driftMag : 0;
@@ -84,8 +86,12 @@ function sliceglitch(
       options.heightMax * data.height,
     );
     const offset = randint(options.offsetMin, options.offsetMax);
-    if (sliceHeight <= 0) continue;
-    if (offset === 0) continue;
+    if (sliceHeight <= 0) {
+      continue;
+    }
+    if (offset === 0) {
+      continue;
+    }
     const channelMask = deriveChanMask(options);
     const y0 = randint(0, data.height - sliceHeight);
     sliceoffset(

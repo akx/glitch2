@@ -28,8 +28,12 @@ function _noiseBand(
   let brightness;
   const { data, width } = imageData;
   if (replace) {
-    if (minBrightness <= 0) minBrightness = 0;
-    if (maxBrightness >= 255) maxBrightness = 255;
+    if (minBrightness <= 0) {
+      minBrightness = 0;
+    }
+    if (maxBrightness >= 255) {
+      maxBrightness = 255;
+    }
   }
   for (y = y0; y < y1; ++y) {
     yoff = y * width * 4;
@@ -54,7 +58,9 @@ function _noiseBand(
 function noise(glitchContext: GlitchContext, pOptions: Partial<NoiseOptions>) {
   const options = { ...noiseDefaults, ...pOptions };
   const n = options.full ? 1 : options.n;
-  if (n <= 0) return;
+  if (n <= 0) {
+    return;
+  }
   const imageData = glitchContext.getImageData();
   if (options.full) {
     _noiseBand(
@@ -69,7 +75,9 @@ function noise(glitchContext: GlitchContext, pOptions: Partial<NoiseOptions>) {
   } else {
     const h = options.height * imageData.height;
     for (let x = 0; x < n; ++x) {
-      if (h <= 0) continue;
+      if (h <= 0) {
+        continue;
+      }
       const y0 = randint(0, imageData.height - h);
       const y1 = y0 + h;
       _noiseBand(

@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment,import/no-unresolved */
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import GIF from 'gif.js';
 // @ts-ignore
 import GIFWorker from 'gif.js/dist/gif.worker.js?url';

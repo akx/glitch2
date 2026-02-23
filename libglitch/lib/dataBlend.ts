@@ -130,17 +130,22 @@ function dataBlend(
 
       case 'colordodge':
       case 'dodge':
-        if (src[px] === 255 && dRA === 0) dst[px] = 255;
-        else dst[px] = Math.min(255, dst[px] / (255 - src[px])) * demultiply;
+        if (src[px] === 255 && dRA === 0) {
+          dst[px] = 255;
+        } else {
+          dst[px] = Math.min(255, dst[px] / (255 - src[px])) * demultiply;
+        }
 
-        if (src[px + 1] === 255 && dGA === 0) dst[px + 1] = 255;
-        else {
+        if (src[px + 1] === 255 && dGA === 0) {
+          dst[px + 1] = 255;
+        } else {
           dst[px + 1] =
             Math.min(255, dst[px + 1] / (255 - src[px + 1])) * demultiply;
         }
 
-        if (src[px + 2] === 255 && dBA === 0) dst[px + 2] = 255;
-        else {
+        if (src[px + 2] === 255 && dBA === 0) {
+          dst[px + 2] = 255;
+        } else {
           dst[px + 2] =
             Math.min(255, dst[px + 2] / (255 - src[px + 2])) * demultiply;
         }
@@ -148,14 +153,23 @@ function dataBlend(
 
       case 'colorburn':
       case 'burn':
-        if (src[px] === 0 && dRA === 0) dst[px] = 0;
-        else dst[px] = (1 - Math.min(1, (1 - dRA) / sRA)) * demultiply;
+        if (src[px] === 0 && dRA === 0) {
+          dst[px] = 0;
+        } else {
+          dst[px] = (1 - Math.min(1, (1 - dRA) / sRA)) * demultiply;
+        }
 
-        if (src[px + 1] === 0 && dGA === 0) dst[px + 1] = 0;
-        else dst[px + 1] = (1 - Math.min(1, (1 - dGA) / sGA)) * demultiply;
+        if (src[px + 1] === 0 && dGA === 0) {
+          dst[px + 1] = 0;
+        } else {
+          dst[px + 1] = (1 - Math.min(1, (1 - dGA) / sGA)) * demultiply;
+        }
 
-        if (src[px + 2] === 0 && dBA === 0) dst[px + 2] = 0;
-        else dst[px + 2] = (1 - Math.min(1, (1 - dBA) / sBA)) * demultiply;
+        if (src[px + 2] === 0 && dBA === 0) {
+          dst[px + 2] = 0;
+        } else {
+          dst[px + 2] = (1 - Math.min(1, (1 - dBA) / sBA)) * demultiply;
+        }
         break;
 
       case 'darken':

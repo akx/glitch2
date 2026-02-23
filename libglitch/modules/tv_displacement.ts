@@ -31,7 +31,9 @@ function tvDisplacement(
     options.strengthX,
     options.strengthY,
   );
-  if (newData) glitchContext.setImageData(newData);
+  if (newData) {
+    glitchContext.setImageData(newData);
+  }
 }
 
 const tvDisplacementDefaults = {

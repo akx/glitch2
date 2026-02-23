@@ -7,7 +7,9 @@ import State from '../State';
 
 function moduleSelector(ctrl: UIState) {
   const { engine } = ctrl;
-  if (!engine) return null;
+  if (!engine) {
+    return null;
+  }
   const options = [m('option', { value: '' }, '<< Add module... >>')];
   const { modules } = engine.state;
   Object.keys(modules).forEach((key) => {
@@ -37,7 +39,9 @@ function rotateChoiceParam(
   direction: number,
 ) {
   const currentValueIndex = choices.indexOf(value);
-  if (currentValueIndex === -1) return value;
+  if (currentValueIndex === -1) {
+    return value;
+  }
   const newValueIndex =
     (currentValueIndex + direction + choices.length) % choices.length;
   return choices[newValueIndex];

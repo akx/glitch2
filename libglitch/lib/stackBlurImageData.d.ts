@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 declare function stackBlurImageData(
   imageData: ImageData,
   top_x: number,

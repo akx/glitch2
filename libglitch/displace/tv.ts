@@ -1,4 +1,3 @@
-/* eslint-env browser */
 function createTVDisplacementMap(width = 256, height = 224): HTMLCanvasElement {
   const canvas = document.createElement('canvas');
   canvas.width = width;

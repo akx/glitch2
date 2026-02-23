@@ -40,9 +40,13 @@ function _leak(
 
 function leak(glitchContext: GlitchContext, pOptions: Partial<LeakOptions>) {
   const options = { ...leakDefaults, ...pOptions };
-  if (options.intensity <= 0) return;
+  if (options.intensity <= 0) {
+    return;
+  }
   const { n } = options;
-  if (n <= 0) return;
+  if (n <= 0) {
+    return;
+  }
   const imageData = glitchContext.getImageData();
   const lerp = lerper(options.intensity);
   for (let i = 0; i < n; i++) {

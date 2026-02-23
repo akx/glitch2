@@ -15,7 +15,9 @@ function addPasteHandler(engine: Engine) {
     'paste',
     (event) => {
       const { clipboardData } = event;
-      if (!clipboardData) return;
+      if (!clipboardData) {
+        return;
+      }
       const imageItem = Array.from(clipboardData.items).find(
         (item) => item.type.indexOf('image') > -1,
       );

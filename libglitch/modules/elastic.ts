@@ -20,7 +20,9 @@ function elastic(
   const options = { ...elasticDefaults, ...pOptions };
   const canvas = glitchContext.copyCanvas();
   const context = canvas.getContext('2d');
-  if (!context) return;
+  if (!context) {
+    return;
+  }
   context.imageSmoothingEnabled = options.smooth;
   const { iterations } = options;
   const { width, height } = canvas;

@@ -5,7 +5,9 @@ export function shiftImageData(
   shiftX: number,
   shiftY: number,
 ): ImageData {
-  if (shiftX === 0 && shiftY === 0) return imageData;
+  if (shiftX === 0 && shiftY === 0) {
+    return imageData;
+  }
   const { width, height } = imageData;
   const src = canvasFromImageData(imageData);
   const canvas =
