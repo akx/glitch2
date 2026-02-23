@@ -74,7 +74,7 @@ function sliceglitch(
   pOptions: Partial<SliceglitchOptions>,
 ) {
   const options = { ...sliceglitchDefaults, ...pOptions };
-  const n = randint(options.nMin, options.nMax);
+  const { n } = options;
   if (n <= 0) return;
   const data = glitchContext.getImageData();
   for (let i = 0; i < n; i++) {
@@ -110,8 +110,7 @@ interface SliceglitchOptions {
   driftProb: number;
   heightMax: number;
   heightMin: number;
-  nMax: number;
-  nMin: number;
+  n: number;
   offsetMax: number;
   offsetMin: number;
   randomChan: boolean;
@@ -127,8 +126,7 @@ const sliceglitchDefaults = {
   driftMag: 1,
   heightMin: 0.02,
   heightMax: 0.02,
-  nMin: 0,
-  nMax: 10,
+  n: 5,
   offsetMin: -5,
   offsetMax: +5,
 };
@@ -150,8 +148,7 @@ sliceglitch.params = [
   }),
   p.num('heightMin', { description: 'Glitch slice height (%) (minimum)' }),
   p.num('heightMax', { description: 'Glitch slice height (%) (maximum)' }),
-  p.int('nMin', { description: 'Number of slices (minimum)' }),
-  p.int('nMax', { description: 'Number of slices (maximum)' }),
+  p.int('n', { description: 'Number of slices' }),
   p.num('offsetMin', {
     description: 'Glitch offset (minimum)',
     min: -100,

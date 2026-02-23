@@ -58,3 +58,41 @@
 .param-bool {
   display: inline-block;
 }
+
+.param-header {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.range-toggle {
+  background: none;
+  border: none;
+  padding: 0 3px;
+  cursor: pointer;
+  opacity: 0.6;
+  &:hover {
+    opacity: 1;
+    color: white;
+  }
+}
+
+.range-controls {
+  padding-left: 8px;
+  border-left: 2px solid @fx-brand-color;
+  margin: 2px 0;
+}
+
+.range-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  .range-label {
+    flex: 0 0 32px;
+    font-size: 0.85em;
+    opacity: 0.7;
+  }
+  .slider-and-input {
+    flex: 1;
+  }
+}

@@ -27,6 +27,7 @@ class State {
       enabled: true,
       uiVisible: true,
       probability: 1,
+      iterations: 1,
     };
     this.defs.push(def);
     return def;
@@ -36,6 +37,7 @@ class State {
     const newDef = this.addModule(def.moduleName, def.options);
     newDef.enabled = def.enabled;
     newDef.probability = def.probability;
+    newDef.iterations = def.iterations;
   }
 
   deleteDef(def: Def | string) {
@@ -60,12 +62,13 @@ class State {
   serialize(): string {
     return JSON.stringify({
       defs: this.defs.map(
-        ({ enabled, id, moduleName, options, probability }) => ({
+        ({ enabled, id, iterations, moduleName, options, probability }) => ({
           id,
           moduleName,
           options,
           enabled: !!enabled,
           probability: +probability,
+          iterations: +(iterations ?? 1),
         }),
       ),
     });
@@ -84,6 +87,7 @@ class State {
       def.id = serDef.id;
       def.enabled = serDef.enabled;
       def.probability = serDef.probability;
+      def.iterations = serDef.iterations ?? 1;
     });
   }
 

@@ -32,7 +32,7 @@ function slicerep(
   pOptions: Partial<SlicerepOptions>,
 ) {
   const options = { ...slicerepDefaults, ...pOptions };
-  const n = randint(options.nMin, options.nMax);
+  const { n } = options;
   if (n <= 0) return;
   const data = glitchContext.getImageData();
   for (let x = 0; x < n; ++x) {
@@ -49,16 +49,14 @@ function slicerep(
 
 type SlicerepOptions = {
   repeatsMin: number;
-  nMax: number;
-  nMin: number;
+  n: number;
   repeatsMax: number;
   heightMax: number;
   heightMin: number;
 };
 
 const slicerepDefaults: SlicerepOptions = {
-  nMin: 0,
-  nMax: 5,
+  n: 3,
   heightMin: 0,
   heightMax: 0.01,
   repeatsMin: 0,
@@ -67,12 +65,11 @@ const slicerepDefaults: SlicerepOptions = {
 slicerep.paramDefaults = slicerepDefaults;
 
 slicerep.params = [
-  p.int('nMin', { description: '' }),
-  p.int('nMax', { description: '' }),
+  p.int('n', { description: 'Number of slices' }),
   p.num('heightMin', { description: 'Slice height minimum (%)' }),
   p.num('heightMax', { description: 'Slice height maximum (%)' }),
-  p.int('repeatsMin', { description: '' }),
-  p.int('repeatsMax', { description: '' }),
+  p.int('repeatsMin', { description: 'Minimum repeats' }),
+  p.int('repeatsMax', { description: 'Maximum repeats' }),
 ];
 
 export default slicerep;

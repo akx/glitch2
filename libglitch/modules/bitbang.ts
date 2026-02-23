@@ -1,20 +1,16 @@
 import lerper from '../lib/lerper';
-import { rand, randint } from '../lib/rand';
+import { randint } from '../lib/rand';
 import { mod } from '../lib/num';
 import * as p from '../param';
 import GlitchContext from '../GlitchContext';
 
 interface BitbangOptions {
-  maxYDrift: number;
+  yDrift: number;
   offOutScale: number;
-  feedbackMax: number;
+  feedback: number;
   offInScale: number;
-  feedbackMin: number;
-  strideOutMin: number;
-  strideOutMax: number;
-  strideInMin: number;
-  minYDrift: number;
-  strideInMax: number;
+  strideOut: number;
+  strideIn: number;
 }
 
 function _bitbang(
@@ -22,12 +18,12 @@ function _bitbang(
   inputData: ImageData,
   options: BitbangOptions,
 ) {
-  const strideIn = randint(options.strideInMin, options.strideInMax);
-  const strideOut = randint(options.strideOutMin, options.strideOutMax);
+  const { strideIn } = options;
+  const { strideOut } = options;
   const offIn = randint(-options.offInScale, options.offInScale);
   const offOut = randint(-options.offOutScale, options.offOutScale);
-  const yDrift = randint(options.minYDrift, options.maxYDrift);
-  const feedback = rand(options.feedbackMin, options.feedbackMax);
+  const { yDrift } = options;
+  const { feedback } = options;
   const fblerp = lerper(feedback);
   const inp = inputData.data;
   const inl = inp.length;
@@ -65,28 +61,20 @@ function bitbang(
 const bitbangDefaults: BitbangOptions = {
   offInScale: 0,
   offOutScale: 0,
-  strideInMin: 1,
-  strideInMax: 7,
-  strideOutMin: 1,
-  strideOutMax: 7,
-  feedbackMin: 0.2,
-  feedbackMax: 0.8,
-  minYDrift: 0,
-  maxYDrift: 0,
+  strideIn: 4,
+  strideOut: 4,
+  feedback: 0.5,
+  yDrift: 0,
 };
 bitbang.paramDefaults = bitbangDefaults;
 
 bitbang.params = [
   p.int('offInScale', { description: '' }),
   p.int('offOutScale', { description: '' }),
-  p.int('strideInMin', { description: '', randomBias: 3 }),
-  p.int('strideInMax', { description: '', randomBias: 3 }),
-  p.int('strideOutMin', { description: '', randomBias: 3 }),
-  p.int('strideOutMax', { description: '', randomBias: 3 }),
-  p.num('feedbackMin', { description: '' }),
-  p.num('feedbackMax', { description: '' }),
-  p.int('minYDrift', { description: '' }),
-  p.int('maxYDrift', { description: '' }),
+  p.int('strideIn', { description: 'Input stride', randomBias: 3 }),
+  p.int('strideOut', { description: 'Output stride', randomBias: 3 }),
+  p.num('feedback', { description: 'Feedback amount' }),
+  p.int('yDrift', { description: 'Y drift' }),
 ];
 
 export default bitbang;
