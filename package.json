@@ -18,19 +18,18 @@
     "buffer": "^6.0.3",
     "gif.js": "^0.2.0",
     "jpeg-js": "^0.4.4",
-    "less": "^4.5.1",
-    "lodash": "^4.17.23",
+    "less": "^4.6.4",
     "mithril": "^2.3.8"
   },
   "devDependencies": {
     "@types/gif.js": "^0.2.5",
-    "@types/mithril": "^2.2.7",
-    "eslint": "^10.0.1",
+    "@types/mithril": "^2.2.8",
+    "eslint": "^10.2.0",
     "eslint-config-prettier": "^10.1.8",
     "prettier": "^3.8.1",
-    "typescript": "^5.9.3",
-    "typescript-eslint": "^8.56.0",
-    "vite": "^7.3.1"
+    "typescript": "^6.0.2",
+    "typescript-eslint": "^8.58.0",
+    "vite": "^8.0.5"
   },
   "prettier": {
     "trailingComma": "all",
